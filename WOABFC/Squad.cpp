@@ -77,6 +77,7 @@ Squad::Squad(enumSquad armyID)
             this->armyHealth = 26;
             this->armyUpgrade = enumSquad::NONE;
             this->armyType = enumTypeSquad::TYPE_MEELE;
+            this->armyCost = 2;
             break;
 
         case enumSquad::SQUAD_ARCHER:
@@ -261,6 +262,7 @@ Squad::Squad(enumSquad armyID)
             this->armyHealth = 32;
             this->armyUpgrade = enumSquad::NONE;
             this->armyType = enumTypeSquad::TYPE_NONE;
+            this->armyCost = 4;
             break;
     default:
         break;

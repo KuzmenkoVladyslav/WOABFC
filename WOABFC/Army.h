@@ -39,6 +39,7 @@ protected:
     float armySize = 200;
     float armySpawnCoordinateX = 0;
     float armySpawnCoordinateY = 0;
+    float armyCost = 1;
     short armyHealth = 0;
     short armyAttack = 0;
     enumTypeSquad armyType = enumTypeSquad::TYPE_NONE;
