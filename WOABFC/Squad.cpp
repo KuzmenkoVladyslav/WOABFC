@@ -8,7 +8,7 @@ Squad::Squad(enumSquad armyID)
     switch (armyID)
     {
         case enumSquad::SQUAD_WARRIOR:
-            this->armySprite.setTextureRect(sf::IntRect(0, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 1;
             this->armyHealth = 3;
             this->armyUpgrade = enumSquad::SQUAD_SWORDSMAN;
@@ -16,7 +16,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_SWORDSMAN:
-            this->armySprite.setTextureRect(sf::IntRect(200, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(200, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 2;
             this->armyHealth = 4;
             this->armyUpgrade = enumSquad::SQUAD_LONGSWORDSMAN;
@@ -24,7 +24,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_LONGSWORDSMAN:
-            this->armySprite.setTextureRect(sf::IntRect(400, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(400, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 2;
             this->armyHealth = 7;
             this->armyUpgrade = enumSquad::SQUAD_HARQUEBUSIER;
@@ -32,7 +32,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_HARQUEBUSIER:
-            this->armySprite.setTextureRect(sf::IntRect(600, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(600, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 3;
             this->armyHealth = 8;
             this->armyUpgrade = enumSquad::SQUAD_MUSKETEER;
@@ -40,7 +40,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_MUSKETEER:
-            this->armySprite.setTextureRect(sf::IntRect(800, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(800, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 3;
             this->armyHealth = 11;
             this->armyUpgrade = enumSquad::SQUAD_INFANTRYMAN;
@@ -48,7 +48,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_INFANTRYMAN:
-            this->armySprite.setTextureRect(sf::IntRect(1000, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1000, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 4;
             this->armyHealth = 12;
             this->armyUpgrade = enumSquad::SQUAD_SEAINFANTRYMAN;
@@ -56,7 +56,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_SEAINFANTRYMAN:
-            this->armySprite.setTextureRect(sf::IntRect(1200, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1200, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 5;
             this->armyHealth = 14;
             this->armyUpgrade = enumSquad::SQUAD_MOTORIZEDINFANTRY;
@@ -64,7 +64,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_MOTORIZEDINFANTRY:
-            this->armySprite.setTextureRect(sf::IntRect(1400, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1400, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 7;
             this->armyHealth = 17;
             this->armyUpgrade = enumSquad::SQUAD_FUTURESMAN;
@@ -72,7 +72,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_FUTURESMAN:
-            this->armySprite.setTextureRect(sf::IntRect(1600, 0, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1600, 0, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 12;
             this->armyHealth = 26;
             this->armyUpgrade = enumSquad::NONE;
@@ -80,7 +80,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ARCHER:
-            this->armySprite.setTextureRect(sf::IntRect(0, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(0, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 1;
             this->armyHealth = 1;
             this->armyUpgrade = enumSquad::SQUAD_LONGBOWARCHER;
@@ -88,7 +88,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_LONGBOWARCHER:
-            this->armySprite.setTextureRect(sf::IntRect(200, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(200, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 2;
             this->armyHealth = 1;
             this->armyUpgrade = enumSquad::SQUAD_CROSSBOWMAN;
@@ -96,7 +96,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_CROSSBOWMAN:
-            this->armySprite.setTextureRect(sf::IntRect(400, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(400, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 2;
             this->armyHealth = 3;
             this->armyUpgrade = enumSquad::SQUAD_CANNON;
@@ -104,7 +104,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_CANNON:
-            this->armySprite.setTextureRect(sf::IntRect(600, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(600, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 3;
             this->armyHealth = 4;
             this->armyUpgrade = enumSquad::SQUAD_GATLING;
@@ -112,7 +112,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_GATLING:
-            this->armySprite.setTextureRect(sf::IntRect(800, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(800, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 4;
             this->armyHealth = 4;
             this->armyUpgrade = enumSquad::SQUAD_MACHINGGUN;
@@ -120,7 +120,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_MACHINGGUN:
-            this->armySprite.setTextureRect(sf::IntRect(1000, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1000, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 6;
             this->armyHealth = 5;
             this->armyUpgrade = enumSquad::SQUAD_BAZOOKA;
@@ -128,7 +128,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_BAZOOKA:
-            this->armySprite.setTextureRect(sf::IntRect(1200, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1200, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 8;
             this->armyHealth = 6;
             this->armyUpgrade = enumSquad::SQUAD_ROCKET;
@@ -136,7 +136,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ROCKET:
-            this->armySprite.setTextureRect(sf::IntRect(1400, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1400, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 11;
             this->armyHealth = 8;
             this->armyUpgrade = enumSquad::NONE;
@@ -144,7 +144,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_HOURSEARCHER:
-            this->armySprite.setTextureRect(sf::IntRect(0, 400, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(0, 400, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 1;
             this->armyHealth = 3;
             this->armyUpgrade = enumSquad::NONE;
@@ -152,7 +152,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_HORSEMAN:
-            this->armySprite.setTextureRect(sf::IntRect(200, 400, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(200, 400, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 1;
             this->armyHealth = 5;
             this->armyUpgrade = enumSquad::NONE;
@@ -160,7 +160,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_KNIGHT:
-            this->armySprite.setTextureRect(sf::IntRect(400, 400, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(400, 400, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 2;
             this->armyHealth = 6;
             this->armyUpgrade = enumSquad::SQUAD_LANCER;
@@ -168,7 +168,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_LANCER:
-            this->armySprite.setTextureRect(sf::IntRect(600, 400, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(600, 400, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 3;
             this->armyHealth = 9;
             this->armyUpgrade = enumSquad::NONE;
@@ -176,7 +176,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_CAVALRY:
-            this->armySprite.setTextureRect(sf::IntRect(800, 400, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(800, 400, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 4;
             this->armyHealth = 9;
             this->armyUpgrade = enumSquad::SQUAD_TANKETTE;
@@ -184,7 +184,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_TANKETTE:
-            this->armySprite.setTextureRect(sf::IntRect(1000, 400, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1000, 400, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 4;
             this->armyHealth = 14;
             this->armyUpgrade = enumSquad::SQUAD_TANK;
@@ -192,7 +192,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_TANK:
-            this->armySprite.setTextureRect(sf::IntRect(1200, 400, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1200, 400, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 4;
             this->armyHealth = 17;
             this->armyUpgrade = enumSquad::SQUAD_MODERNTANK;
@@ -200,7 +200,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_MODERNTANK:
-            this->armySprite.setTextureRect(sf::IntRect(1400, 400, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1400, 400, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 6;
             this->armyHealth = 23;
             this->armyUpgrade = enumSquad::NONE;
@@ -208,7 +208,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_SPEARMAN:
-            this->armySprite.setTextureRect(sf::IntRect(0, 600, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(0, 600, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 1;
             this->armyHealth = 2;
             this->armyUpgrade = enumSquad::SQUAD_HOPLITE;
@@ -216,7 +216,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_HOPLITE:
-            this->armySprite.setTextureRect(sf::IntRect(200, 600, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(200, 600, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 2;
             this->armyHealth = 3;
             this->armyUpgrade = enumSquad::SQUAD_PIKEMAN;
@@ -224,7 +224,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_PIKEMAN:
-            this->armySprite.setTextureRect(sf::IntRect(400, 600, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(400, 600, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 2;
             this->armyHealth = 5;
             this->armyUpgrade = enumSquad::SQUAD_LANCER;
@@ -232,7 +232,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ARTBATTERY:
-            this->armySprite.setTextureRect(sf::IntRect(1000, 600, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1000, 600, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 6;
             this->armyHealth = 10;
             this->armyUpgrade = enumSquad::SQUAD_ANTITANKCANNON;
@@ -240,7 +240,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ANTITANKCANNON:
-            this->armySprite.setTextureRect(sf::IntRect(1200, 600, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1200, 600, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 8;
             this->armyHealth = 11;
             this->armyUpgrade = enumSquad::SQUAD_ARTILLERY;
@@ -248,7 +248,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ARTILLERY:
-            this->armySprite.setTextureRect(sf::IntRect(1400, 600, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1400, 600, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 12;
             this->armyHealth = 17;
             this->armyUpgrade = enumSquad::NONE;
@@ -256,7 +256,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ROBOT:
-            this->armySprite.setTextureRect(sf::IntRect(1600, 200, this->armySize, this->armySize));
+            this->armySprite.setTextureRect(sf::IntRect(1600, 200, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
             this->armyAttack = 9;
             this->armyHealth = 32;
             this->armyUpgrade = enumSquad::NONE;
