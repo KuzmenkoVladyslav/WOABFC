@@ -4,113 +4,106 @@
 #include "Squad.h"
 #include "enumSquad.h"
 #include <vector>
+#include <thread>
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "test window");
-	std::vector <std::vector <Army*>> pullGame;
-	std::vector <Army*> pullAncient, pullClassic, pullMedival, pullRenaissancee, pullIndustrial, pullModern, pullAtomic, pullInfromation, pullFuture;
+	sf::RenderWindow window(sf::VideoMode(800, 600), "War of Ages: Battle for Castle");
+
+	std::vector <std::vector <Army*>> pullGame(9);
+	std::vector <Army*> pullAncient(64), pullClassic(64), pullMedival(64), pullRenaissancee(48), pullIndustrial(48), pullModern(48), pullAtomic(32), pullInfromation(32), pullFuture(12);
 	Army* addSquadUnit;
 
-	for (int i = 0; i < 16; i++) 
-	{
-		addSquadUnit = new Squad(enumSquad::SQUAD_WARRIOR);
-		pullAncient.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_ARCHER);
-		pullAncient.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_HOURSEARCHER);
-		pullAncient.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_SPEARMAN);
-		pullAncient.push_back(addSquadUnit);
+	std::thread threadAncient([&addSquadUnit, &pullAncient]()
+		{
+			std::fill(pullAncient.begin(), pullAncient.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_WARRIOR));
+			std::fill(pullAncient.begin() + 16, pullAncient.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_ARCHER));
+			std::fill(pullAncient.begin() + 32, pullAncient.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_HOURSEARCHER));
+			std::fill(pullAncient.begin() + 48, pullAncient.begin() + 64, addSquadUnit = new Squad(enumSquad::SQUAD_SPEARMAN));
+		});
 
-		addSquadUnit = new Squad(enumSquad::SQUAD_SWORDSMAN);
-		pullClassic.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_LONGBOWARCHER);
-		pullClassic.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_HORSEMAN);
-		pullClassic.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_HOPLITE);
-		pullClassic.push_back(addSquadUnit);
+	std::thread threadClassic([&addSquadUnit, &pullClassic]()
+		{
+			std::fill(pullClassic.begin(), pullClassic.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_SWORDSMAN));
+			std::fill(pullClassic.begin() + 16, pullClassic.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_LONGBOWARCHER));
+			std::fill(pullClassic.begin() + 32, pullClassic.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_HORSEMAN));
+			std::fill(pullClassic.begin() + 48, pullClassic.begin() + 64, addSquadUnit = new Squad(enumSquad::SQUAD_HOPLITE));
+		});
+	
+	std::thread threadMedival([&addSquadUnit, &pullMedival]()
+		{
+			std::fill(pullMedival.begin(), pullMedival.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_LONGSWORDSMAN));
+			std::fill(pullMedival.begin() + 16, pullMedival.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_CROSSBOWMAN));
+			std::fill(pullMedival.begin() + 32, pullMedival.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_KNIGHT));
+			std::fill(pullMedival.begin() + 48, pullMedival.begin() + 64, addSquadUnit = new Squad(enumSquad::SQUAD_PIKEMAN));
+		});
 
-		addSquadUnit = new Squad(enumSquad::SQUAD_LONGSWORDSMAN);
-		pullMedival.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_CROSSBOWMAN);
-		pullMedival.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_KNIGHT);
-		pullMedival.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_PIKEMAN);
-		pullMedival.push_back(addSquadUnit);
+	std::thread threadRenaissancee([&addSquadUnit, &pullRenaissancee]()
+		{
+			std::fill(pullRenaissancee.begin(), pullRenaissancee.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_HARQUEBUSIER));
+			std::fill(pullRenaissancee.begin() + 16, pullRenaissancee.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_CANNON));
+			std::fill(pullRenaissancee.begin() + 32, pullRenaissancee.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_LANCER));
+		});
 
-		addSquadUnit = new Squad(enumSquad::SQUAD_HARQUEBUSIER);
-		pullRenaissancee.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_CANNON);
-		pullRenaissancee.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_LANCER);
-		pullRenaissancee.push_back(addSquadUnit);
+	std::thread threadIndustrial([&addSquadUnit, &pullIndustrial]()
+		{
+			std::fill(pullIndustrial.begin(), pullIndustrial.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_MUSKETEER));
+			std::fill(pullIndustrial.begin() + 16, pullIndustrial.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_GATLING));
+			std::fill(pullIndustrial.begin() + 32, pullIndustrial.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_CAVALRY));
+		});
 
-		addSquadUnit = new Squad(enumSquad::SQUAD_MUSKETEER);
-		pullIndustrial.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_GATLING);
-		pullIndustrial.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_CAVALRY);
-		pullIndustrial.push_back(addSquadUnit);
-	}
+	std::thread threadModern([&addSquadUnit, &pullModern]()
+		{
+			std::fill(pullModern.begin(), pullModern.begin() + 12, addSquadUnit = new Squad(enumSquad::SQUAD_INFANTRYMAN));
+			std::fill(pullModern.begin() + 12, pullModern.begin() + 24, addSquadUnit = new Squad(enumSquad::SQUAD_MACHINGGUN));
+			std::fill(pullModern.begin() + 24, pullModern.begin() + 36, addSquadUnit = new Squad(enumSquad::SQUAD_TANKETTE));
+			std::fill(pullModern.begin() + 36, pullModern.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_ARTBATTERY));
+		});
 
-	for (int i = 0; i < 12; i++) 
-	{
-		addSquadUnit = new Squad(enumSquad::SQUAD_INFANTRYMAN);
-		pullModern.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_MACHINGGUN);
-		pullModern.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_TANKETTE);
-		pullModern.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_ARTBATTERY);
-		pullModern.push_back(addSquadUnit);
-	}
+	std::thread threadAtomic([&addSquadUnit, &pullAtomic]()
+		{
+			std::fill(pullAtomic.begin(), pullAtomic.begin() + 8, addSquadUnit = new Squad(enumSquad::SQUAD_SEAINFANTRYMAN));
+			std::fill(pullAtomic.begin() + 8, pullAtomic.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_BAZOOKA));
+			std::fill(pullAtomic.begin() + 16, pullAtomic.begin() + 24, addSquadUnit = new Squad(enumSquad::SQUAD_TANK));
+			std::fill(pullAtomic.begin() + 24, pullAtomic.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_ANTITANKCANNON));
+		});
 
-	for (int i = 0; i < 8; i++)
-	{
-		addSquadUnit = new Squad(enumSquad::SQUAD_SEAINFANTRYMAN);
-		pullAtomic.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_BAZOOKA);
-		pullAtomic.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_TANK);
-		pullAtomic.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_ANTITANKCANNON);
-		pullAtomic.push_back(addSquadUnit);
+	std::thread threadInformation([&addSquadUnit, &pullInfromation]()
+		{
+			std::fill(pullInfromation.begin(), pullInfromation.begin() + 8, addSquadUnit = new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY));
+			std::fill(pullInfromation.begin() + 8, pullInfromation.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_ROCKET));
+			std::fill(pullInfromation.begin() + 16, pullInfromation.begin() + 24, addSquadUnit = new Squad(enumSquad::SQUAD_MODERNTANK));
+			std::fill(pullInfromation.begin() + 24, pullInfromation.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_ARTILLERY));
+		});
 
-		addSquadUnit = new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY);
-		pullInfromation.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_ROCKET);
-		pullInfromation.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_MODERNTANK);
-		pullInfromation.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_ARTILLERY);
-		pullInfromation.push_back(addSquadUnit);
-	}
+	std::thread threadFuture([&addSquadUnit, &pullFuture]()
+		{
+			std::fill(pullFuture.begin(), pullFuture.begin() + 6, addSquadUnit = new Squad(enumSquad::SQUAD_FUTURESMAN));
+			std::fill(pullFuture.begin() + 6, pullFuture.begin() + 12, addSquadUnit = new Squad(enumSquad::SQUAD_ROBOT));
+		});
 
-	for (int i = 0; i < 6; i++)
-	{
-		addSquadUnit = new Squad(enumSquad::SQUAD_FUTURESMAN);
-		pullFuture.push_back(addSquadUnit);
-		addSquadUnit = new Squad(enumSquad::SQUAD_ROBOT);
-		pullFuture.push_back(addSquadUnit);
-	}
+	threadAncient.join();
+	threadClassic.join();
+	threadMedival.join();
+	threadRenaissancee.join();
+	threadIndustrial.join();
+	threadModern.join();
+	threadAtomic.join();
+	threadInformation.join();
+	threadFuture.join();
 
-	pullGame.push_back(pullAncient);
-	pullGame.push_back(pullClassic);
-	pullGame.push_back(pullMedival);
-	pullGame.push_back(pullRenaissancee);
-	pullGame.push_back(pullIndustrial);
-	pullGame.push_back(pullModern);
-	pullGame.push_back(pullAtomic);
-	pullGame.push_back(pullInfromation);
-	pullGame.push_back(pullFuture);
+	pullGame.at(0) = pullAncient;
+	pullGame.at(1) = pullClassic;
+	pullGame.at(2) = pullMedival;
+	pullGame.at(3) = pullRenaissancee;
+	pullGame.at(4) = pullIndustrial;
+	pullGame.at(5) = pullModern;
+	pullGame.at(6) = pullAtomic;
+	pullGame.at(7) = pullInfromation;
+	pullGame.at(8) = pullFuture;
 
 	while (window.isOpen())
 	{
-
-
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -119,8 +112,8 @@ int main()
 		}
 
 		window.clear();
-		window.draw(pullAncient.at(0)->getArmySprite());
-
+		window.draw(pullGame.at(0).at(0)->getArmySprite());
+		
 		window.display();
 	}
 

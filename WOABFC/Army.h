@@ -24,6 +24,26 @@ public:
         return this->armySpawnCoordinateY;
     }
 
+    virtual float getArmySpriteCoordinateX()
+    {
+        return this->armySpriteCoordinateX;
+    }
+
+    virtual float getArmySpriteCoordinateY()
+    {
+        return this->armySpriteCoordinateY;
+    }
+    
+    virtual float getArmyAttackNow()
+    {
+        return this->armyAttackNow;
+    }
+
+    virtual float getArmyHealthNow()
+    {
+        return this->armyHealthNow;
+    }
+
     virtual void setArmySpawnCoordinates(float armySpawnCoordinateX, float armySpawnCoordinateY)
     {
         this->armySpawnCoordinateX = armySpawnCoordinateX;
@@ -37,11 +57,15 @@ protected:
     std::string armyFile;
 
     float armySize = 200;
+    float armySpriteCoordinateX = 0;
+    float armySpriteCoordinateY = 0;
     float armySpawnCoordinateX = 0;
     float armySpawnCoordinateY = 0;
     float armyCost = 1;
-    short armyHealth = 0;
-    short armyAttack = 0;
+    short armyHealthBasic = 0;
+    short armyAttackBasic = 0;
+    short armyHealthNow = 0;
+    short armyAttackNow = 0;
     enumTypeSquad armyType = enumTypeSquad::TYPE_NONE;
     enumSquad armyUpgrade = enumSquad::NONE;
     
