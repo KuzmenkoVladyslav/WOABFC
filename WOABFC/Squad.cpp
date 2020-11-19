@@ -299,12 +299,8 @@ Squad::Squad(enumSquad armyID)
     default:
         break;
     }
-    this->armySprite.setTextureRect(sf::IntRect(this->armySpriteCoordinateX, this->armySpriteCoordinateY, static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
+
+    this->armySprite.setTextureRect(sf::IntRect(static_cast<int>(this->armySpriteCoordinateX), static_cast<int>(this->armySpriteCoordinateY), static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
     this->armyAttackNow = this->armyAttackBasic;
     this->armyHealthNow = this->armyHealthBasic;
-}
-
-Squad::~Squad()
-{
-
 }

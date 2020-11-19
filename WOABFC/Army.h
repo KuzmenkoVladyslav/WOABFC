@@ -34,20 +34,30 @@ public:
         return this->armySpriteCoordinateY;
     }
     
-    virtual float getArmyAttackNow()
+    virtual int getArmyAttackNow()
     {
         return this->armyAttackNow;
     }
 
-    virtual float getArmyHealthNow()
+    virtual int getArmyHealthNow()
     {
         return this->armyHealthNow;
     }
 
-    virtual void setArmySpawnCoordinates(float armySpawnCoordinateX, float armySpawnCoordinateY)
+    virtual void setArmySpawnCoordinateX(float armySpawnCoordinateX)
     {
         this->armySpawnCoordinateX = armySpawnCoordinateX;
+        setArmySpawnCoordinates();
+    }
+
+    virtual void setArmySpawnCoordinateY(float armySpawnCoordinateY)
+    {
         this->armySpawnCoordinateY = armySpawnCoordinateY;
+        setArmySpawnCoordinates();
+    }
+
+    virtual void setArmySpawnCoordinates()
+    {
         this->armySprite.setPosition(this->armySpawnCoordinateX, this->armySpawnCoordinateY);
     }
 
@@ -62,12 +72,11 @@ protected:
     float armySpawnCoordinateX = 0;
     float armySpawnCoordinateY = 0;
     float armyCost = 1;
-    short armyHealthBasic = 0;
-    short armyAttackBasic = 0;
-    short armyHealthNow = 0;
-    short armyAttackNow = 0;
+    int armyHealthBasic = 0;
+    int armyAttackBasic = 0;
+    int armyHealthNow = 0;
+    int armyAttackNow = 0;
+
     enumTypeSquad armyType = enumTypeSquad::TYPE_NONE;
     enumSquad armyUpgrade = enumSquad::NONE;
-    
 };
-

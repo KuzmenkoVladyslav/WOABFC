@@ -4,15 +4,35 @@
 #include "Squad.h"
 #include "enumSquad.h"
 #include <vector>
+#include <sstream>
 #include <thread>
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "War of Ages: Battle for Castle");
-
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle");
 	std::vector <std::vector <Army*>> pullGame(9);
 	std::vector <Army*> pullAncient(64), pullClassic(64), pullMedival(64), pullRenaissancee(48), pullIndustrial(48), pullModern(48), pullAtomic(32), pullInfromation(32), pullFuture(12);
 	Army* addSquadUnit;
+	
+	float tempSpawn;
+
+	sf::Font font;
+	font.loadFromFile("16249.ttf");
+
+	sf::Text textAttack;	
+	textAttack.setFont(font);	
+	textAttack.setCharacterSize(40);
+	textAttack.setOutlineColor(sf::Color::Black);
+	textAttack.setStyle(sf::Text::Bold);
+	textAttack.setOutlineThickness(4);
+	sf::Text textHealth = textAttack;
+
+	sf::CircleShape shapeAttack;
+	shapeAttack.setRadius(25.f);
+	shapeAttack.setOutlineThickness(4);
+	sf::CircleShape shapeHealth = shapeAttack;
+	shapeAttack.setFillColor(sf::Color(255, 127, 80));
+	shapeHealth.setFillColor(sf::Color(100, 149, 237));
 
 	std::thread threadAncient([&addSquadUnit, &pullAncient]()
 		{
@@ -112,8 +132,42 @@ int main()
 		}
 
 		window.clear();
-		window.draw(pullGame.at(0).at(0)->getArmySprite());
-		
+
+		for (int i = 0; i < 9; i++) 
+		{
+			tempSpawn = (float)(i * 200);
+			pullGame.at(i).at(0)->setArmySpawnCoordinateX(tempSpawn);
+			shapeAttack.setPosition(pullGame.at(i).at(0)->getArmySpawnCoordinateX() + 25, pullGame.at(i).at(0)->getArmySpawnCoordinateY() + 125);
+			shapeHealth.setPosition(pullGame.at(i).at(0)->getArmySpawnCoordinateX() + 125, pullGame.at(i).at(0)->getArmySpawnCoordinateY() + 125);
+
+			if (pullGame.at(i).at(0)->getArmyAttackNow() < 10)
+			{
+				textAttack.setPosition(pullGame.at(i).at(0)->getArmySpawnCoordinateX() + 42, pullGame.at(i).at(0)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textAttack.setPosition(pullGame.at(i).at(0)->getArmySpawnCoordinateX() + 32, pullGame.at(i).at(0)->getArmySpawnCoordinateY() + 125);
+			}
+
+			if (pullGame.at(i).at(0)->getArmyHealthNow() < 10)
+			{
+				textHealth.setPosition(pullGame.at(i).at(0)->getArmySpawnCoordinateX() + 141, pullGame.at(i).at(0)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textHealth.setPosition(pullGame.at(i).at(0)->getArmySpawnCoordinateX() + 133, pullGame.at(i).at(0)->getArmySpawnCoordinateY() + 125);
+			}
+
+			textAttack.setString(std::to_string(pullGame.at(i).at(0)->getArmyAttackNow()));
+			textHealth.setString(std::to_string(pullGame.at(i).at(0)->getArmyHealthNow()));
+
+			window.draw(pullGame.at(i).at(0)->getArmySprite());
+			window.draw(shapeAttack);
+			window.draw(shapeHealth);
+			window.draw(textAttack);
+			window.draw(textHealth);
+		}
+
 		window.display();
 	}
 
