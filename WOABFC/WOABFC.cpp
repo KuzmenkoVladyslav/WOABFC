@@ -9,7 +9,7 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle");
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle", sf::Style::Fullscreen);
 	std::vector <std::vector <Army*>> pullGame(9);
 	std::vector <Army*> pullAncient(64), pullClassic(64), pullMedival(64), pullRenaissancee(48), pullIndustrial(48), pullModern(48), pullAtomic(32), pullInfromation(32), pullFuture(12);
 	Army* addSquadUnit;
@@ -21,9 +21,14 @@ int main()
 
 	sf::Text textAttack;	
 	textAttack.setFont(font);	
-	textAttack.setCharacterSize(40);
 	textAttack.setOutlineColor(sf::Color::Black);
 	textAttack.setStyle(sf::Text::Bold);
+
+	sf::Text textInfo = textAttack;
+	textInfo.setCharacterSize(35);
+	textInfo.setOutlineThickness(2);
+
+	textAttack.setCharacterSize(40);
 	textAttack.setOutlineThickness(4);
 	sf::Text textHealth = textAttack;
 
@@ -33,6 +38,18 @@ int main()
 	sf::CircleShape shapeHealth = shapeAttack;
 	shapeAttack.setFillColor(sf::Color(255, 127, 80));
 	shapeHealth.setFillColor(sf::Color(100, 149, 237));
+
+	sf::Texture textureInfo;
+	textureInfo.loadFromFile("images/missionbg.jpg");
+	sf::Sprite spriteInfo;
+	spriteInfo.setTexture(textureInfo);
+	spriteInfo.setTextureRect(sf::IntRect(0, 0, 340, 510));  //приведение типов, размеры картинки исходные
+	spriteInfo.setScale(2.5f, 0.7f);
+	spriteInfo.setPosition(window.getSize().x / 2.0 - 400.0, window.getSize().y / 2.0 - 100.0);
+
+	bool showInfoText = true;
+	bool showInfoReRender = true;
+	int showInfoParameter = 0;
 
 	std::thread threadAncient([&addSquadUnit, &pullAncient]()
 		{
@@ -93,7 +110,7 @@ int main()
 			std::fill(pullInfromation.begin(), pullInfromation.begin() + 8, addSquadUnit = new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY));
 			std::fill(pullInfromation.begin() + 8, pullInfromation.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_ROCKET));
 			std::fill(pullInfromation.begin() + 16, pullInfromation.begin() + 24, addSquadUnit = new Squad(enumSquad::SQUAD_MODERNTANK));
-			std::fill(pullInfromation.begin() + 24, pullInfromation.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_ARTILLERY));
+			std::fill(pullInfromation.begin() + 24, pullInfromation.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_ROCKETARTILLERY));
 		});
 
 	std::thread threadFuture([&addSquadUnit, &pullFuture]()
@@ -129,6 +146,42 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+
+			if (showInfoReRender)
+			{
+				for (int i = 0; i < 9; i++)
+				{
+					if (pullGame.at(i).at(0)->getArmySprite().getGlobalBounds().contains(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y))
+					{
+						showInfoParameter = i;
+						showInfoReRender = false;
+
+						switch (showInfoText)
+						{
+						case true:
+							textInfo.setString("Era: " + pullGame.at(i).at(0)->getStringEraName() + "\n" +
+								"Name: " + pullGame.at(i).at(0)->getArmyName() + "\n" +
+								"Type: " + pullGame.at(i).at(0)->getStringArmyType());
+							showInfoText = false;
+							textInfo.setPosition(window.getSize().x / 2.0 - 250.0, window.getSize().y / 2.0 - 50.0);
+							break;
+
+						case false:
+							textInfo.setString("");
+							showInfoText = true;
+							break;
+						}
+
+						break;
+					}
+				}
+			}
+
+			if (!pullGame.at(showInfoParameter).at(0)->getArmySprite().getGlobalBounds().contains(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y))
+			{
+				showInfoReRender = true;
+				showInfoText = true;
+			}			
 		}
 
 		window.clear();
@@ -160,6 +213,12 @@ int main()
 
 			textAttack.setString(std::to_string(pullGame.at(i).at(0)->getArmyAttackNow()));
 			textHealth.setString(std::to_string(pullGame.at(i).at(0)->getArmyHealthNow()));
+
+			if(!showInfoText) 
+			{ 
+				window.draw(spriteInfo); 
+				window.draw(textInfo); 
+			}
 
 			window.draw(pullGame.at(i).at(0)->getArmySprite());
 			window.draw(shapeAttack);
