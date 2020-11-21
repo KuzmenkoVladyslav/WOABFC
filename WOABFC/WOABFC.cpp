@@ -3,6 +3,7 @@
 #include "Army.h"
 #include "Squad.h"
 #include "enumSquad.h"
+#include "map.h"
 #include <vector>
 #include <sstream>
 #include <thread>
@@ -10,6 +11,12 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle", sf::Style::Fullscreen);
+
+	sf::Texture mapTexture;
+	mapTexture.loadFromFile("images/map.png");
+	sf::Sprite mapSprite;
+	mapSprite.setTexture(mapTexture);
+
 	std::vector <std::vector <Army*>> pullGame(9);
 	std::vector <Army*> pullAncient(64), pullClassic(64), pullMedival(64), pullRenaissancee(48), pullIndustrial(48), pullModern(48), pullAtomic(32), pullInfromation(32), pullFuture(12);
 	Army* addSquadUnit;
@@ -40,12 +47,18 @@ int main()
 	shapeHealth.setFillColor(sf::Color(100, 149, 237));
 
 	sf::Texture textureInfo;
-	textureInfo.loadFromFile("images/missionbg.jpg");
+	textureInfo.loadFromFile("images/infobackground.jpg");
 	sf::Sprite spriteInfo;
 	spriteInfo.setTexture(textureInfo);
 	spriteInfo.setTextureRect(sf::IntRect(0, 0, 340, 510));  //приведение типов, размеры картинки исходные
 	spriteInfo.setScale(2.5f, 0.7f);
-	spriteInfo.setPosition(window.getSize().x / 2.0 - 400.0, window.getSize().y / 2.0 - 100.0);
+	spriteInfo.setPosition(window.getSize().x / 2.0 - 400.0, window.getSize().y / 2.0 - 178.0);
+
+	bool isFirstSpawn = true;
+	bool isSpriteMove = false;
+	float dXSpriteMove = 0;
+	float dYSpriteMove = 0;
+	int spriteMoveParameter = 0;
 
 	bool showInfoText = true;
 	bool showInfoReRender = true;
@@ -139,19 +152,54 @@ int main()
 	pullGame.at(7) = pullInfromation;
 	pullGame.at(8) = pullFuture;
 
+	sf::Clock clock;
+	
 	while (window.isOpen())
 	{
+		float time = clock.getElapsedTime().asMicroseconds();
+
+		clock.restart();
+		time = time / 800;
+
+		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
 
+			if (event.type == sf::Event::MouseButtonPressed) 
+			{
+				if (event.key.code == sf::Mouse::Left) 
+				{
+					for (int i = 0; i < 9; i++)
+					{
+						if (pullGame.at(i).at(0)->getArmySprite().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+						{
+							spriteMoveParameter = i;
+							dXSpriteMove = mousePosition.x - pullGame.at(spriteMoveParameter).at(0)->getArmySpawnCoordinateX();
+							dYSpriteMove = mousePosition.y - pullGame.at(spriteMoveParameter).at(0)->getArmySpawnCoordinateY();
+							isSpriteMove = true;
+							break;
+						}
+					}
+				}
+			}				
+
+			if (event.type == sf::Event::MouseButtonReleased) 
+			{
+				if (event.key.code == sf::Mouse::Left) 
+				{
+					isSpriteMove = false;
+				}
+			}
+
 			if (showInfoReRender)
 			{
 				for (int i = 0; i < 9; i++)
 				{
-					if (pullGame.at(i).at(0)->getArmySprite().getGlobalBounds().contains(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y))
+					if (pullGame.at(i).at(0)->getArmySprite().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
 					{
 						showInfoParameter = i;
 						showInfoReRender = false;
@@ -163,7 +211,7 @@ int main()
 								"Name: " + pullGame.at(i).at(0)->getArmyName() + "\n" +
 								"Type: " + pullGame.at(i).at(0)->getStringArmyType());
 							showInfoText = false;
-							textInfo.setPosition(window.getSize().x / 2.0 - 250.0, window.getSize().y / 2.0 - 50.0);
+							textInfo.setPosition(window.getSize().x / 2.0 - 250.0, window.getSize().y / 2.0 - 128.0);
 							break;
 
 						case false:
@@ -177,19 +225,38 @@ int main()
 				}
 			}
 
-			if (!pullGame.at(showInfoParameter).at(0)->getArmySprite().getGlobalBounds().contains(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y))
+			if (!pullGame.at(showInfoParameter).at(0)->getArmySprite().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
 			{
 				showInfoReRender = true;
 				showInfoText = true;
 			}			
 		}
 
+		if (isSpriteMove)
+		{			
+			pullGame.at(spriteMoveParameter).at(0)->setArmySpawnCoordinates(mousePosition.x - dXSpriteMove, mousePosition.y - dYSpriteMove);
+		}
+
 		window.clear();
+
+		for (int i = 0; i < HEIGHT_MAP; i++) 
+		{
+			for (int j = 0; j < WIDTH_MAP; j++)
+			{
+				if(TileMap[i][j] == 'g')  mapSprite.setTextureRect(sf::IntRect(0, 0, 120, 120));
+				if (TileMap[i][j] == 's')  mapSprite.setTextureRect(sf::IntRect(120, 0, 120, 120));
+				mapSprite.setPosition(j * 120, i * 120);
+				window.draw(mapSprite);
+			}
+		}
 
 		for (int i = 0; i < 9; i++) 
 		{
-			tempSpawn = (float)(i * 200);
-			pullGame.at(i).at(0)->setArmySpawnCoordinateX(tempSpawn);
+			if (isFirstSpawn) {
+				tempSpawn = (float)(i * 200);
+				pullGame.at(i).at(0)->setArmySpawnCoordinates(tempSpawn, 0);
+			}
+
 			shapeAttack.setPosition(pullGame.at(i).at(0)->getArmySpawnCoordinateX() + 25, pullGame.at(i).at(0)->getArmySpawnCoordinateY() + 125);
 			shapeHealth.setPosition(pullGame.at(i).at(0)->getArmySpawnCoordinateX() + 125, pullGame.at(i).at(0)->getArmySpawnCoordinateY() + 125);
 
@@ -214,18 +281,20 @@ int main()
 			textAttack.setString(std::to_string(pullGame.at(i).at(0)->getArmyAttackNow()));
 			textHealth.setString(std::to_string(pullGame.at(i).at(0)->getArmyHealthNow()));
 
-			if(!showInfoText) 
-			{ 
-				window.draw(spriteInfo); 
-				window.draw(textInfo); 
-			}
-
 			window.draw(pullGame.at(i).at(0)->getArmySprite());
 			window.draw(shapeAttack);
 			window.draw(shapeHealth);
 			window.draw(textAttack);
 			window.draw(textHealth);
 		}
+
+		if (!showInfoText)
+		{
+			window.draw(spriteInfo);
+			window.draw(textInfo);
+		}
+
+		isFirstSpawn = false;
 
 		window.display();
 	}

@@ -45,20 +45,10 @@ public:
         return this->armyHealthNow;
     }
 
-    virtual void setArmySpawnCoordinateX(float armySpawnCoordinateX)
+    virtual void setArmySpawnCoordinates(float armySpawnCoordinateX, float armySpawnCoordinateY)
     {
         this->armySpawnCoordinateX = armySpawnCoordinateX;
-        setArmySpawnCoordinates();
-    }
-
-    virtual void setArmySpawnCoordinateY(float armySpawnCoordinateY)
-    {
         this->armySpawnCoordinateY = armySpawnCoordinateY;
-        setArmySpawnCoordinates();
-    }
-
-    virtual void setArmySpawnCoordinates()
-    {
         this->armySprite.setPosition(this->armySpawnCoordinateX, this->armySpawnCoordinateY);
     }
 
