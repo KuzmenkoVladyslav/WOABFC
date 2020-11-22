@@ -131,3 +131,54 @@ void Player::setPlayerEra(enumEraName playerEra)
         break;
     }
 }
+
+void Player::setOrderOfArmy() 
+{
+    switch (this->playerActiveArmy.size())
+    {
+    case 1: 
+        this->playerActiveArmy.at(0)->setArmySpawnCoordinateX(860.0);
+        break;
+    case 2: 
+        this->playerActiveArmy.at(0)->setArmySpawnCoordinateX(735.0);
+        this->playerActiveArmy.at(1)->setArmySpawnCoordinateX(985.0);
+        break;
+    case 3: 
+        this->playerActiveArmy.at(0)->setArmySpawnCoordinateX(610.0);
+        this->playerActiveArmy.at(1)->setArmySpawnCoordinateX(860.0);
+        this->playerActiveArmy.at(2)->setArmySpawnCoordinateX(1110.0);
+        break;
+    case 4: 
+        this->playerActiveArmy.at(0)->setArmySpawnCoordinateX(485.0);
+        this->playerActiveArmy.at(1)->setArmySpawnCoordinateX(735.0);
+        this->playerActiveArmy.at(2)->setArmySpawnCoordinateX(985.0);
+        this->playerActiveArmy.at(3)->setArmySpawnCoordinateX(1235.0);
+        break;
+    case 5: 
+        this->playerActiveArmy.at(0)->setArmySpawnCoordinateX(360.0);
+        this->playerActiveArmy.at(1)->setArmySpawnCoordinateX(610.0);
+        this->playerActiveArmy.at(2)->setArmySpawnCoordinateX(860.0);
+        this->playerActiveArmy.at(3)->setArmySpawnCoordinateX(1110.0);
+        this->playerActiveArmy.at(4)->setArmySpawnCoordinateX(1360.0);
+        break;
+    case 6: 
+        this->playerActiveArmy.at(0)->setArmySpawnCoordinateX(235.0);
+        this->playerActiveArmy.at(1)->setArmySpawnCoordinateX(485.0);
+        this->playerActiveArmy.at(2)->setArmySpawnCoordinateX(735.0);
+        this->playerActiveArmy.at(3)->setArmySpawnCoordinateX(985.0);
+        this->playerActiveArmy.at(4)->setArmySpawnCoordinateX(1235.0);
+        this->playerActiveArmy.at(5)->setArmySpawnCoordinateX(1485.0);
+        break;
+    case 7: 
+        this->playerActiveArmy.at(0)->setArmySpawnCoordinateX(110.0);
+        this->playerActiveArmy.at(1)->setArmySpawnCoordinateX(360.0);
+        this->playerActiveArmy.at(2)->setArmySpawnCoordinateX(610.0);
+        this->playerActiveArmy.at(3)->setArmySpawnCoordinateX(860.0);
+        this->playerActiveArmy.at(4)->setArmySpawnCoordinateX(1110.0);
+        this->playerActiveArmy.at(5)->setArmySpawnCoordinateX(1360.0);
+        this->playerActiveArmy.at(6)->setArmySpawnCoordinateX(1610.0);
+        break;
+    default:
+        break;
+    }
+}

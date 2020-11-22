@@ -2,8 +2,7 @@
 
 Squad::Squad(enumSquad armyID)
 {
-    this->armyFile = "army.png";
-    this->armyTexture.loadFromFile("images/" + this->armyFile);
+    this->armyTexture.loadFromFile("images/army.png");
     this->armySprite.setTexture(armyTexture);
     switch (armyID)
     {

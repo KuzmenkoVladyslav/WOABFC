@@ -24,6 +24,10 @@ public:
 
     virtual int getArmyHealthNow();
 
+    virtual void setArmySpawnCoordinateX(float armySpawnCoordinateX);
+
+    virtual void setArmySpawnCoordinateY(float armySpawnCoordinateY);
+
     virtual void setArmySpawnCoordinates(float armySpawnCoordinateX, float armySpawnCoordinateY);
 
     virtual std::string getArmyName();
@@ -41,7 +45,6 @@ public:
 protected:
     sf::Texture armyTexture;
     sf::Sprite armySprite;
-    std::string armyFile;
     std::string armyName;
 
     float armySize = 200;

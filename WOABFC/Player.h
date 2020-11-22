@@ -46,6 +46,8 @@ public:
     enumEraName getPlayerEra();
 
     void setPlayerEra(enumEraName playerEra);
+    
+    void setOrderOfArmy();
 
 private:
     int playerHealth = 50;

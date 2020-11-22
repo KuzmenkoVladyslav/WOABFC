@@ -35,6 +35,18 @@ int Army::getArmyHealthNow()
     return this->armyHealthNow;
 }
 
+void Army::setArmySpawnCoordinateX(float armySpawnCoordinateX)
+{
+    this->armySpawnCoordinateX = armySpawnCoordinateX;
+    this->armySprite.setPosition(this->armySpawnCoordinateX, this->armySpawnCoordinateY);
+}
+
+void Army::setArmySpawnCoordinateY(float armySpawnCoordinateY)
+{
+    this->armySpawnCoordinateY = armySpawnCoordinateY;
+    this->armySprite.setPosition(this->armySpawnCoordinateX, this->armySpawnCoordinateY);
+}
+
 void Army::setArmySpawnCoordinates(float armySpawnCoordinateX, float armySpawnCoordinateY)
 {
     this->armySpawnCoordinateX = armySpawnCoordinateX;

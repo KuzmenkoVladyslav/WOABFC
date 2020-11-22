@@ -26,8 +26,7 @@ int main()
 	std::vector <Army*> tempFirstArmy;
 
 	Player* firstPlayer = new Player();
-
-	//float tempSpawn;
+	Player* secondPlayer = new Player();
 
 	sf::Font font;
 	font.loadFromFile("16249.ttf");
@@ -56,87 +55,115 @@ int main()
 	textureInfo.loadFromFile("images/infobackground.jpg");
 	sf::Sprite spriteInfo;
 	spriteInfo.setTexture(textureInfo);
-	spriteInfo.setTextureRect(sf::IntRect(0, 0, 340, 510));  //приведение типов, размеры картинки исходные
+	spriteInfo.setTextureRect(sf::IntRect(0, 0, 340, 510));
 	spriteInfo.setScale(2.0f, 0.7f);
-	spriteInfo.setPosition(window.getSize().x / 2.0 - 380.0, window.getSize().y / 2.0 - 178.0);
+	spriteInfo.setPosition(window.getSize().x / 2.0f - 380.0f, window.getSize().y / 2.0f - 178.0f);
 
 	bool isFirstSpawn = true;
 	bool isSpriteMove = false;
 	float dXSpriteMove = 0;
 	float dYSpriteMove = 0;
 	int spriteMoveParameter = 0;
+	bool isPressedForMove = false;
 
 	bool showInfoText = true;
 	bool showInfoReRender = true;
 	int showInfoParameter = 0;
 
 	std::thread threadAncient([&addSquadUnit, &pullAncient]()
+	{
+		for (size_t i = 0; i < 16; i++)
 		{
-			std::fill(pullAncient.begin(), pullAncient.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_WARRIOR));
-			std::fill(pullAncient.begin() + 16, pullAncient.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_ARCHER));
-			std::fill(pullAncient.begin() + 32, pullAncient.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_HOURSEARCHER));
-			std::fill(pullAncient.begin() + 48, pullAncient.begin() + 64, addSquadUnit = new Squad(enumSquad::SQUAD_SPEARMAN));
-		});
+			pullAncient.at(i) = new Squad(enumSquad::SQUAD_WARRIOR);
+			pullAncient.at(i + 16) = new Squad(enumSquad::SQUAD_ARCHER);
+			pullAncient.at(i + 32) = new Squad(enumSquad::SQUAD_HOURSEARCHER);
+			pullAncient.at(i + 48) = new Squad(enumSquad::SQUAD_SPEARMAN);
+		}
+	});
 
 	std::thread threadClassic([&addSquadUnit, &pullClassic]()
+	{
+		for (size_t i = 0; i < 16; i++)
 		{
-			std::fill(pullClassic.begin(), pullClassic.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_SWORDSMAN));
-			std::fill(pullClassic.begin() + 16, pullClassic.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_LONGBOWARCHER));
-			std::fill(pullClassic.begin() + 32, pullClassic.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_HORSEMAN));
-			std::fill(pullClassic.begin() + 48, pullClassic.begin() + 64, addSquadUnit = new Squad(enumSquad::SQUAD_HOPLITE));
-		});
+			pullClassic.at(i) = new Squad(enumSquad::SQUAD_SWORDSMAN);
+			pullClassic.at(i + 16) = new Squad(enumSquad::SQUAD_LONGBOWARCHER);
+			pullClassic.at(i + 32) = new Squad(enumSquad::SQUAD_HORSEMAN);
+			pullClassic.at(i + 48) = new Squad(enumSquad::SQUAD_HOPLITE);
+		}
+	});
 
 	std::thread threadMedival([&addSquadUnit, &pullMedival]()
+	{
+		for (size_t i = 0; i < 16; i++)
 		{
-			std::fill(pullMedival.begin(), pullMedival.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_LONGSWORDSMAN));
-			std::fill(pullMedival.begin() + 16, pullMedival.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_CROSSBOWMAN));
-			std::fill(pullMedival.begin() + 32, pullMedival.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_KNIGHT));
-			std::fill(pullMedival.begin() + 48, pullMedival.begin() + 64, addSquadUnit = new Squad(enumSquad::SQUAD_PIKEMAN));
-		});
+			pullMedival.at(i) = new Squad(enumSquad::SQUAD_LONGSWORDSMAN);
+			pullMedival.at(i + 16) = new Squad(enumSquad::SQUAD_CROSSBOWMAN);
+			pullMedival.at(i + 32) = new Squad(enumSquad::SQUAD_KNIGHT);
+			pullMedival.at(i + 48) = new Squad(enumSquad::SQUAD_PIKEMAN);
+		}
+	});
 
 	std::thread threadRenaissancee([&addSquadUnit, &pullRenaissancee]()
+	{
+		for (size_t i = 0; i < 16; i++)
 		{
-			std::fill(pullRenaissancee.begin(), pullRenaissancee.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_HARQUEBUSIER));
-			std::fill(pullRenaissancee.begin() + 16, pullRenaissancee.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_CANNON));
-			std::fill(pullRenaissancee.begin() + 32, pullRenaissancee.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_LANCER));
-		});
+			pullRenaissancee.at(i) = new Squad(enumSquad::SQUAD_HARQUEBUSIER);
+			pullRenaissancee.at(i + 16) = new Squad(enumSquad::SQUAD_CANNON);
+			pullRenaissancee.at(i + 32) = new Squad(enumSquad::SQUAD_LANCER);
+		}
+	});
 
 	std::thread threadIndustrial([&addSquadUnit, &pullIndustrial]()
+	{
+		for (size_t i = 0; i < 16; i++)
 		{
-			std::fill(pullIndustrial.begin(), pullIndustrial.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_MUSKETEER));
-			std::fill(pullIndustrial.begin() + 16, pullIndustrial.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_GATLING));
-			std::fill(pullIndustrial.begin() + 32, pullIndustrial.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_CAVALRY));
-		});
+			pullIndustrial.at(i) = new Squad(enumSquad::SQUAD_MUSKETEER);
+			pullIndustrial.at(i + 16) = new Squad(enumSquad::SQUAD_GATLING);
+			pullIndustrial.at(i + 32) = new Squad(enumSquad::SQUAD_CAVALRY);
+		}
+	});
 
 	std::thread threadModern([&addSquadUnit, &pullModern]()
+	{
+		for (size_t i = 0; i < 12; i++)
 		{
-			std::fill(pullModern.begin(), pullModern.begin() + 12, addSquadUnit = new Squad(enumSquad::SQUAD_INFANTRYMAN));
-			std::fill(pullModern.begin() + 12, pullModern.begin() + 24, addSquadUnit = new Squad(enumSquad::SQUAD_MACHINGGUN));
-			std::fill(pullModern.begin() + 24, pullModern.begin() + 36, addSquadUnit = new Squad(enumSquad::SQUAD_TANKETTE));
-			std::fill(pullModern.begin() + 36, pullModern.begin() + 48, addSquadUnit = new Squad(enumSquad::SQUAD_ARTBATTERY));
-		});
+			pullModern.at(i) = new Squad(enumSquad::SQUAD_INFANTRYMAN);
+			pullModern.at(i + 12) = new Squad(enumSquad::SQUAD_MACHINGGUN);
+			pullModern.at(i + 24) = new Squad(enumSquad::SQUAD_TANKETTE);
+			pullModern.at(i + 36) = new Squad(enumSquad::SQUAD_ARTBATTERY);
+		}
+	});
 
 	std::thread threadAtomic([&addSquadUnit, &pullAtomic]()
+	{
+		for (size_t i = 0; i < 8; i++)
 		{
-			std::fill(pullAtomic.begin(), pullAtomic.begin() + 8, addSquadUnit = new Squad(enumSquad::SQUAD_SEAINFANTRYMAN));
-			std::fill(pullAtomic.begin() + 8, pullAtomic.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_BAZOOKA));
-			std::fill(pullAtomic.begin() + 16, pullAtomic.begin() + 24, addSquadUnit = new Squad(enumSquad::SQUAD_TANK));
-			std::fill(pullAtomic.begin() + 24, pullAtomic.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_ANTITANKCANNON));
-		});
+			pullAtomic.at(i) = new Squad(enumSquad::SQUAD_SEAINFANTRYMAN);
+			pullAtomic.at(i + 8) = new Squad(enumSquad::SQUAD_BAZOOKA);
+			pullAtomic.at(i + 16) = new Squad(enumSquad::SQUAD_TANK);
+			pullAtomic.at(i + 24) = new Squad(enumSquad::SQUAD_ANTITANKCANNON);
+		}
+	});
 
 	std::thread threadInformation([&addSquadUnit, &pullInfromation]()
+	{
+		for (size_t i = 0; i < 8; i++)
 		{
-			std::fill(pullInfromation.begin(), pullInfromation.begin() + 8, addSquadUnit = new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY));
-			std::fill(pullInfromation.begin() + 8, pullInfromation.begin() + 16, addSquadUnit = new Squad(enumSquad::SQUAD_ROCKET));
-			std::fill(pullInfromation.begin() + 16, pullInfromation.begin() + 24, addSquadUnit = new Squad(enumSquad::SQUAD_MODERNTANK));
-			std::fill(pullInfromation.begin() + 24, pullInfromation.begin() + 32, addSquadUnit = new Squad(enumSquad::SQUAD_ROCKETARTILLERY));
-		});
+			pullInfromation.at(i) = new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY);
+			pullInfromation.at(i + 8) = new Squad(enumSquad::SQUAD_ROCKET);
+			pullInfromation.at(i + 16) = new Squad(enumSquad::SQUAD_MODERNTANK);
+			pullInfromation.at(i + 24) = new Squad(enumSquad::SQUAD_ROCKETARTILLERY);
+		}
+	});
 
 	std::thread threadFuture([&addSquadUnit, &pullFuture]()
+	{
+		for (size_t i = 0; i < 6; i++)
 		{
-			std::fill(pullFuture.begin(), pullFuture.begin() + 6, addSquadUnit = new Squad(enumSquad::SQUAD_FUTURESMAN));
-			std::fill(pullFuture.begin() + 6, pullFuture.begin() + 12, addSquadUnit = new Squad(enumSquad::SQUAD_ROBOT));
-		});
+			pullFuture.at(i) = new Squad(enumSquad::SQUAD_FUTURESMAN);
+			pullFuture.at(i + 6) = new Squad(enumSquad::SQUAD_ROBOT);
+		}
+	});
 
 	threadAncient.join();
 	threadClassic.join();
@@ -158,19 +185,28 @@ int main()
 	pullGame.at(7) = pullInfromation;
 	pullGame.at(8) = pullFuture;
 
-
 	tempFirstArmy.push_back(pullGame.at(0).at(0));
+	tempFirstArmy.push_back(pullGame.at(0).at(8));
 	tempFirstArmy.push_back(pullGame.at(0).at(16));
+	tempFirstArmy.push_back(pullGame.at(0).at(24));
 	tempFirstArmy.push_back(pullGame.at(0).at(32));
-	tempFirstArmy.push_back(pullGame.at(0).at(63));
+	tempFirstArmy.push_back(pullGame.at(0).at(40));
+	tempFirstArmy.push_back(pullGame.at(0).at(48));
+
+	for (int i = 0; i < (const int)tempFirstArmy.size(); i++)
+	{
+		tempFirstArmy.at(i)->setArmySpawnCoordinateY(800.0);		
+	}
 
 	firstPlayer->setPlayerActiveArmy(tempFirstArmy);
+	firstPlayer->setOrderOfArmy();
+	tempFirstArmy = firstPlayer->getPlayerActiveArmy();
 
 	sf::Clock clock;
 
 	while (window.isOpen())
 	{
-		float time = clock.getElapsedTime().asMicroseconds();
+		float time = (float)clock.getElapsedTime().asMicroseconds();
 
 		clock.restart();
 		time = time / 800;
@@ -190,13 +226,14 @@ int main()
 			{
 				if (event.key.code == sf::Mouse::Left)
 				{
-					for (int i = 0; i < firstPlayer->getPlayerActiveArmy().size(); i++)
+					for (int i = 0; i < (int)tempFirstArmy.size(); i++)
 					{
-						if (firstPlayer->getPlayerActiveArmy().at(i)->getArmySprite().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+						if (tempFirstArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 						{
+							isPressedForMove = true;
 							spriteMoveParameter = i;
-							dXSpriteMove = mousePosition.x - firstPlayer->getPlayerActiveArmy().at(spriteMoveParameter)->getArmySpawnCoordinateX();
-							dYSpriteMove = mousePosition.y - firstPlayer->getPlayerActiveArmy().at(spriteMoveParameter)->getArmySpawnCoordinateY();
+							dXSpriteMove = mousePosition.x - tempFirstArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
+							dYSpriteMove = mousePosition.y - tempFirstArmy.at(spriteMoveParameter)->getArmySpawnCoordinateY();
 							isSpriteMove = true;
 							break;
 						}
@@ -208,15 +245,55 @@ int main()
 			{
 				if (event.key.code == sf::Mouse::Left)
 				{
-					isSpriteMove = false;
+					if (isPressedForMove) 
+					{
+						for (int i = 0; i < (int)tempFirstArmy.size(); i++)
+						{
+							if (i < spriteMoveParameter)
+							{
+								if ((float)mousePosition.x < tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								{
+									std::swap(tempFirstArmy[i], tempFirstArmy[spriteMoveParameter]);
+									firstPlayer->setPlayerActiveArmy(tempFirstArmy);
+									firstPlayer->setOrderOfArmy();
+									break;
+								}
+							}
+						}
+
+						for (int i = tempFirstArmy.size() - 1; i > -1; i--)
+						{
+							if (i > spriteMoveParameter)
+							{
+								if ((float)mousePosition.x > tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								{
+									std::swap(tempFirstArmy[i], tempFirstArmy[spriteMoveParameter]);
+									firstPlayer->setPlayerActiveArmy(tempFirstArmy);
+									firstPlayer->setOrderOfArmy();
+									break;
+								}
+							}
+						}
+
+						isSpriteMove = false;
+						firstPlayer->setOrderOfArmy();
+
+						for (size_t i = 0; i < tempFirstArmy.size(); i++)
+						{
+							tempFirstArmy.at(i)->setArmySpawnCoordinateY(800.0);
+						}
+
+						firstPlayer->setPlayerActiveArmy(tempFirstArmy);
+						isPressedForMove = false;
+					}					
 				}
 			}
-
+			
 			if (showInfoReRender)
 			{
-				for (int i = 0; i < firstPlayer->getPlayerActiveArmy().size(); i++)
+				for (int i = 0; i < (int)tempFirstArmy.size(); i++)
 				{
-					if (firstPlayer->getPlayerActiveArmy().at(i)->getArmySprite().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+					if (tempFirstArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 					{
 						showInfoParameter = i;
 						showInfoReRender = false;
@@ -224,11 +301,11 @@ int main()
 						switch (showInfoText)
 						{
 						case true:
-							textInfo.setString("Era: " + firstPlayer->getPlayerActiveArmy().at(i)->getStringEraName() + "\n" +
-								"Name: " + firstPlayer->getPlayerActiveArmy().at(i)->getArmyName() + "\n" +
-								"Type: " + firstPlayer->getPlayerActiveArmy().at(i)->getStringArmyType());
+							textInfo.setString("Era: " + tempFirstArmy.at(i)->getStringEraName() + "\n" +
+								"Name: " + tempFirstArmy.at(i)->getArmyName() + "\n" +
+								"Type: " + tempFirstArmy.at(i)->getStringArmyType());
 							showInfoText = false;
-							textInfo.setPosition(window.getSize().x / 2.0 - 350.0, window.getSize().y / 2.0 - 168.0);
+							textInfo.setPosition(window.getSize().x / 2.0f - 350.0f, window.getSize().y / 2.0f - 168.0f);
 							break;
 
 						case false:
@@ -242,16 +319,17 @@ int main()
 				}				
 			}
 
-			if (!firstPlayer->getPlayerActiveArmy().at(showInfoParameter)->getArmySprite().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+			if (!tempFirstArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 			{
 				showInfoReRender = true;
 				showInfoText = true;
 			}
 		}
-
+		
 		if (isSpriteMove)
 		{
-			firstPlayer->getPlayerActiveArmy().at(spriteMoveParameter)->setArmySpawnCoordinates(mousePosition.x - dXSpriteMove, mousePosition.y - dYSpriteMove);
+			tempFirstArmy.at(spriteMoveParameter)->setArmySpawnCoordinates(mousePosition.x - dXSpriteMove, mousePosition.y - dYSpriteMove);
+			firstPlayer->setPlayerActiveArmy(tempFirstArmy);
 		}
 
 		window.clear();
@@ -260,46 +338,73 @@ int main()
 		{
 			for (int j = 0; j < WIDTH_MAP; j++)
 			{
-				if (TileMap[i][j] == 'g')  mapSprite.setTextureRect(sf::IntRect(0, 0, 120, 120));
-				if (TileMap[i][j] == 'f')  mapSprite.setTextureRect(sf::IntRect(120, 0, 120, 120));
-				if (TileMap[i][j] == 's')  mapSprite.setTextureRect(sf::IntRect(240, 0, 120, 120));
-				mapSprite.setPosition(j * 120, i * 120);
+				if (TileMap[i][j] == 'g')
+				{
+					mapSprite.setTextureRect(sf::IntRect(0, 0, 120, 120));
+				}
+				else if (TileMap[i][j] == 'f')
+				{
+					switch (firstPlayer->getPlayerEra())
+					{
+					case enumEraName::ERA_ANCIENT: mapSprite.setTextureRect(sf::IntRect(120, 0, 120, 120)); break;
+					case enumEraName::ERA_CLASSIC: mapSprite.setTextureRect(sf::IntRect(240, 0, 120, 120)); break;
+					case enumEraName::ERA_MEDIVAL: mapSprite.setTextureRect(sf::IntRect(360, 0, 120, 120)); break;
+					case enumEraName::ERA_RENAISSANCEE: mapSprite.setTextureRect(sf::IntRect(480, 0, 120, 120)); break;
+					case enumEraName::ERA_INDUSTRIAL: mapSprite.setTextureRect(sf::IntRect(600, 0, 120, 120)); break;
+					case enumEraName::ERA_MODERN: mapSprite.setTextureRect(sf::IntRect(720, 0, 120, 120)); break;
+					case enumEraName::ERA_ATOMIC: mapSprite.setTextureRect(sf::IntRect(840, 0, 120, 120)); break;
+					case enumEraName::ERA_INFORMATION: mapSprite.setTextureRect(sf::IntRect(960, 0, 120, 120)); break;
+					case enumEraName::ERA_FUTURE: mapSprite.setTextureRect(sf::IntRect(1080, 0, 120, 120)); break;
+					}
+				}
+				else
+				{
+					switch (secondPlayer->getPlayerEra())
+					{
+					case enumEraName::ERA_ANCIENT: mapSprite.setTextureRect(sf::IntRect(120, 0, 120, 120)); break;
+					case enumEraName::ERA_CLASSIC: mapSprite.setTextureRect(sf::IntRect(240, 0, 120, 120)); break;
+					case enumEraName::ERA_MEDIVAL: mapSprite.setTextureRect(sf::IntRect(360, 0, 120, 120)); break;
+					case enumEraName::ERA_RENAISSANCEE: mapSprite.setTextureRect(sf::IntRect(480, 0, 120, 120)); break;
+					case enumEraName::ERA_INDUSTRIAL: mapSprite.setTextureRect(sf::IntRect(600, 0, 120, 120)); break;
+					case enumEraName::ERA_MODERN: mapSprite.setTextureRect(sf::IntRect(720, 0, 120, 120)); break;
+					case enumEraName::ERA_ATOMIC: mapSprite.setTextureRect(sf::IntRect(840, 0, 120, 120)); break;
+					case enumEraName::ERA_INFORMATION: mapSprite.setTextureRect(sf::IntRect(960, 0, 120, 120)); break;
+					case enumEraName::ERA_FUTURE: mapSprite.setTextureRect(sf::IntRect(1080, 0, 120, 120)); break;
+					}
+				}
+
+				mapSprite.setPosition(j * 120.0f, i * 120.0f);
 				window.draw(mapSprite);
 			}
 		}
 
-		for (int i = 0; i < firstPlayer->getPlayerActiveArmy().size(); i++)
+		for (int i = 0; i < (const int)tempFirstArmy.size(); i++)
 		{
-			//if (isFirstSpawn) {
-			//	tempSpawn = (float)(i * 200);
-			//	pullGame.at(i).at(0)->setArmySpawnCoordinates(tempSpawn, 0);
-			//}
+			shapeAttack.setPosition(tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 25, tempFirstArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			shapeHealth.setPosition(tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 125, tempFirstArmy.at(i)->getArmySpawnCoordinateY() + 125);
 
-			shapeAttack.setPosition(firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateX() + 25, firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateY() + 125);
-			shapeHealth.setPosition(firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateX() + 125, firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateY() + 125);
-
-			if (firstPlayer->getPlayerActiveArmy().at(i)->getArmyAttackNow() < 10)
+			if (tempFirstArmy.at(i)->getArmyAttackNow() < 10)
 			{
-				textAttack.setPosition(firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateX() + 42, firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateY() + 125);
+				textAttack.setPosition(tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 42, tempFirstArmy.at(i)->getArmySpawnCoordinateY() + 125);
 			}
 			else
 			{
-				textAttack.setPosition(firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateX() + 32, firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateY() + 125);
+				textAttack.setPosition(tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 32, tempFirstArmy.at(i)->getArmySpawnCoordinateY() + 125);
 			}
 
-			if (firstPlayer->getPlayerActiveArmy().at(i)->getArmyHealthNow() < 10)
+			if (tempFirstArmy.at(i)->getArmyHealthNow() < 10)
 			{
-				textHealth.setPosition(firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateX() + 141, firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateY() + 125);
+				textHealth.setPosition(tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 141, tempFirstArmy.at(i)->getArmySpawnCoordinateY() + 125);
 			}
 			else
 			{
-				textHealth.setPosition(firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateX() + 133, firstPlayer->getPlayerActiveArmy().at(i)->getArmySpawnCoordinateY() + 125);
+				textHealth.setPosition(tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 133, tempFirstArmy.at(i)->getArmySpawnCoordinateY() + 125);
 			}
 
-			textAttack.setString(std::to_string(firstPlayer->getPlayerActiveArmy().at(i)->getArmyAttackNow()));
-			textHealth.setString(std::to_string(firstPlayer->getPlayerActiveArmy().at(i)->getArmyHealthNow()));
+			textAttack.setString(std::to_string(tempFirstArmy.at(i)->getArmyAttackNow()));
+			textHealth.setString(std::to_string(tempFirstArmy.at(i)->getArmyHealthNow()));
 
-			window.draw(firstPlayer->getPlayerActiveArmy().at(i)->getArmySprite());
+			window.draw(tempFirstArmy.at(i)->getArmySprite());
 			window.draw(shapeAttack);
 			window.draw(shapeHealth);
 			window.draw(textAttack);
@@ -313,9 +418,8 @@ int main()
 		}
 
 		isFirstSpawn = false;
-
 		window.display();
 	}		
 	
 	return 0;
-}
+};
