@@ -10,100 +10,33 @@ public:
     Army() {};
     ~Army() {};
 
-    virtual sf::Sprite getArmySprite() 
-    {
-        return this->armySprite;
-    }
+    virtual sf::Sprite getArmySprite();
 
-    virtual float getArmySpawnCoordinateX() 
-    {
-        return this->armySpawnCoordinateX;
-    }
+    virtual float getArmySpawnCoordinateX();
 
-    virtual float getArmySpawnCoordinateY()
-    {
-        return this->armySpawnCoordinateY;
-    }
+    virtual float getArmySpawnCoordinateY();
 
-    virtual float getArmySpriteCoordinateX()
-    {
-        return this->armySpriteCoordinateX;
-    }
+    virtual float getArmySpriteCoordinateX();
 
-    virtual float getArmySpriteCoordinateY()
-    {
-        return this->armySpriteCoordinateY;
-    }
+    virtual float getArmySpriteCoordinateY();
     
-    virtual int getArmyAttackNow()
-    {
-        return this->armyAttackNow;
-    }
+    virtual int getArmyAttackNow();
 
-    virtual int getArmyHealthNow()
-    {
-        return this->armyHealthNow;
-    }
+    virtual int getArmyHealthNow();
 
-    virtual void setArmySpawnCoordinates(float armySpawnCoordinateX, float armySpawnCoordinateY)
-    {
-        this->armySpawnCoordinateX = armySpawnCoordinateX;
-        this->armySpawnCoordinateY = armySpawnCoordinateY;
-        this->armySprite.setPosition(this->armySpawnCoordinateX, this->armySpawnCoordinateY);
-    }
+    virtual void setArmySpawnCoordinates(float armySpawnCoordinateX, float armySpawnCoordinateY);
 
-    virtual std::string getArmyName() 
-    {
-        return this->armyName;
-    }
+    virtual std::string getArmyName();
 
-    
+    virtual std::string getStringEraName();
 
-    virtual std::string getStringEraName()
-    {
-        switch(eraName)
-        {
-        case enumEraName::ERA_ANCIENT : return "Ancient";
-        case enumEraName::ERA_CLASSIC: return "Classic";
-        case enumEraName::ERA_MEDIVAL: return "Medival";
-        case enumEraName::ERA_RENAISSANCEE: return "Renaissancee";
-        case enumEraName::ERA_INDUSTRIAL: return "Industrial";
-        case enumEraName::ERA_MODERN: return "Modern";
-        case enumEraName::ERA_ATOMIC: return "Atomic";
-        case enumEraName::ERA_INFORMATION: return "Information";
-        case enumEraName::ERA_FUTURE: return "Future";
-        default: return "";
-        }
-    }
+    virtual std::string getStringArmyType();
 
-    virtual std::string getStringArmyType()
-    {
-        switch (armyType)
-        {
-        case enumTypeSquad::TYPE_MEELE: return "Meele\nTake half damage from Ranged squads.";
-        case enumTypeSquad::TYPE_RANGE: return "Range\nIgnore enemy damage when the attack.\nCan't damage enemy when was attacked.";
-        case enumTypeSquad::TYPE_CAVALRY: return "Cavalry\nCan attack twice each turn.";
-        case enumTypeSquad::TYPE_ANTICAVALRY: return "Anti-Cavalry\nDeal double damage to Cavalry squads.\nIf a Cavalry squad attacks an Anti-Cavalry with its first hit of a turn,\nit loses the ability to attack a second time that turn.";
-        case enumTypeSquad::TYPE_ANTICAVALRYCAVALRY: return "Anti-Cavalry Cavalry\nCan attack twice each turn.\nDeal double damage to Cavalry squads.\nIf a Cavalry squad attacks an Anti-Cavalry with its first hit of a turn,\nit loses the ability to attack a second time that turn.";
-        case enumTypeSquad::TYPE_NONE: return "Doesn't have uniqe ability.";
-        default: return "";
-        }
-    }
+    virtual enumTypeSquad getArmyType();
 
-    virtual enumTypeSquad getArmyType() 
-    {
-        return armyType;
-    }
+    virtual enumEraName getEraName();
 
-    virtual enumEraName getEraName()
-    {
-        return  eraName;
-    }
-
-    virtual enumSquad getArmyUpgrade()
-    {
-        return  armyUpgrade;
-    }
+    virtual enumSquad getArmyUpgrade();
 
 protected:
     sf::Texture armyTexture;

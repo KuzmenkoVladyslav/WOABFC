@@ -8,11 +8,11 @@ const int WIDTH_MAP = 16;//размер карты ширина
 sf::String TileMap[HEIGHT_MAP] = {
 	"ssssssssssssssss",
 	"ssssssssssssssss",
-	"gssssssssssssssg",
-	"gggggggggggggggg",
-	"gggggggggggggggg",
-	"gggggggggggggggg",
-	"gssssssssssssssg",
 	"ssssssssssssssss",
-	"ssssssssssssssss"
+	"gggggggggggggggg",
+	"gggggggggggggggg",
+	"gggggggggggggggg",
+	"ffffffffffffffff",
+	"ffffffffffffffff",
+	"ffffffffffffffff"
 };
