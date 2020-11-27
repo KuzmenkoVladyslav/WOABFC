@@ -49,6 +49,8 @@ public:
     
     void setOrderOfArmy();
 
+    std::vector <Army*> setPlayerTempArmy(std::vector <Army*> tempArmy);
+
 private:
     int playerHealth = 50;
     int playerActionPointsNow = 3;

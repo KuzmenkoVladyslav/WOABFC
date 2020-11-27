@@ -9,10 +9,13 @@
 #include "enumSquad.h"
 #include "map.h"
 #include "Player.h"
+#include "Menu.h"
 
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle", sf::Style::Fullscreen);
+
+	menu(window);
 
 	sf::Texture mapTexture;
 	mapTexture.loadFromFile("images/map.png");
@@ -24,9 +27,12 @@ int main()
 	Army* addSquadUnit;
 
 	std::vector <Army*> tempFirstArmy;
+	std::vector <Army*> tempSecondArmy;
 
 	Player* firstPlayer = new Player();
+	firstPlayer->setPlayerEra(enumEraName::ERA_FUTURE);
 	Player* secondPlayer = new Player();
+	secondPlayer->setPlayerEra(enumEraName::ERA_INFORMATION);
 
 	sf::Font font;
 	font.loadFromFile("16249.ttf");
@@ -39,6 +45,7 @@ int main()
 	sf::Text textInfo = textAttack;
 	textInfo.setCharacterSize(30);
 	textInfo.setOutlineThickness(2);
+	textInfo.setPosition(window.getSize().x / 2.0f - 350.0f, window.getSize().y / 2.0f - 168.0f);
 
 	textAttack.setCharacterSize(40);
 	textAttack.setOutlineThickness(4);
@@ -67,7 +74,7 @@ int main()
 	bool isPressedForMove = false;
 
 	bool showInfoText = true;
-	bool showInfoReRender = true;
+	bool showInfoReRenderFirst = true, showInfoReRenderSecond = true;
 	int showInfoParameter = 0;
 
 	std::thread threadAncient([&addSquadUnit, &pullAncient]()
@@ -185,22 +192,26 @@ int main()
 	pullGame.at(7) = pullInfromation;
 	pullGame.at(8) = pullFuture;
 
-	tempFirstArmy.push_back(pullGame.at(0).at(0));
-	tempFirstArmy.push_back(pullGame.at(0).at(8));
-	tempFirstArmy.push_back(pullGame.at(0).at(16));
-	tempFirstArmy.push_back(pullGame.at(0).at(24));
-	tempFirstArmy.push_back(pullGame.at(0).at(32));
-	tempFirstArmy.push_back(pullGame.at(0).at(40));
-	tempFirstArmy.push_back(pullGame.at(0).at(48));
+	tempFirstArmy.push_back(pullGame.at(8).at(0));
+	tempFirstArmy.push_back(pullGame.at(8).at(6));
+
+	tempSecondArmy.push_back(pullGame.at(7).at(0));
+	tempSecondArmy.push_back(pullGame.at(7).at(8));
+	tempSecondArmy.push_back(pullGame.at(7).at(16));
+	tempSecondArmy.push_back(pullGame.at(7).at(24));
 
 	for (int i = 0; i < (const int)tempFirstArmy.size(); i++)
 	{
 		tempFirstArmy.at(i)->setArmySpawnCoordinateY(800.0);		
 	}
 
-	firstPlayer->setPlayerActiveArmy(tempFirstArmy);
-	firstPlayer->setOrderOfArmy();
-	tempFirstArmy = firstPlayer->getPlayerActiveArmy();
+	for (int i = 0; i < (const int)tempSecondArmy.size(); i++)
+	{
+		tempSecondArmy.at(i)->setArmySpawnCoordinateY(80.0);
+	}
+
+	tempFirstArmy = firstPlayer->setPlayerTempArmy(tempFirstArmy);
+	tempSecondArmy = secondPlayer->setPlayerTempArmy(tempSecondArmy);
 
 	sf::Clock clock;
 
@@ -234,6 +245,19 @@ int main()
 							spriteMoveParameter = i;
 							dXSpriteMove = mousePosition.x - tempFirstArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
 							dYSpriteMove = mousePosition.y - tempFirstArmy.at(spriteMoveParameter)->getArmySpawnCoordinateY();
+							isSpriteMove = true;
+							break;
+						}
+					}
+
+					for (int i = 0; i < (int)tempSecondArmy.size(); i++)
+					{
+						if (tempSecondArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+						{
+							isPressedForMove = true;
+							spriteMoveParameter = i;
+							dXSpriteMove = mousePosition.x - tempSecondArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
+							dYSpriteMove = mousePosition.y - tempSecondArmy.at(spriteMoveParameter)->getArmySpawnCoordinateY();
 							isSpriteMove = true;
 							break;
 						}
@@ -289,14 +313,14 @@ int main()
 				}
 			}
 			
-			if (showInfoReRender)
+			if (showInfoReRenderFirst)
 			{
 				for (int i = 0; i < (int)tempFirstArmy.size(); i++)
 				{
 					if (tempFirstArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 					{
 						showInfoParameter = i;
-						showInfoReRender = false;
+						showInfoReRenderFirst = false;
 
 						switch (showInfoText)
 						{
@@ -305,7 +329,6 @@ int main()
 								"Name: " + tempFirstArmy.at(i)->getArmyName() + "\n" +
 								"Type: " + tempFirstArmy.at(i)->getStringArmyType());
 							showInfoText = false;
-							textInfo.setPosition(window.getSize().x / 2.0f - 350.0f, window.getSize().y / 2.0f - 168.0f);
 							break;
 
 						case false:
@@ -316,14 +339,69 @@ int main()
 
 						break;
 					}
-				}				
+				}
 			}
 
-			if (!tempFirstArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+			if (showInfoReRenderSecond)
 			{
-				showInfoReRender = true;
-				showInfoText = true;
+				for (int i = 0; i < (int)tempSecondArmy.size(); i++)
+				{
+					if (tempSecondArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoParameter = i;
+						showInfoReRenderSecond = false;
+
+						switch (showInfoText)
+						{
+						case true:
+							textInfo.setString("Era: " + tempSecondArmy.at(i)->getStringEraName() + "\n" +
+								"Name: " + tempSecondArmy.at(i)->getArmyName() + "\n" +
+								"Type: " + tempSecondArmy.at(i)->getStringArmyType());
+							showInfoText = false;
+							break;
+
+						case false:
+							textInfo.setString("");
+							showInfoText = true;
+							break;
+						}
+
+						break;
+					}
+				}
 			}
+			//крашит если разное количество в армиях, поправить шоуинфопараметер
+			
+			if ((int)tempSecondArmy.size() > showInfoParameter)
+			{
+				if ((int)tempFirstArmy.size() > showInfoParameter)
+				{
+					if (!tempSecondArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y) && !tempFirstArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoReRenderFirst = true;
+						showInfoReRenderSecond = true;
+						showInfoText = true;
+					}
+				}
+				else 
+				{
+					if (!tempSecondArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoReRenderFirst = true;
+						showInfoReRenderSecond = true;
+						showInfoText = true;
+					}
+				}
+			}
+			else
+			{
+				if (!tempFirstArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				{
+					showInfoReRenderFirst = true;
+					showInfoReRenderSecond = true;
+					showInfoText = true;
+				}
+			}			
 		}
 		
 		if (isSpriteMove)
@@ -405,6 +483,39 @@ int main()
 			textHealth.setString(std::to_string(tempFirstArmy.at(i)->getArmyHealthNow()));
 
 			window.draw(tempFirstArmy.at(i)->getArmySprite());
+			window.draw(shapeAttack);
+			window.draw(shapeHealth);
+			window.draw(textAttack);
+			window.draw(textHealth);
+		}
+
+		for (int i = 0; i < (const int)tempSecondArmy.size(); i++)
+		{
+			shapeAttack.setPosition(tempSecondArmy.at(i)->getArmySpawnCoordinateX() + 25, tempSecondArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			shapeHealth.setPosition(tempSecondArmy.at(i)->getArmySpawnCoordinateX() + 125, tempSecondArmy.at(i)->getArmySpawnCoordinateY() + 125);
+
+			if (tempSecondArmy.at(i)->getArmyAttackNow() < 10)
+			{
+				textAttack.setPosition(tempSecondArmy.at(i)->getArmySpawnCoordinateX() + 42, tempSecondArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textAttack.setPosition(tempSecondArmy.at(i)->getArmySpawnCoordinateX() + 32, tempSecondArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+
+			if (tempSecondArmy.at(i)->getArmyHealthNow() < 10)
+			{
+				textHealth.setPosition(tempSecondArmy.at(i)->getArmySpawnCoordinateX() + 141, tempSecondArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textHealth.setPosition(tempSecondArmy.at(i)->getArmySpawnCoordinateX() + 133, tempSecondArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+
+			textAttack.setString(std::to_string(tempSecondArmy.at(i)->getArmyAttackNow()));
+			textHealth.setString(std::to_string(tempSecondArmy.at(i)->getArmyHealthNow()));
+
+			window.draw(tempSecondArmy.at(i)->getArmySprite());
 			window.draw(shapeAttack);
 			window.draw(shapeHealth);
 			window.draw(textAttack);

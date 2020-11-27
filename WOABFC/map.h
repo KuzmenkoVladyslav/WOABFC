@@ -1,9 +1,8 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 
-const int HEIGHT_MAP = 9;//размер карты высота
-const int WIDTH_MAP = 16;//размер карты ширина 
-
+const int HEIGHT_MAP = 9;
+const int WIDTH_MAP = 16;
 
 sf::String TileMap[HEIGHT_MAP] = {
 	"ssssssssssssssss",

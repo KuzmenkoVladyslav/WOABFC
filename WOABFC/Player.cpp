@@ -182,3 +182,10 @@ void Player::setOrderOfArmy()
         break;
     }
 }
+
+std::vector <Army*> Player::setPlayerTempArmy(std::vector <Army*> tempArmy)
+{
+    setPlayerActiveArmy(tempArmy);
+    setOrderOfArmy();
+    return getPlayerActiveArmy();
+}
