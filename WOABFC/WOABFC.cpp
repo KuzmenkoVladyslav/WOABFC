@@ -6,7 +6,6 @@
 
 #include "Army.h"
 #include "Squad.h"
-#include "enumSquad.h"
 #include "map.h"
 #include "Player.h"
 #include "Menu.h"
@@ -43,7 +42,7 @@ int main()
 	textAttack.setStyle(sf::Text::Bold);
 
 	sf::Text textInfo = textAttack;
-	textInfo.setCharacterSize(30);
+	textInfo.setCharacterSize(25);
 	textInfo.setOutlineThickness(2);
 	textInfo.setPosition(window.getSize().x / 2.0f - 350.0f, window.getSize().y / 2.0f - 168.0f);
 
@@ -192,7 +191,7 @@ int main()
 	pullGame.at(7) = pullInfromation;
 	pullGame.at(8) = pullFuture;
 
-	tempFirstArmy.push_back(pullGame.at(8).at(0));
+	tempFirstArmy.push_back(pullGame.at(3).at(32));
 	tempFirstArmy.push_back(pullGame.at(8).at(6));
 
 	tempSecondArmy.push_back(pullGame.at(7).at(0));
@@ -325,9 +324,7 @@ int main()
 						switch (showInfoText)
 						{
 						case true:
-							textInfo.setString("Era: " + tempFirstArmy.at(i)->getStringEraName() + "\n" +
-								"Name: " + tempFirstArmy.at(i)->getArmyName() + "\n" +
-								"Type: " + tempFirstArmy.at(i)->getStringArmyType());
+							textInfo.setString(tempFirstArmy.at(i)->getStringTextInfo());
 							showInfoText = false;
 							break;
 
@@ -354,9 +351,7 @@ int main()
 						switch (showInfoText)
 						{
 						case true:
-							textInfo.setString("Era: " + tempSecondArmy.at(i)->getStringEraName() + "\n" +
-								"Name: " + tempSecondArmy.at(i)->getArmyName() + "\n" +
-								"Type: " + tempSecondArmy.at(i)->getStringArmyType());
+							textInfo.setString(tempSecondArmy.at(i)->getStringTextInfo());
 							showInfoText = false;
 							break;
 
@@ -370,8 +365,7 @@ int main()
 					}
 				}
 			}
-			//крашит если разное количество в армиях, поправить шоуинфопараметер
-			
+
 			if ((int)tempSecondArmy.size() > showInfoParameter)
 			{
 				if ((int)tempFirstArmy.size() > showInfoParameter)
