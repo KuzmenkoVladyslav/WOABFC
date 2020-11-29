@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-
-int languageInfoNow = 0;
+#include "LanguageState.h"
 
 sf::String languageInfoEnglish[24] = {
 	"Tutorial",
@@ -86,7 +85,7 @@ sf::String languageInfoUkrainian[24] = {
 
 sf::String languageInfoString(int indexOfString)
 {
-	switch (languageInfoNow)
+	switch (state)
 	{
 	case 0:
 		return languageInfoEnglish[indexOfString];

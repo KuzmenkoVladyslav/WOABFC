@@ -42,7 +42,7 @@ void menu(sf::RenderWindow& window)
 	textMenuHelp.setString(languageMenuString(3));
 	textMenuExit.setString(languageMenuString(4));
 
-	if (languageMenuNow == 0)
+	if (state == 0)
 	{
 		textMenuSingle.setPosition(830, 190);
 		textMenuMulti.setPosition(780, 340);
@@ -50,7 +50,7 @@ void menu(sf::RenderWindow& window)
 		textMenuHelp.setPosition(770, 640);
 		textMenuExit.setPosition(900, 790);
 	}
-	else if (languageMenuNow == 1)
+	else if (state == 1)
 	{
 		textMenuSingle.setPosition(810, 190);
 		textMenuMulti.setPosition(470, 340);
@@ -204,9 +204,14 @@ void settings(sf::RenderWindow& window)
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			if (settingsNum == 1) { menu(window); isSettings = false; }
-			if (settingsNum == 2) { menu(window); isSettings = false; }
-			if (settingsNum == 3) { menu(window); isSettings = false; }
+			switch (settingsNum)
+			{
+			case 1: state = 0; menu(window); isSettings = false; break;
+			case 2: state = 1; menu(window); isSettings = false; break;
+			case 3: state = 2; menu(window); isSettings = false; break;
+			default:
+				break;
+			}
 		}
 
 		window.display();
