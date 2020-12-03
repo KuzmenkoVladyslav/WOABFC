@@ -21,6 +21,15 @@ int main()
 	sf::Sprite mapSprite;
 	mapSprite.setTexture(mapTexture);
 
+	sf::Texture heatlhTexture;
+	heatlhTexture.loadFromFile("images/heart.png");
+	sf::Sprite healthSpriteFirst, healthSpriteSecond;
+	healthSpriteFirst.setTexture(heatlhTexture);
+	healthSpriteFirst.setScale(0.5f, 0.5f);
+	healthSpriteSecond = healthSpriteFirst;
+	healthSpriteFirst.setPosition(window.getSize().x - 200, window.getSize().y - 100);
+	healthSpriteSecond.setPosition(window.getSize().x - 200, 20);
+
 	std::vector <std::vector <Army*>> pullGame(9);
 	std::vector <Army*> pullAncient(64), pullClassic(64), pullMedival(64), pullRenaissancee(48), pullIndustrial(48), pullModern(48), pullAtomic(32), pullInfromation(32), pullFuture(12);
 	Army* addSquadUnit;
@@ -40,6 +49,18 @@ int main()
 	textAttack.setFont(font);
 	textAttack.setOutlineColor(sf::Color::Black);
 	textAttack.setStyle(sf::Text::Bold);
+
+	sf::Text textPlayerHealthFirst = textAttack;
+	textPlayerHealthFirst.setFillColor(sf::Color::Red);
+	textPlayerHealthFirst.setOutlineThickness(3);
+	textPlayerHealthFirst.setOutlineColor(sf::Color::White);
+	textPlayerHealthFirst.setCharacterSize(60);
+	sf::Text textPlayerHealthSecond = textPlayerHealthFirst;
+	textPlayerHealthFirst.setPosition(window.getSize().x - 70, window.getSize().y - 90);
+	textPlayerHealthSecond.setPosition(window.getSize().x - 70, 30);
+	
+	textPlayerHealthFirst.setString(std::to_string(firstPlayer->getPlayerHealth()));
+	textPlayerHealthSecond.setString(std::to_string(secondPlayer->getPlayerHealth()));
 
 	sf::Text textInfo = textAttack;
 	textInfo.setCharacterSize(25);
@@ -521,6 +542,11 @@ int main()
 			window.draw(spriteInfo);
 			window.draw(textInfo);
 		}
+
+		window.draw(textPlayerHealthFirst);
+		window.draw(textPlayerHealthSecond);
+		window.draw(healthSpriteFirst);
+		window.draw(healthSpriteSecond);
 
 		isFirstSpawn = false;
 		window.display();
