@@ -3,18 +3,23 @@
 #include <iostream> 
 #include <vector>
 #include <thread>
+#include <sstream>
 
 #include "Army.h"
 #include "Squad.h"
 #include "map.h"
 #include "Player.h"
 #include "Menu.h"
+#include "Strings.h"
+#include "TextStringHelpers.h"
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle", sf::Style::Fullscreen);
+	setlocale(LC_ALL, "");
+	setState(2);
+	menu();
 
-	menu(window);
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (GAME)", sf::Style::Fullscreen);
 
 	sf::Texture mapTexture;
 	mapTexture.loadFromFile("images/map.png");
@@ -64,7 +69,7 @@ int main()
 
 	sf::Text textInfo = textAttack;
 	textInfo.setCharacterSize(25);
-	textInfo.setOutlineThickness(2);
+	textInfo.setOutlineThickness(1.5f);
 	textInfo.setPosition(window.getSize().x / 2.0f - 350.0f, window.getSize().y / 2.0f - 168.0f);
 
 	textAttack.setCharacterSize(40);
@@ -345,7 +350,7 @@ int main()
 						switch (showInfoText)
 						{
 						case true:
-							textInfo.setString(tempFirstArmy.at(i)->getStringTextInfo());
+							textInfo.setString(getStringTextInfo(tempFirstArmy.at(i)));
 							showInfoText = false;
 							break;
 
@@ -372,7 +377,7 @@ int main()
 						switch (showInfoText)
 						{
 						case true:
-							textInfo.setString(tempSecondArmy.at(i)->getStringTextInfo());
+							textInfo.setString(getStringTextInfo(tempSecondArmy.at(i)));
 							showInfoText = false;
 							break;
 

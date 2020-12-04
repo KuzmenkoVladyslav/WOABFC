@@ -32,12 +32,6 @@ public:
 
     virtual std::string getArmyName();
 
-    virtual sf::String getStringEraName();
-
-    virtual sf::String getStringArmyType();
-
-    virtual sf::String getStringTextInfo();
-
     virtual enumTypeSquad getArmyType();
 
     virtual enumEraName getEraName();

@@ -2,12 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include "map.h"
 #include <time.h>
-#include "StringsMenu.h"
+#include "Strings.h"
 
-void settings(sf::RenderWindow& window);
+void settings();
 
-void menu(sf::RenderWindow& window) 
+void menu() 
 {
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (MENU)", sf::Style::Fullscreen);
 	setlocale(LC_ALL, "");
 	int randomNumberBackground;
 	srand(time(NULL));
@@ -36,13 +37,13 @@ void menu(sf::RenderWindow& window)
 	textMenuSingle.setOutlineThickness(4);
 	
 	sf::Text textMenuMulti = textMenuSingle, textMenuSettings = textMenuSingle, textMenuHelp = textMenuSingle, textMenuExit = textMenuSingle;
-	textMenuSingle.setString(languageMenuString(0));
-	textMenuMulti.setString(languageMenuString(1));
-	textMenuSettings.setString(languageMenuString(2));
-	textMenuHelp.setString(languageMenuString(3));
-	textMenuExit.setString(languageMenuString(4));
+	textMenuSingle.setString(languageString(0));
+	textMenuMulti.setString(languageString(1));
+	textMenuSettings.setString(languageString(2));
+	textMenuHelp.setString(languageString(3));
+	textMenuExit.setString(languageString(4));
 
-	if (state == 0)
+	if (getState() == 0)
 	{
 		textMenuSingle.setPosition(830, 190);
 		textMenuMulti.setPosition(780, 340);
@@ -50,7 +51,7 @@ void menu(sf::RenderWindow& window)
 		textMenuHelp.setPosition(770, 640);
 		textMenuExit.setPosition(900, 790);
 	}
-	else if (state == 1)
+	else if (getState() == 1)
 	{
 		textMenuSingle.setPosition(810, 190);
 		textMenuMulti.setPosition(470, 340);
@@ -67,15 +68,23 @@ void menu(sf::RenderWindow& window)
 		textMenuExit.setPosition(860, 790);
 	}
 
-
-	bool isMenu = 1;
 	int menuNum = 0;
 
-	while (isMenu)
+	while (window.isOpen())
 	{
-		window.clear();
-
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+		sf::Event event;
+
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+		}
+
+		window.clear();
 
 		for (int i = 0; i < HEIGHT_MAP; i++)
 		{
@@ -128,18 +137,20 @@ void menu(sf::RenderWindow& window)
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			if (menuNum == 1) { isMenu = false; }
+			if (menuNum == 1) { window.close(); }
 			//if (menuNum == 2) { window.draw(about); window.display(); while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)); }
-			if (menuNum == 3) { settings(window); }
-			if (menuNum == 5) { window.close(); isMenu = false; }
+			if (menuNum == 3) { window.close(); settings(); }
+			//if (menuNum == 4) { window.close(); help (); }
+			if (menuNum == 5) { window.close(); exit(1); }
 		}
 
 		window.display();
 	}
 }
 
-void settings(sf::RenderWindow& window)
+void settings()
 {
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SETTINGS)", sf::Style::Fullscreen);
 	int randomNumberBackground;
 	srand(time(NULL));
 	randomNumberBackground = rand() % 10;
@@ -157,14 +168,24 @@ void settings(sf::RenderWindow& window)
 	settingsSpriteRussian.setPosition(432, 412);
 	settingsSpriteUkrainian.setPosition(1232, 412);
 
-	bool isSettings = 1;
 	int settingsNum = 0;
 
-	while (isSettings)
+	while (window.isOpen())
 	{
-		window.clear();
 
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+		sf::Event event;
+
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+		}
+
+		window.clear();
 
 		for (int i = 0; i < HEIGHT_MAP; i++)
 		{
@@ -206,9 +227,9 @@ void settings(sf::RenderWindow& window)
 		{
 			switch (settingsNum)
 			{
-			case 1: state = 0; menu(window); isSettings = false; break;
-			case 2: state = 1; menu(window); isSettings = false; break;
-			case 3: state = 2; menu(window); isSettings = false; break;
+			case 1: window.close(); setState(0); menu(); break;
+			case 2: window.close(); setState(1); menu(); break;
+			case 3: window.close(); setState(2); menu(); break;
 			default:
 				break;
 			}

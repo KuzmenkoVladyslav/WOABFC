@@ -1,8 +1,19 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-#include "LanguageState.h"
 
-sf::String languageInfoEnglish[24] = {
+static int state;
+
+static int getState()
+{
+	return state;
+}
+
+static void setState(int newState)
+{
+	state = newState;
+}
+
+static sf::String languageEnglish[24] = {
 	"Tutorial",
 	"Multiplayer",
 	"Settings",
@@ -29,7 +40,7 @@ sf::String languageInfoEnglish[24] = {
 	""
 };
 
-sf::String languageInfoRussian[24] = {
+static sf::String languageRussian[24] = {
 	L"Обучение",
 	L"Многопользовательская игра",
 	L"Настройки",
@@ -56,7 +67,7 @@ sf::String languageInfoRussian[24] = {
 	L""
 };
 
-sf::String languageInfoUkrainian[24] = {
+static sf::String languageUkrainian[24] = {
 	L"Навчання",
 	L"Багато користувальницька гра",
 	L"Налаштування",
@@ -83,18 +94,18 @@ sf::String languageInfoUkrainian[24] = {
 	L""
 };
 
-sf::String languageInfoString(int indexOfString)
+static sf::String languageString(int indexOfString)
 {
 	switch (state)
 	{
 	case 0:
-		return languageInfoEnglish[indexOfString];
+		return languageEnglish[indexOfString];
 		break;
 	case 1:
-		return languageInfoRussian[indexOfString];
+		return languageRussian[indexOfString];
 		break;
 	case 2:
-		return languageInfoUkrainian[indexOfString];
+		return languageUkrainian[indexOfString];
 		break;
 	default:
 		return "";
