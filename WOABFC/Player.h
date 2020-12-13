@@ -41,15 +41,19 @@ public:
 
     std::vector <Army*> getPlayerReserveArmy();
 
-    void setPlayerReserveArmyy(const std::vector<Army*>& playerReserveArmy);
+    void setPlayerReserveArmy(const std::vector<Army*>& playerReserveArmy);
 
     enumEraName getPlayerEra();
 
     void setPlayerEra(enumEraName playerEra);
     
-    void setOrderOfArmy();
+    void setOrderOfActiveArmy();
 
-    std::vector <Army*> setPlayerTempArmy(std::vector <Army*> tempArmy);
+    void setOrderOfReserveArmy();
+
+    std::vector <Army*> setPlayerTempActiveArmy(std::vector <Army*> tempArmy);
+
+    std::vector <Army*> setPlayerTempReserveArmy(std::vector <Army*> tempArmy);
 
 private:
     int playerHealth = 50;

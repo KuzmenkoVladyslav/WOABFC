@@ -15,6 +15,32 @@
 #include "Strings.h"
 #include "TextStringHelpers.h"
 
+void setOrderOfShopArmy(std::vector <Army*> tempShopArmy)
+{
+	switch (tempShopArmy.size())
+	{
+	case 1:
+		tempShopArmy.at(0)->setArmySpawnCoordinates(860.0, 80.0);
+		break;
+	case 2:
+		tempShopArmy.at(0)->setArmySpawnCoordinates(735.0, 80.0);
+		tempShopArmy.at(1)->setArmySpawnCoordinates(985.0, 80.0);
+		break;
+	case 3:
+		tempShopArmy.at(0)->setArmySpawnCoordinates(610.0, 80.0);
+		tempShopArmy.at(1)->setArmySpawnCoordinates(860.0, 80.0);
+		tempShopArmy.at(2)->setArmySpawnCoordinates(1110.0, 80.0);
+		break;
+	case 4:
+		tempShopArmy.at(0)->setArmySpawnCoordinates(485.0, 80.0);
+		tempShopArmy.at(1)->setArmySpawnCoordinates(735.0, 80.0);
+		tempShopArmy.at(2)->setArmySpawnCoordinates(985.0, 80.0);
+		tempShopArmy.at(3)->setArmySpawnCoordinates(1235.0, 80.0);
+		break;
+	default:
+		break;
+	}
+}
 
 std::vector <std::vector <Army*>> initializePullSquads()
 {
@@ -240,6 +266,550 @@ std::vector <std::vector <Army*>> initializePullSquads()
 	return pullGame;
 }
 
+void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
+{
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SHOP)", sf::Style::Fullscreen);
+
+	sf::Texture mapTexture;
+	mapTexture.loadFromFile("images/map.png");
+	sf::Sprite mapSprite;
+	mapSprite.setTexture(mapTexture);
+
+	sf::Texture heatlhTexture;
+	heatlhTexture.loadFromFile("images/heart.png");
+	sf::Sprite healthSpriteFirst;
+	healthSpriteFirst.setTexture(heatlhTexture);
+	healthSpriteFirst.setScale(0.5f, 0.5f);
+	healthSpriteFirst.setPosition(window.getSize().x - 200, window.getSize().y - 100);
+
+	sf::Font font;
+	font.loadFromFile("16249.ttf");
+
+	sf::Text textAttack;
+	textAttack.setFont(font);
+	textAttack.setOutlineColor(sf::Color::Black);
+	textAttack.setStyle(sf::Text::Bold);
+
+	sf::Text textPlayerHealthFirst = textAttack;
+	textPlayerHealthFirst.setFillColor(sf::Color::Red);
+	textPlayerHealthFirst.setOutlineThickness(3);
+	textPlayerHealthFirst.setOutlineColor(sf::Color::White);
+	textPlayerHealthFirst.setCharacterSize(60);
+	textPlayerHealthFirst.setPosition(window.getSize().x - 70, window.getSize().y - 90);
+	textPlayerHealthFirst.setString(std::to_string(firstPlayer->getPlayerHealth()));
+
+	sf::Text textInfo = textAttack;
+	textInfo.setCharacterSize(25);
+	textInfo.setOutlineThickness(1.5f);
+	textInfo.setPosition(20.0f, 10.0f);
+
+	textAttack.setCharacterSize(40);
+	textAttack.setOutlineThickness(4);
+	sf::Text textHealth = textAttack;
+
+	sf::CircleShape shapeAttack;
+	shapeAttack.setRadius(25.f);
+	shapeAttack.setOutlineThickness(4);
+	sf::CircleShape shapeHealth = shapeAttack;
+	shapeAttack.setFillColor(sf::Color(255, 127, 80));
+	shapeHealth.setFillColor(sf::Color(100, 149, 237));
+
+	sf::Texture textureInfo;
+	textureInfo.loadFromFile("images/infobackground.jpg");
+	sf::Sprite spriteInfo;
+	spriteInfo.setTexture(textureInfo);
+	spriteInfo.setTextureRect(sf::IntRect(0, 0, 340, 510));
+	spriteInfo.setScale(1.4f, 0.8f);
+
+	bool isSpriteMoveShop = false;
+	bool isSpriteMoveActive = false;
+	bool isSpriteMoveReserve = false;
+	float dXSpriteMove = 0;
+	int spriteMoveParameter = 0;
+	bool isPressedForMoveShop = false;
+	bool isPressedForMoveActive = false;
+	bool isPressedForMoveReserve = false;
+
+	bool showInfoText = true;
+	bool showInfoReRenderShop = true; 
+	bool showInfoReRenderActive = true;
+	bool showInfoReRenderReserve = true;
+	int showInfoParameter = 0;
+
+	std::vector <Army*> tempShopArmy;
+
+	tempShopArmy.push_back(pullGame.at(7).at(0));
+	tempShopArmy.push_back(pullGame.at(7).at(8));
+	tempShopArmy.push_back(pullGame.at(7).at(16));
+	tempShopArmy.push_back(pullGame.at(7).at(24));
+
+	setOrderOfShopArmy(tempShopArmy);
+
+	std::vector <Army*> tempActiveArmy;
+
+	tempActiveArmy.push_back(pullGame.at(6).at(0));
+	tempActiveArmy.push_back(pullGame.at(6).at(8));
+
+	for (int i = 0; i < (const int)tempActiveArmy.size(); i++)
+	{
+		tempActiveArmy.at(i)->setArmySpawnCoordinateY(430.0);
+	}
+
+	firstPlayer->setPlayerActiveArmy(tempActiveArmy);
+	firstPlayer->setOrderOfActiveArmy();
+
+	std::vector <Army*> tempReserveArmy;
+
+	tempReserveArmy.push_back(pullGame.at(5).at(8));
+	tempReserveArmy.push_back(pullGame.at(5).at(16));
+	tempReserveArmy.push_back(pullGame.at(5).at(24));
+
+	firstPlayer->setPlayerReserveArmy(tempReserveArmy);
+	firstPlayer->setOrderOfReserveArmy();
+
+	tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+	tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+
+	sf::Clock clock;
+
+	while (window.isOpen())
+	{
+		float time = (float)clock.getElapsedTime().asMicroseconds();
+
+		clock.restart();
+		time = time / 800;
+
+		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+		sf::Event event;
+
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.key.code == sf::Mouse::Left)
+				{
+					for (int i = 0; i < (int)tempShopArmy.size(); i++)
+					{
+						if (tempShopArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+						{
+							isPressedForMoveShop = true;
+							spriteMoveParameter = i;
+							dXSpriteMove = mousePosition.x - tempShopArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
+							isSpriteMoveShop = true;
+							break;
+						}
+					}
+
+					for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+					{
+						if (tempActiveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+						{
+							isPressedForMoveActive = true;
+							spriteMoveParameter = i;
+							dXSpriteMove = mousePosition.x - tempActiveArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
+							isSpriteMoveActive = true;
+							break;
+						}
+					}
+
+					for (int i = 0; i < (int)tempReserveArmy.size(); i++)
+					{
+						if (tempReserveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+						{
+							isPressedForMoveReserve = true;
+							spriteMoveParameter = i;
+							dXSpriteMove = mousePosition.x - tempReserveArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
+							isSpriteMoveReserve = true;
+							break;
+						}
+					}
+				}
+			}
+
+			if (event.type == sf::Event::MouseButtonReleased)
+			{
+				if (event.key.code == sf::Mouse::Left)
+				{
+					if (isPressedForMoveShop)
+					{
+						for (int i = 0; i < (int)tempShopArmy.size(); i++)
+						{
+							if (i < spriteMoveParameter)
+							{
+								if ((float)mousePosition.x < tempShopArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								{
+									std::swap(tempShopArmy[i], tempShopArmy[spriteMoveParameter]);
+									setOrderOfShopArmy(tempShopArmy);
+									break;
+								}
+							}
+						}
+
+						for (int i = tempShopArmy.size() - 1; i > -1; i--)
+						{
+							if (i > spriteMoveParameter)
+							{
+								if ((float)mousePosition.x > tempShopArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								{
+									std::swap(tempShopArmy[i], tempShopArmy[spriteMoveParameter]);
+									setOrderOfShopArmy(tempShopArmy);
+									break;
+								}
+							}
+						}
+
+						isSpriteMoveShop = false;
+						setOrderOfShopArmy(tempShopArmy);
+						isPressedForMoveShop = false;
+					}
+
+					if (isPressedForMoveActive)
+					{
+						for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+						{
+							if (i < spriteMoveParameter)
+							{
+								if ((float)mousePosition.x < tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								{
+									std::swap(tempActiveArmy[i], tempActiveArmy[spriteMoveParameter]);
+									firstPlayer->setPlayerActiveArmy(tempActiveArmy);
+									firstPlayer->setOrderOfActiveArmy();
+									break;
+								}
+							}
+						}
+
+						for (int i = tempActiveArmy.size() - 1; i > -1; i--)
+						{
+							if (i > spriteMoveParameter)
+							{
+								if ((float)mousePosition.x > tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								{
+									std::swap(tempActiveArmy[i], tempActiveArmy[spriteMoveParameter]);
+									firstPlayer->setPlayerActiveArmy(tempActiveArmy);
+									firstPlayer->setOrderOfActiveArmy();
+									break;
+								}
+							}
+						}
+
+						isSpriteMoveActive = false;
+						firstPlayer->setOrderOfActiveArmy();
+
+						for (size_t i = 0; i < tempActiveArmy.size(); i++)
+						{
+							tempActiveArmy.at(i)->setArmySpawnCoordinateY(440.0);
+						}
+
+						firstPlayer->setPlayerActiveArmy(tempActiveArmy);
+						isPressedForMoveActive = false;
+					}
+
+					if (isPressedForMoveReserve)
+					{
+						for (int i = 0; i < (int)tempReserveArmy.size(); i++)
+						{
+							if (i < spriteMoveParameter)
+							{
+								if ((float)mousePosition.x < tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								{
+									std::swap(tempReserveArmy[i], tempReserveArmy[spriteMoveParameter]);
+									firstPlayer->setPlayerReserveArmy(tempReserveArmy);
+									firstPlayer->setOrderOfReserveArmy();
+									break;
+								}
+							}
+						}
+
+						for (int i = tempReserveArmy.size() - 1; i > -1; i--)
+						{
+							if (i > spriteMoveParameter)
+							{
+								if ((float)mousePosition.x > tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								{
+									std::swap(tempReserveArmy[i], tempReserveArmy[spriteMoveParameter]);
+									firstPlayer->setPlayerReserveArmy(tempReserveArmy);
+									firstPlayer->setOrderOfReserveArmy();
+									break;
+								}
+							}
+						}
+
+						isSpriteMoveReserve = false;
+						firstPlayer->setOrderOfReserveArmy();
+						firstPlayer->setPlayerReserveArmy(tempReserveArmy);
+						isPressedForMoveReserve = false;
+					}
+				}
+			}
+
+			if (showInfoReRenderShop)
+			{
+				for (int i = 0; i < (int)tempShopArmy.size(); i++)
+				{
+					if (tempShopArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoParameter = i;
+						showInfoReRenderShop = false;
+
+						switch (showInfoText)
+						{
+						case true:
+							textInfo.setString(getStringTextInfo(tempShopArmy.at(i)));
+							showInfoText = false;
+							break;
+
+						case false:
+							textInfo.setString("");
+							showInfoText = true;
+							break;
+						}
+
+						break;
+					}
+				}
+			}
+
+			if (showInfoReRenderActive)
+			{
+				for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+				{
+					if (tempActiveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoParameter = i;
+						showInfoReRenderActive = false;
+
+						switch (showInfoText)
+						{
+						case true:
+							textInfo.setString(getStringTextInfo(tempActiveArmy.at(i)));
+							showInfoText = false;
+							break;
+
+						case false:
+							textInfo.setString("");
+							showInfoText = true;
+							break;
+						}
+
+						break;
+					}
+				}
+			}
+
+			if (showInfoReRenderReserve)
+			{
+				for (int i = 0; i < (int)tempReserveArmy.size(); i++)
+				{
+					if (tempReserveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoParameter = i;
+						showInfoReRenderReserve = false;
+
+						switch (showInfoText)
+						{
+						case true:
+							textInfo.setString(getStringTextInfo(tempReserveArmy.at(i)));
+							showInfoText = false;
+							break;
+
+						case false:
+							textInfo.setString("");
+							showInfoText = true;
+							break;
+						}
+
+						break;
+					}
+				}
+			}
+
+			if (!showInfoReRenderShop)
+			{
+				if (!tempShopArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				{
+					showInfoReRenderShop = true;
+					showInfoText = true;
+				}
+			}
+
+			if (!showInfoReRenderActive)
+			{
+				if (!tempActiveArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				{
+					showInfoReRenderActive = true;
+					showInfoText = true;
+				}
+			}
+
+			if (!showInfoReRenderReserve)
+			{
+				if (!tempReserveArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				{
+					showInfoReRenderReserve = true;
+					showInfoText = true;
+				}
+			}
+		}
+
+		if (isSpriteMoveShop)
+		{
+			tempShopArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
+		}
+
+		if (isSpriteMoveActive)
+		{
+			tempActiveArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
+		}
+
+		if (isSpriteMoveReserve)
+		{
+			tempReserveArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
+		}
+
+		window.clear();
+
+		for (int i = 0; i < HEIGHT_MAP; i++)
+		{
+			for (int j = 0; j < WIDTH_MAP; j++)
+			{
+				switch (firstPlayer->getPlayerEra())
+				{
+				case enumEraName::ERA_ANCIENT: mapSprite.setTextureRect(sf::IntRect(120, 0, 120, 120)); break;
+				case enumEraName::ERA_CLASSIC: mapSprite.setTextureRect(sf::IntRect(240, 0, 120, 120)); break;
+				case enumEraName::ERA_MEDIVAL: mapSprite.setTextureRect(sf::IntRect(360, 0, 120, 120)); break;
+				case enumEraName::ERA_RENAISSANCEE: mapSprite.setTextureRect(sf::IntRect(480, 0, 120, 120)); break;
+				case enumEraName::ERA_INDUSTRIAL: mapSprite.setTextureRect(sf::IntRect(600, 0, 120, 120)); break;
+				case enumEraName::ERA_MODERN: mapSprite.setTextureRect(sf::IntRect(720, 0, 120, 120)); break;
+				case enumEraName::ERA_ATOMIC: mapSprite.setTextureRect(sf::IntRect(840, 0, 120, 120)); break;
+				case enumEraName::ERA_INFORMATION: mapSprite.setTextureRect(sf::IntRect(960, 0, 120, 120)); break;
+				case enumEraName::ERA_FUTURE: mapSprite.setTextureRect(sf::IntRect(1080, 0, 120, 120)); break;
+				}
+
+				mapSprite.setPosition(j * 120.0f, i * 120.0f);
+				window.draw(mapSprite);
+			}
+		}
+
+		for (int i = 0; i < (const int)tempShopArmy.size(); i++)
+		{
+			shapeAttack.setPosition(tempShopArmy.at(i)->getArmySpawnCoordinateX() + 25, tempShopArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			shapeHealth.setPosition(tempShopArmy.at(i)->getArmySpawnCoordinateX() + 125, tempShopArmy.at(i)->getArmySpawnCoordinateY() + 125);
+
+			if (tempShopArmy.at(i)->getArmyAttackNow() < 10)
+			{
+				textAttack.setPosition(tempShopArmy.at(i)->getArmySpawnCoordinateX() + 42, tempShopArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textAttack.setPosition(tempShopArmy.at(i)->getArmySpawnCoordinateX() + 32, tempShopArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+
+			if (tempShopArmy.at(i)->getArmyHealthNow() < 10)
+			{
+				textHealth.setPosition(tempShopArmy.at(i)->getArmySpawnCoordinateX() + 141, tempShopArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textHealth.setPosition(tempShopArmy.at(i)->getArmySpawnCoordinateX() + 133, tempShopArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+
+			textAttack.setString(std::to_string(tempShopArmy.at(i)->getArmyAttackNow()));
+			textHealth.setString(std::to_string(tempShopArmy.at(i)->getArmyHealthNow()));
+
+			window.draw(tempShopArmy.at(i)->getArmySprite());
+			window.draw(shapeAttack);
+			window.draw(shapeHealth);
+			window.draw(textAttack);
+			window.draw(textHealth);
+		}
+
+		for (int i = 0; i < (const int)tempActiveArmy.size(); i++)
+		{
+			shapeAttack.setPosition(tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 25, tempActiveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			shapeHealth.setPosition(tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 125, tempActiveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+
+			if (tempActiveArmy.at(i)->getArmyAttackNow() < 10)
+			{
+				textAttack.setPosition(tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 42, tempActiveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textAttack.setPosition(tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 32, tempActiveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+
+			if (tempActiveArmy.at(i)->getArmyHealthNow() < 10)
+			{
+				textHealth.setPosition(tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 141, tempActiveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textHealth.setPosition(tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 133, tempActiveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+
+			textAttack.setString(std::to_string(tempActiveArmy.at(i)->getArmyAttackNow()));
+			textHealth.setString(std::to_string(tempActiveArmy.at(i)->getArmyHealthNow()));
+
+			window.draw(tempActiveArmy.at(i)->getArmySprite());
+			window.draw(shapeAttack);
+			window.draw(shapeHealth);
+			window.draw(textAttack);
+			window.draw(textHealth);
+		}
+
+		for (int i = 0; i < (const int)tempReserveArmy.size(); i++)
+		{
+			shapeAttack.setPosition(tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 25, tempReserveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			shapeHealth.setPosition(tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 125, tempReserveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+
+			if (tempReserveArmy.at(i)->getArmyAttackNow() < 10)
+			{
+				textAttack.setPosition(tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 42, tempReserveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textAttack.setPosition(tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 32, tempReserveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+
+			if (tempReserveArmy.at(i)->getArmyHealthNow() < 10)
+			{
+				textHealth.setPosition(tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 141, tempReserveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+			else
+			{
+				textHealth.setPosition(tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 133, tempReserveArmy.at(i)->getArmySpawnCoordinateY() + 125);
+			}
+
+			textAttack.setString(std::to_string(tempReserveArmy.at(i)->getArmyAttackNow()));
+			textHealth.setString(std::to_string(tempReserveArmy.at(i)->getArmyHealthNow()));
+
+			window.draw(tempReserveArmy.at(i)->getArmySprite());
+			window.draw(shapeAttack);
+			window.draw(shapeHealth);
+			window.draw(textAttack);
+			window.draw(textHealth);
+		}
+
+		if (!showInfoText)
+		{
+			window.draw(spriteInfo);
+			window.draw(textInfo);
+		}
+
+		window.draw(textPlayerHealthFirst);
+		window.draw(healthSpriteFirst);
+
+		window.display();
+	}
+
+}
+
 void battle(std::vector <std::vector <Army*>>& pullGame)
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (BATTLE)", sf::Style::Fullscreen);
@@ -289,7 +859,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 	sf::Text textInfo = textAttack;
 	textInfo.setCharacterSize(25);
 	textInfo.setOutlineThickness(1.5f);
-	textInfo.setPosition(window.getSize().x / 2.0f - 350.0f, window.getSize().y / 2.0f - 168.0f);
+	textInfo.setPosition(20.0f, 10.0f);
 
 	textAttack.setCharacterSize(40);
 	textAttack.setOutlineThickness(4);
@@ -307,13 +877,10 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 	sf::Sprite spriteInfo;
 	spriteInfo.setTexture(textureInfo);
 	spriteInfo.setTextureRect(sf::IntRect(0, 0, 340, 510));
-	spriteInfo.setScale(2.0f, 0.7f);
-	spriteInfo.setPosition(window.getSize().x / 2.0f - 380.0f, window.getSize().y / 2.0f - 178.0f);
-
-	bool isFirstSpawn = true;
+	spriteInfo.setScale(1.4f, 0.8f);
+		
 	bool isSpriteMove = false;
 	float dXSpriteMove = 0;
-	float dYSpriteMove = 0;
 	int spriteMoveParameter = 0;
 	bool isPressedForMove = false;
 
@@ -339,8 +906,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 		tempSecondArmy.at(i)->setArmySpawnCoordinateY(80.0);
 	}
 
-	tempFirstArmy = firstPlayer->setPlayerTempArmy(tempFirstArmy);
-	tempSecondArmy = secondPlayer->setPlayerTempArmy(tempSecondArmy);
+	tempFirstArmy = firstPlayer->setPlayerTempActiveArmy(tempFirstArmy);
+	tempSecondArmy = secondPlayer->setPlayerTempActiveArmy(tempSecondArmy);
 
 	sf::Clock clock;
 
@@ -373,20 +940,6 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 							isPressedForMove = true;
 							spriteMoveParameter = i;
 							dXSpriteMove = mousePosition.x - tempFirstArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
-							dYSpriteMove = mousePosition.y - tempFirstArmy.at(spriteMoveParameter)->getArmySpawnCoordinateY();
-							isSpriteMove = true;
-							break;
-						}
-					}
-
-					for (int i = 0; i < (int)tempSecondArmy.size(); i++)
-					{
-						if (tempSecondArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
-						{
-							isPressedForMove = true;
-							spriteMoveParameter = i;
-							dXSpriteMove = mousePosition.x - tempSecondArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
-							dYSpriteMove = mousePosition.y - tempSecondArmy.at(spriteMoveParameter)->getArmySpawnCoordinateY();
 							isSpriteMove = true;
 							break;
 						}
@@ -408,7 +961,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 								{
 									std::swap(tempFirstArmy[i], tempFirstArmy[spriteMoveParameter]);
 									firstPlayer->setPlayerActiveArmy(tempFirstArmy);
-									firstPlayer->setOrderOfArmy();
+									firstPlayer->setOrderOfActiveArmy();
 									break;
 								}
 							}
@@ -422,14 +975,14 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 								{
 									std::swap(tempFirstArmy[i], tempFirstArmy[spriteMoveParameter]);
 									firstPlayer->setPlayerActiveArmy(tempFirstArmy);
-									firstPlayer->setOrderOfArmy();
+									firstPlayer->setOrderOfActiveArmy();
 									break;
 								}
 							}
 						}
 
 						isSpriteMove = false;
-						firstPlayer->setOrderOfArmy();
+						firstPlayer->setOrderOfActiveArmy();
 
 						for (size_t i = 0; i < tempFirstArmy.size(); i++)
 						{
@@ -496,32 +1049,19 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 				}
 			}
 
-			if ((int)tempSecondArmy.size() > showInfoParameter)
-			{
-				if ((int)tempFirstArmy.size() > showInfoParameter)
-				{
-					if (!tempSecondArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y) && !tempFirstArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
-					{
-						showInfoReRenderFirst = true;
-						showInfoReRenderSecond = true;
-						showInfoText = true;
-					}
-				}
-				else
-				{
-					if (!tempSecondArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
-					{
-						showInfoReRenderFirst = true;
-						showInfoReRenderSecond = true;
-						showInfoText = true;
-					}
-				}
-			}
-			else
+			if (!showInfoReRenderFirst)
 			{
 				if (!tempFirstArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 				{
-					showInfoReRenderFirst = true;
+					showInfoReRenderFirst = true;					
+					showInfoText = true;
+				}
+			}
+
+			if (!showInfoReRenderSecond)
+			{
+				if (!tempSecondArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				{
 					showInfoReRenderSecond = true;
 					showInfoText = true;
 				}
@@ -530,7 +1070,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 
 		if (isSpriteMove)
 		{
-			tempFirstArmy.at(spriteMoveParameter)->setArmySpawnCoordinates(mousePosition.x - dXSpriteMove, mousePosition.y - dYSpriteMove);
+			tempFirstArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
 			firstPlayer->setPlayerActiveArmy(tempFirstArmy);
 		}
 
@@ -657,7 +1197,6 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 		window.draw(healthSpriteFirst);
 		window.draw(healthSpriteSecond);
 
-		isFirstSpawn = false;
 		window.display();
 	}
 }
@@ -668,6 +1207,8 @@ int main()
 	menu();
 	std::vector <std::vector <Army*>> pullGame(9);
 	pullGame = initializePullSquads();
+	Player* firstPlayer = new Player();
+	//shop(pullGame, firstPlayer);
 	battle(pullGame);		
 	return 0;
 };

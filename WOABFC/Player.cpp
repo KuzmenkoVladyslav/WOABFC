@@ -75,7 +75,7 @@ std::vector <Army*> Player::getPlayerActiveArmy()
     return playerActiveArmy;
 }
 
-void Player::setPlayerReserveArmyy(const std::vector<Army*>& playerReserveArmy)
+void Player::setPlayerReserveArmy(const std::vector<Army*>& playerReserveArmy)
 { 
     this->playerReserveArmy = playerReserveArmy; 
 }
@@ -132,7 +132,7 @@ void Player::setPlayerEra(enumEraName playerEra)
     }
 }
 
-void Player::setOrderOfArmy() 
+void Player::setOrderOfActiveArmy() 
 {
     switch (this->playerActiveArmy.size())
     {
@@ -183,9 +183,67 @@ void Player::setOrderOfArmy()
     }
 }
 
-std::vector <Army*> Player::setPlayerTempArmy(std::vector <Army*> tempArmy)
+void Player::setOrderOfReserveArmy()
+{
+    switch (this->playerReserveArmy.size())
+    {
+    case 1:
+        this->playerReserveArmy.at(0)->setArmySpawnCoordinates(860.0, 800.0);
+        break;
+    case 2:
+        this->playerReserveArmy.at(0)->setArmySpawnCoordinates(735.0, 800.0);
+        this->playerReserveArmy.at(1)->setArmySpawnCoordinates(985.0, 800.0);
+        break;
+    case 3:
+        this->playerReserveArmy.at(0)->setArmySpawnCoordinates(610.0, 800.0);
+        this->playerReserveArmy.at(1)->setArmySpawnCoordinates(860.0, 800.0);
+        this->playerReserveArmy.at(2)->setArmySpawnCoordinates(1110.0, 800.0);
+        break;
+    case 4:
+        this->playerReserveArmy.at(0)->setArmySpawnCoordinates(485.0, 800.0);
+        this->playerReserveArmy.at(1)->setArmySpawnCoordinates(735.0, 800.0);
+        this->playerReserveArmy.at(2)->setArmySpawnCoordinates(985.0, 800.0);
+        this->playerReserveArmy.at(3)->setArmySpawnCoordinates(1235.0, 800.0);
+        break;    
+    case 5:
+        this->playerReserveArmy.at(0)->setArmySpawnCoordinates(360.0, 800.0);
+        this->playerReserveArmy.at(1)->setArmySpawnCoordinates(610.0, 800.0);
+        this->playerReserveArmy.at(2)->setArmySpawnCoordinates(860.0, 800.0);
+        this->playerReserveArmy.at(3)->setArmySpawnCoordinates(1110.0, 800.0);
+        this->playerReserveArmy.at(4)->setArmySpawnCoordinates(1360.0, 800.0);
+        break;
+    case 6:
+        this->playerReserveArmy.at(0)->setArmySpawnCoordinates(235.0, 800.0);
+        this->playerReserveArmy.at(1)->setArmySpawnCoordinates(485.0, 800.0);
+        this->playerReserveArmy.at(2)->setArmySpawnCoordinates(735.0, 800.0);
+        this->playerReserveArmy.at(3)->setArmySpawnCoordinates(985.0, 800.0);
+        this->playerReserveArmy.at(4)->setArmySpawnCoordinates(1235.0, 800.0);
+        this->playerReserveArmy.at(5)->setArmySpawnCoordinates(1485.0, 800.0);
+        break;
+    case 7:
+        this->playerReserveArmy.at(0)->setArmySpawnCoordinates(110.0, 800.0);
+        this->playerReserveArmy.at(1)->setArmySpawnCoordinates(360.0, 800.0);
+        this->playerReserveArmy.at(2)->setArmySpawnCoordinates(610.0, 800.0);
+        this->playerReserveArmy.at(3)->setArmySpawnCoordinates(860.0, 800.0);
+        this->playerReserveArmy.at(4)->setArmySpawnCoordinates(1110.0, 800.0);
+        this->playerReserveArmy.at(5)->setArmySpawnCoordinates(1360.0, 800.0);
+        this->playerReserveArmy.at(6)->setArmySpawnCoordinates(1610.0, 800.0);
+        break;
+    default:
+        break;
+    }
+}
+
+std::vector <Army*> Player::setPlayerTempActiveArmy(std::vector <Army*> tempArmy)
 {
     setPlayerActiveArmy(tempArmy);
-    setOrderOfArmy();
+    setOrderOfActiveArmy();
     return getPlayerActiveArmy();
+}
+
+std::vector <Army*> Player::setPlayerTempReserveArmy(std::vector <Army*> tempArmy)
+{
+    setPlayerReserveArmy(tempArmy);
+    setOrderOfReserveArmy();
+    return getPlayerReserveArmy();
 }
