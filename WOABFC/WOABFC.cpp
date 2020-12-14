@@ -144,101 +144,100 @@ std::vector <std::vector <Army*>> initializePullSquads()
 	});
 
 	std::vector <std::vector <Army*>> pullGame(9);
-	std::vector <Army*> pullAncient(64), pullClassic(64), pullMedival(64), pullRenaissancee(48), pullIndustrial(48), pullModern(48), pullAtomic(32), pullInfromation(32), pullFuture(12);
-	Army* addSquadUnit;
+	std::vector <Army*> pullAncient, pullClassic, pullMedival, pullRenaissancee, pullIndustrial, pullModern, pullAtomic, pullInfromation, pullFuture;
 
-	std::thread threadAncient([&addSquadUnit, &pullAncient]()
+	std::thread threadAncient([&pullAncient]()
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
-			pullAncient.at(i) = new Squad(enumSquad::SQUAD_WARRIOR);
-			pullAncient.at(i + 16) = new Squad(enumSquad::SQUAD_ARCHER);
-			pullAncient.at(i + 32) = new Squad(enumSquad::SQUAD_HOURSEARCHER);
-			pullAncient.at(i + 48) = new Squad(enumSquad::SQUAD_SPEARMAN);
+			pullAncient.push_back(new Squad(enumSquad::SQUAD_WARRIOR));
+			pullAncient.push_back(new Squad(enumSquad::SQUAD_ARCHER));
+			pullAncient.push_back(new Squad(enumSquad::SQUAD_HOURSEARCHER));
+			pullAncient.push_back(new Squad(enumSquad::SQUAD_SPEARMAN));
 		}
 	});
 
-	std::thread threadClassic([&addSquadUnit, &pullClassic]()
+	std::thread threadClassic([&pullClassic]()
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
-			pullClassic.at(i) = new Squad(enumSquad::SQUAD_SWORDSMAN);
-			pullClassic.at(i + 16) = new Squad(enumSquad::SQUAD_LONGBOWARCHER);
-			pullClassic.at(i + 32) = new Squad(enumSquad::SQUAD_HORSEMAN);
-			pullClassic.at(i + 48) = new Squad(enumSquad::SQUAD_HOPLITE);
+			pullClassic.push_back(new Squad(enumSquad::SQUAD_SWORDSMAN));
+			pullClassic.push_back(new Squad(enumSquad::SQUAD_LONGBOWARCHER));
+			pullClassic.push_back(new Squad(enumSquad::SQUAD_HORSEMAN));
+			pullClassic.push_back(new Squad(enumSquad::SQUAD_HOPLITE));
 		}
 	});
 
-	std::thread threadMedival([&addSquadUnit, &pullMedival]()
+	std::thread threadMedival([&pullMedival]()
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
-			pullMedival.at(i) = new Squad(enumSquad::SQUAD_LONGSWORDSMAN);
-			pullMedival.at(i + 16) = new Squad(enumSquad::SQUAD_CROSSBOWMAN);
-			pullMedival.at(i + 32) = new Squad(enumSquad::SQUAD_KNIGHT);
-			pullMedival.at(i + 48) = new Squad(enumSquad::SQUAD_PIKEMAN);
+			pullMedival.push_back(new Squad(enumSquad::SQUAD_LONGSWORDSMAN));
+			pullMedival.push_back(new Squad(enumSquad::SQUAD_CROSSBOWMAN));
+			pullMedival.push_back(new Squad(enumSquad::SQUAD_KNIGHT));
+			pullMedival.push_back(new Squad(enumSquad::SQUAD_PIKEMAN));
 		}
 	});
 
-	std::thread threadRenaissancee([&addSquadUnit, &pullRenaissancee]()
+	std::thread threadRenaissancee([&pullRenaissancee]()
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
-			pullRenaissancee.at(i) = new Squad(enumSquad::SQUAD_HARQUEBUSIER);
-			pullRenaissancee.at(i + 16) = new Squad(enumSquad::SQUAD_CANNON);
-			pullRenaissancee.at(i + 32) = new Squad(enumSquad::SQUAD_LANCER);
+			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_HARQUEBUSIER));
+			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_CANNON));
+			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_LANCER));
 		}
 	});
 
-	std::thread threadIndustrial([&addSquadUnit, &pullIndustrial]()
+	std::thread threadIndustrial([&pullIndustrial]()
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
-			pullIndustrial.at(i) = new Squad(enumSquad::SQUAD_MUSKETEER);
-			pullIndustrial.at(i + 16) = new Squad(enumSquad::SQUAD_GATLING);
-			pullIndustrial.at(i + 32) = new Squad(enumSquad::SQUAD_CAVALRY);
+			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_MUSKETEER));
+			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_GATLING));
+			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_CAVALRY));
 		}
 	});
 
-	std::thread threadModern([&addSquadUnit, &pullModern]()
+	std::thread threadModern([&pullModern]()
 	{
 		for (size_t i = 0; i < 12; i++)
 		{
-			pullModern.at(i) = new Squad(enumSquad::SQUAD_INFANTRYMAN);
-			pullModern.at(i + 12) = new Squad(enumSquad::SQUAD_MACHINGGUN);
-			pullModern.at(i + 24) = new Squad(enumSquad::SQUAD_TANKETTE);
-			pullModern.at(i + 36) = new Squad(enumSquad::SQUAD_ARTBATTERY);
+			pullModern.push_back(new Squad(enumSquad::SQUAD_INFANTRYMAN));
+			pullModern.push_back(new Squad(enumSquad::SQUAD_MACHINGGUN));
+			pullModern.push_back(new Squad(enumSquad::SQUAD_TANKETTE));
+			pullModern.push_back(new Squad(enumSquad::SQUAD_ARTBATTERY));
 		}
 	});
 
-	std::thread threadAtomic([&addSquadUnit, &pullAtomic]()
+	std::thread threadAtomic([&pullAtomic]()
 	{
 		for (size_t i = 0; i < 8; i++)
 		{
-			pullAtomic.at(i) = new Squad(enumSquad::SQUAD_SEAINFANTRYMAN);
-			pullAtomic.at(i + 8) = new Squad(enumSquad::SQUAD_BAZOOKA);
-			pullAtomic.at(i + 16) = new Squad(enumSquad::SQUAD_TANK);
-			pullAtomic.at(i + 24) = new Squad(enumSquad::SQUAD_ANTITANKCANNON);
+			pullAtomic.push_back(new Squad(enumSquad::SQUAD_SEAINFANTRYMAN));
+			pullAtomic.push_back(new Squad(enumSquad::SQUAD_BAZOOKA));
+			pullAtomic.push_back(new Squad(enumSquad::SQUAD_TANK));
+			pullAtomic.push_back(new Squad(enumSquad::SQUAD_ANTITANKCANNON));
 		}
 	});
 
-	std::thread threadInformation([&addSquadUnit, &pullInfromation]()
+	std::thread threadInformation([&pullInfromation]()
 	{
 		for (size_t i = 0; i < 8; i++)
 		{
-			pullInfromation.at(i) = new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY);
-			pullInfromation.at(i + 8) = new Squad(enumSquad::SQUAD_ROCKET);
-			pullInfromation.at(i + 16) = new Squad(enumSquad::SQUAD_MODERNTANK);
-			pullInfromation.at(i + 24) = new Squad(enumSquad::SQUAD_ROCKETARTILLERY);
+			pullInfromation.push_back(new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY));
+			pullInfromation.push_back(new Squad(enumSquad::SQUAD_ROCKET));
+			pullInfromation.push_back(new Squad(enumSquad::SQUAD_MODERNTANK));
+			pullInfromation.push_back(new Squad(enumSquad::SQUAD_ROCKETARTILLERY));
 		}
 	});
 
-	std::thread threadFuture([&addSquadUnit, &pullFuture]()
+	std::thread threadFuture([&pullFuture]()
 	{
 		for (size_t i = 0; i < 6; i++)
 		{
-			pullFuture.at(i) = new Squad(enumSquad::SQUAD_FUTURESMAN);
-			pullFuture.at(i + 6) = new Squad(enumSquad::SQUAD_ROBOT);
+			pullFuture.push_back(new Squad(enumSquad::SQUAD_FUTURESMAN));
+			pullFuture.push_back(new Squad(enumSquad::SQUAD_ROBOT));
 		}
 	});
 
@@ -266,6 +265,659 @@ std::vector <std::vector <Army*>> initializePullSquads()
 	return pullGame;
 }
 
+void refreshShopSquads(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, std::vector <Army*>& tempShopArmy)
+{
+	for (int i = 0; i < (int)tempShopArmy.size(); i++) 
+	{
+		switch (tempShopArmy.at(i)->getEraName())
+		{
+		case enumEraName::ERA_ANCIENT:
+			pullGame.at(0).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_CLASSIC:
+			pullGame.at(1).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_MEDIVAL:
+			pullGame.at(2).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_RENAISSANCEE:
+			pullGame.at(3).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_INDUSTRIAL:
+			pullGame.at(4).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_MODERN:
+			pullGame.at(5).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_ATOMIC:
+			pullGame.at(6).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_INFORMATION:
+			pullGame.at(7).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_FUTURE:
+			pullGame.at(8).push_back(tempShopArmy.at(i)); break;
+		default:
+			break;
+		}
+	}	
+
+	tempShopArmy.clear();
+
+	int randomSquadGenerator;
+	int randomChanceGenerator;
+
+	srand(time(NULL));
+
+	switch (firstPlayer->getPlayerEra())
+	{
+	case enumEraName::ERA_ANCIENT:
+
+		randomSquadGenerator = rand() % pullGame.at(0).size();
+		tempShopArmy.push_back(pullGame.at(0).at(randomSquadGenerator));
+		pullGame.at(0).erase(pullGame.at(0).begin() + randomSquadGenerator);
+
+		randomSquadGenerator = rand() % pullGame.at(0).size();
+		tempShopArmy.push_back(pullGame.at(0).at(randomSquadGenerator));
+		pullGame.at(0).erase(pullGame.at(0).begin() + randomSquadGenerator);
+
+		randomSquadGenerator = rand() % pullGame.at(0).size();
+		tempShopArmy.push_back(pullGame.at(0).at(randomSquadGenerator));
+		pullGame.at(0).erase(pullGame.at(0).begin() + randomSquadGenerator);
+
+		randomSquadGenerator = rand() % pullGame.at(0).size();
+		tempShopArmy.push_back(pullGame.at(0).at(randomSquadGenerator));
+		pullGame.at(0).erase(pullGame.at(0).begin() + randomSquadGenerator);
+
+		break;
+
+	case enumEraName::ERA_CLASSIC:
+
+		randomChanceGenerator = rand() % 2;
+		randomSquadGenerator = rand() % pullGame.at(randomChanceGenerator).size();
+		tempShopArmy.push_back(pullGame.at(randomChanceGenerator).at(randomSquadGenerator));
+		pullGame.at(randomChanceGenerator).erase(pullGame.at(randomChanceGenerator).begin() + randomSquadGenerator);
+
+		randomChanceGenerator = rand() % 2;
+		randomSquadGenerator = rand() % pullGame.at(randomChanceGenerator).size();
+		tempShopArmy.push_back(pullGame.at(randomChanceGenerator).at(randomSquadGenerator));
+		pullGame.at(randomChanceGenerator).erase(pullGame.at(randomChanceGenerator).begin() + randomSquadGenerator);
+
+		randomChanceGenerator = rand() % 2;
+		randomSquadGenerator = rand() % pullGame.at(randomChanceGenerator).size();
+		tempShopArmy.push_back(pullGame.at(randomChanceGenerator).at(randomSquadGenerator));
+		pullGame.at(randomChanceGenerator).erase(pullGame.at(randomChanceGenerator).begin() + randomSquadGenerator);
+
+		randomChanceGenerator = rand() % 2;
+		randomSquadGenerator = rand() % pullGame.at(randomChanceGenerator).size();
+		tempShopArmy.push_back(pullGame.at(randomChanceGenerator).at(randomSquadGenerator));
+		pullGame.at(randomChanceGenerator).erase(pullGame.at(randomChanceGenerator).begin() + randomSquadGenerator);
+
+		break;
+
+	case enumEraName::ERA_MEDIVAL:
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(0).size();
+			tempShopArmy.push_back(pullGame.at(0).at(randomSquadGenerator));
+			pullGame.at(0).erase(pullGame.at(0).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(1).size();
+			tempShopArmy.push_back(pullGame.at(1).at(randomSquadGenerator));
+			pullGame.at(1).erase(pullGame.at(1).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(0).size();
+			tempShopArmy.push_back(pullGame.at(0).at(randomSquadGenerator));
+			pullGame.at(0).erase(pullGame.at(0).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(1).size();
+			tempShopArmy.push_back(pullGame.at(1).at(randomSquadGenerator));
+			pullGame.at(1).erase(pullGame.at(1).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(0).size();
+			tempShopArmy.push_back(pullGame.at(0).at(randomSquadGenerator));
+			pullGame.at(0).erase(pullGame.at(0).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(1).size();
+			tempShopArmy.push_back(pullGame.at(1).at(randomSquadGenerator));
+			pullGame.at(1).erase(pullGame.at(1).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(0).size();
+			tempShopArmy.push_back(pullGame.at(0).at(randomSquadGenerator));
+			pullGame.at(0).erase(pullGame.at(0).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(1).size();
+			tempShopArmy.push_back(pullGame.at(1).at(randomSquadGenerator));
+			pullGame.at(1).erase(pullGame.at(1).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+
+		break;
+
+	case enumEraName::ERA_RENAISSANCEE:
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(1).size();
+			tempShopArmy.push_back(pullGame.at(1).at(randomSquadGenerator));
+			pullGame.at(1).erase(pullGame.at(1).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(1).size();
+			tempShopArmy.push_back(pullGame.at(1).at(randomSquadGenerator));
+			pullGame.at(1).erase(pullGame.at(1).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(1).size();
+			tempShopArmy.push_back(pullGame.at(1).at(randomSquadGenerator));
+			pullGame.at(1).erase(pullGame.at(1).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(1).size();
+			tempShopArmy.push_back(pullGame.at(1).at(randomSquadGenerator));
+			pullGame.at(1).erase(pullGame.at(1).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+
+		break;
+
+	case enumEraName::ERA_INDUSTRIAL:
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.erase(pullGame.begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(2).size();
+			tempShopArmy.push_back(pullGame.at(2).at(randomSquadGenerator));
+			pullGame.at(2).erase(pullGame.at(2).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+
+		break;
+
+	case enumEraName::ERA_MODERN:
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(3).size();
+			tempShopArmy.push_back(pullGame.at(3).at(randomSquadGenerator));
+			pullGame.at(3).erase(pullGame.at(3).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+
+		break;
+
+	case enumEraName::ERA_ATOMIC:
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(6).size();
+			tempShopArmy.push_back(pullGame.at(6).at(randomSquadGenerator));
+			pullGame.at(6).erase(pullGame.at(6).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(6).size();
+			tempShopArmy.push_back(pullGame.at(6).at(randomSquadGenerator));
+			pullGame.at(6).erase(pullGame.at(6).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(6).size();
+			tempShopArmy.push_back(pullGame.at(6).at(randomSquadGenerator));
+			pullGame.at(6).erase(pullGame.at(6).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(4).size();
+			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(6).size();
+			tempShopArmy.push_back(pullGame.at(6).at(randomSquadGenerator));
+			pullGame.at(6).erase(pullGame.at(6).begin() + randomSquadGenerator);
+		}
+
+		break;
+
+	case enumEraName::ERA_INFORMATION:
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(6).size();
+			tempShopArmy.push_back(pullGame.at(6).at(randomSquadGenerator));
+			pullGame.at(6).erase(pullGame.at(6).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(7).size();
+			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
+			pullGame.at(7).erase(pullGame.at(7).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(6).size();
+			tempShopArmy.push_back(pullGame.at(6).at(randomSquadGenerator));
+			pullGame.at(6).erase(pullGame.at(6).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(7).size();
+			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
+			pullGame.at(7).erase(pullGame.at(7).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(6).size();
+			tempShopArmy.push_back(pullGame.at(6).at(randomSquadGenerator));
+			pullGame.at(6).erase(pullGame.at(6).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(7).size();
+			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
+			pullGame.at(7).erase(pullGame.at(7).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(5).size();
+			tempShopArmy.push_back(pullGame.at(5).at(randomSquadGenerator));
+			pullGame.at(5).erase(pullGame.at(5).begin() + randomSquadGenerator);
+		}
+		else if (randomChanceGenerator == 1)
+		{
+			randomSquadGenerator = rand() % pullGame.at(6).size();
+			tempShopArmy.push_back(pullGame.at(6).at(randomSquadGenerator));
+			pullGame.at(6).erase(pullGame.at(6).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(7).size();
+			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
+			pullGame.at(7).erase(pullGame.at(7).begin() + randomSquadGenerator);
+		}
+
+		break;
+
+	case enumEraName::ERA_FUTURE:
+
+		randomChanceGenerator = rand() % 2;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(7).size();
+			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
+			pullGame.at(7).erase(pullGame.at(7).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(8).size();
+			tempShopArmy.push_back(pullGame.at(8).at(randomSquadGenerator));
+			pullGame.at(8).erase(pullGame.at(8).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(7).size();
+			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
+			pullGame.at(7).erase(pullGame.at(7).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(8).size();
+			tempShopArmy.push_back(pullGame.at(8).at(randomSquadGenerator));
+			pullGame.at(8).erase(pullGame.at(8).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(7).size();
+			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
+			pullGame.at(7).erase(pullGame.at(7).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(8).size();
+			tempShopArmy.push_back(pullGame.at(8).at(randomSquadGenerator));
+			pullGame.at(8).erase(pullGame.at(8).begin() + randomSquadGenerator);
+		}
+
+		randomChanceGenerator = rand() % 4;
+		if (randomChanceGenerator == 0)
+		{
+			randomSquadGenerator = rand() % pullGame.at(7).size();
+			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
+			pullGame.at(7).erase(pullGame.at(7).begin() + randomSquadGenerator);
+		}
+		else
+		{
+			randomSquadGenerator = rand() % pullGame.at(8).size();
+			tempShopArmy.push_back(pullGame.at(8).at(randomSquadGenerator));
+			pullGame.at(8).erase(pullGame.at(8).begin() + randomSquadGenerator);
+		}
+
+		break;
+
+	default:
+		break;
+	}
+
+	setOrderOfShopArmy(tempShopArmy);
+}
+
 void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SHOP)", sf::Style::Fullscreen);
@@ -281,6 +933,21 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 	healthSpriteFirst.setTexture(heatlhTexture);
 	healthSpriteFirst.setScale(0.5f, 0.5f);
 	healthSpriteFirst.setPosition(window.getSize().x - 200, window.getSize().y - 100);
+
+	sf::Texture refreshTexture;
+	refreshTexture.loadFromFile("images/refresh.png");
+	sf::Sprite refreshSprite;
+	refreshSprite.setTexture(refreshTexture);
+	refreshSprite.setScale(0.25f, 0.25f);
+	refreshSprite.setPosition(window.getSize().x - 296, 20);
+
+	sf::Texture upTexture;
+	upTexture.loadFromFile("images/up.png");
+	sf::Sprite upSprite;
+	upSprite.setTexture(upTexture);
+	upSprite.setScale(0.25f, 0.25f);
+	upSprite.setPosition(window.getSize().x - 148, 20);
+
 
 	sf::Font font;
 	font.loadFromFile("16249.ttf");
@@ -334,41 +1001,15 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 	bool showInfoReRenderShop = true; 
 	bool showInfoReRenderActive = true;
 	bool showInfoReRenderReserve = true;
-	int showInfoParameter = 0;
+	int showInfoParameterShop = 0;
+	int showInfoParameterActive = 0;
+	int showInfoParameterReserve = 0;
 
 	std::vector <Army*> tempShopArmy;
-
-	tempShopArmy.push_back(pullGame.at(7).at(0));
-	tempShopArmy.push_back(pullGame.at(7).at(8));
-	tempShopArmy.push_back(pullGame.at(7).at(16));
-	tempShopArmy.push_back(pullGame.at(7).at(24));
-
-	setOrderOfShopArmy(tempShopArmy);
+	refreshShopSquads(pullGame, firstPlayer, tempShopArmy);
 
 	std::vector <Army*> tempActiveArmy;
-
-	tempActiveArmy.push_back(pullGame.at(6).at(0));
-	tempActiveArmy.push_back(pullGame.at(6).at(8));
-
-	for (int i = 0; i < (const int)tempActiveArmy.size(); i++)
-	{
-		tempActiveArmy.at(i)->setArmySpawnCoordinateY(430.0);
-	}
-
-	firstPlayer->setPlayerActiveArmy(tempActiveArmy);
-	firstPlayer->setOrderOfActiveArmy();
-
 	std::vector <Army*> tempReserveArmy;
-
-	tempReserveArmy.push_back(pullGame.at(5).at(8));
-	tempReserveArmy.push_back(pullGame.at(5).at(16));
-	tempReserveArmy.push_back(pullGame.at(5).at(24));
-
-	firstPlayer->setPlayerReserveArmy(tempReserveArmy);
-	firstPlayer->setOrderOfReserveArmy();
-
-	tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
-	tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
 
 	sf::Clock clock;
 
@@ -429,7 +1070,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 							break;
 						}
 					}
-				}
+				}				
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased)
@@ -546,6 +1187,97 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 						firstPlayer->setPlayerReserveArmy(tempReserveArmy);
 						isPressedForMoveReserve = false;
 					}
+
+					if (refreshSprite.getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						refreshShopSquads(pullGame, firstPlayer, tempShopArmy);
+					}
+
+					if (upSprite.getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						switch (firstPlayer->getPlayerEra())
+						{
+						case enumEraName::ERA_ANCIENT:
+							firstPlayer->setPlayerEra(enumEraName::ERA_CLASSIC); break;
+						case enumEraName::ERA_CLASSIC:
+							firstPlayer->setPlayerEra(enumEraName::ERA_MEDIVAL); break;
+						case enumEraName::ERA_MEDIVAL:
+							firstPlayer->setPlayerEra(enumEraName::ERA_RENAISSANCEE); break;
+						case enumEraName::ERA_RENAISSANCEE:
+							firstPlayer->setPlayerEra(enumEraName::ERA_INDUSTRIAL); break;
+						case enumEraName::ERA_INDUSTRIAL:
+							firstPlayer->setPlayerEra(enumEraName::ERA_MODERN); break;
+						case enumEraName::ERA_MODERN:
+							firstPlayer->setPlayerEra(enumEraName::ERA_ATOMIC); break;
+						case enumEraName::ERA_ATOMIC:
+							firstPlayer->setPlayerEra(enumEraName::ERA_INFORMATION); break;
+						case enumEraName::ERA_INFORMATION:
+							firstPlayer->setPlayerEra(enumEraName::ERA_FUTURE); break;
+						default:
+							break;
+						}
+					}
+				}
+
+				if (event.key.code == sf::Mouse::Right)
+				{
+					for (int i = 0; i < (int)tempShopArmy.size(); i++)
+					{
+						if (tempShopArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+						{
+							tempReserveArmy.push_back(tempShopArmy.at(i));
+							tempShopArmy.erase(tempShopArmy.begin() + i);
+							setOrderOfShopArmy(tempShopArmy);
+							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							break;
+						}
+					}
+
+					for (int i = 0; i < (int)tempReserveArmy.size(); i++)
+					{
+						if (tempReserveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+						{
+							tempReserveArmy.at(i)->setArmySpawnCoordinateY(430.0);
+							tempActiveArmy.push_back(tempReserveArmy.at(i));
+							tempReserveArmy.erase(tempReserveArmy.begin() + i);
+							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							break;
+						}
+					}
+
+					for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+					{
+						if (tempActiveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+						{
+							switch (tempActiveArmy.at(i)->getEraName())
+							{
+							case enumEraName::ERA_ANCIENT:
+								pullGame.at(0).push_back(tempActiveArmy.at(i)); break;
+							case enumEraName::ERA_CLASSIC:
+								pullGame.at(1).push_back(tempActiveArmy.at(i)); break;
+							case enumEraName::ERA_MEDIVAL:
+								pullGame.at(2).push_back(tempActiveArmy.at(i)); break;
+							case enumEraName::ERA_RENAISSANCEE:
+								pullGame.at(3).push_back(tempActiveArmy.at(i)); break;
+							case enumEraName::ERA_INDUSTRIAL:
+								pullGame.at(4).push_back(tempActiveArmy.at(i)); break;
+							case enumEraName::ERA_MODERN:
+								pullGame.at(5).push_back(tempActiveArmy.at(i)); break;
+							case enumEraName::ERA_ATOMIC:
+								pullGame.at(6).push_back(tempActiveArmy.at(i)); break;
+							case enumEraName::ERA_INFORMATION:
+								pullGame.at(7).push_back(tempActiveArmy.at(i)); break;
+							case enumEraName::ERA_FUTURE:
+								pullGame.at(8).push_back(tempActiveArmy.at(i)); break;
+							default:
+								break;
+							}
+							tempActiveArmy.erase(tempActiveArmy.begin() + i);
+							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							break;
+						}
+					}
 				}
 			}
 
@@ -555,7 +1287,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 				{
 					if (tempShopArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 					{
-						showInfoParameter = i;
+						showInfoParameterShop = i;
 						showInfoReRenderShop = false;
 
 						switch (showInfoText)
@@ -582,7 +1314,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 				{
 					if (tempActiveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 					{
-						showInfoParameter = i;
+						showInfoParameterActive = i;
 						showInfoReRenderActive = false;
 
 						switch (showInfoText)
@@ -609,7 +1341,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 				{
 					if (tempReserveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 					{
-						showInfoParameter = i;
+						showInfoParameterReserve = i;
 						showInfoReRenderReserve = false;
 
 						switch (showInfoText)
@@ -632,8 +1364,18 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 
 			if (!showInfoReRenderShop)
 			{
-				if (!tempShopArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				try 
 				{
+					if (!tempShopArmy.at(showInfoParameterShop)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoParameterShop = 0;
+						showInfoReRenderShop = true;
+						showInfoText = true;
+					}
+				}
+				catch(const std::out_of_range& oor)
+				{
+					showInfoParameterShop = 0;
 					showInfoReRenderShop = true;
 					showInfoText = true;
 				}
@@ -641,8 +1383,18 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 
 			if (!showInfoReRenderActive)
 			{
-				if (!tempActiveArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				try
 				{
+					if (!tempActiveArmy.at(showInfoParameterActive)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoParameterActive = 0;
+						showInfoReRenderActive = true;
+						showInfoText = true;
+					}
+				}
+				catch (const std::out_of_range& oor)
+				{
+					showInfoParameterActive = 0;
 					showInfoReRenderActive = true;
 					showInfoText = true;
 				}
@@ -650,8 +1402,18 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 
 			if (!showInfoReRenderReserve)
 			{
-				if (!tempReserveArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				try
 				{
+					if (!tempReserveArmy.at(showInfoParameterReserve)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoParameterReserve = 0;
+						showInfoReRenderReserve = true;
+						showInfoText = true;
+					}
+				}
+				catch (const std::out_of_range& oor)
+				{
+					showInfoParameterReserve = 0;
 					showInfoReRenderReserve = true;
 					showInfoText = true;
 				}
@@ -804,6 +1566,8 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 
 		window.draw(textPlayerHealthFirst);
 		window.draw(healthSpriteFirst);
+		window.draw(refreshSprite);
+		window.draw(upSprite);
 
 		window.display();
 	}
@@ -1208,7 +1972,7 @@ int main()
 	std::vector <std::vector <Army*>> pullGame(9);
 	pullGame = initializePullSquads();
 	Player* firstPlayer = new Player();
-	//shop(pullGame, firstPlayer);
-	battle(pullGame);		
+	shop(pullGame, firstPlayer);
+	//battle(pullGame);		
 	return 0;
 };
