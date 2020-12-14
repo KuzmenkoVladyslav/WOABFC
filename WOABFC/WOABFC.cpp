@@ -534,7 +534,7 @@ void refreshShopSquads(std::vector <std::vector <Army*>>& pullGame, Player*& fir
 		{
 			randomSquadGenerator = rand() % pullGame.at(4).size();
 			tempShopArmy.push_back(pullGame.at(4).at(randomSquadGenerator));
-			pullGame.erase(pullGame.begin() + randomSquadGenerator);
+			pullGame.at(4).erase(pullGame.at(4).begin() + randomSquadGenerator);
 		}
 
 		randomChanceGenerator = rand() % 4;
@@ -853,8 +853,8 @@ void refreshShopSquads(std::vector <std::vector <Army*>>& pullGame, Player*& fir
 
 	case enumEraName::ERA_FUTURE:
 
-		randomChanceGenerator = rand() % 2;
-		if (randomChanceGenerator == 0)
+		randomChanceGenerator = rand() % 5;
+		if (randomChanceGenerator != 0)
 		{
 			randomSquadGenerator = rand() % pullGame.at(7).size();
 			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
@@ -867,8 +867,8 @@ void refreshShopSquads(std::vector <std::vector <Army*>>& pullGame, Player*& fir
 			pullGame.at(8).erase(pullGame.at(8).begin() + randomSquadGenerator);
 		}
 
-		randomChanceGenerator = rand() % 4;
-		if (randomChanceGenerator == 0)
+		randomChanceGenerator = rand() % 5;
+		if (randomChanceGenerator != 0)
 		{
 			randomSquadGenerator = rand() % pullGame.at(7).size();
 			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
@@ -881,8 +881,8 @@ void refreshShopSquads(std::vector <std::vector <Army*>>& pullGame, Player*& fir
 			pullGame.at(8).erase(pullGame.at(8).begin() + randomSquadGenerator);
 		}
 
-		randomChanceGenerator = rand() % 4;
-		if (randomChanceGenerator == 0)
+		randomChanceGenerator = rand() % 5;
+		if (randomChanceGenerator != 0)
 		{
 			randomSquadGenerator = rand() % pullGame.at(7).size();
 			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
@@ -895,8 +895,8 @@ void refreshShopSquads(std::vector <std::vector <Army*>>& pullGame, Player*& fir
 			pullGame.at(8).erase(pullGame.at(8).begin() + randomSquadGenerator);
 		}
 
-		randomChanceGenerator = rand() % 4;
-		if (randomChanceGenerator == 0)
+		randomChanceGenerator = rand() % 5;
+		if (randomChanceGenerator != 0)
 		{
 			randomSquadGenerator = rand() % pullGame.at(7).size();
 			tempShopArmy.push_back(pullGame.at(7).at(randomSquadGenerator));
@@ -1441,17 +1441,24 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 		{
 			for (int j = 0; j < WIDTH_MAP; j++)
 			{
-				switch (firstPlayer->getPlayerEra())
+				if (ShopMap[i][j] == 'g')
 				{
-				case enumEraName::ERA_ANCIENT: mapSprite.setTextureRect(sf::IntRect(120, 0, 120, 120)); break;
-				case enumEraName::ERA_CLASSIC: mapSprite.setTextureRect(sf::IntRect(240, 0, 120, 120)); break;
-				case enumEraName::ERA_MEDIVAL: mapSprite.setTextureRect(sf::IntRect(360, 0, 120, 120)); break;
-				case enumEraName::ERA_RENAISSANCEE: mapSprite.setTextureRect(sf::IntRect(480, 0, 120, 120)); break;
-				case enumEraName::ERA_INDUSTRIAL: mapSprite.setTextureRect(sf::IntRect(600, 0, 120, 120)); break;
-				case enumEraName::ERA_MODERN: mapSprite.setTextureRect(sf::IntRect(720, 0, 120, 120)); break;
-				case enumEraName::ERA_ATOMIC: mapSprite.setTextureRect(sf::IntRect(840, 0, 120, 120)); break;
-				case enumEraName::ERA_INFORMATION: mapSprite.setTextureRect(sf::IntRect(960, 0, 120, 120)); break;
-				case enumEraName::ERA_FUTURE: mapSprite.setTextureRect(sf::IntRect(1080, 0, 120, 120)); break;
+					mapSprite.setTextureRect(sf::IntRect(0, 0, 120, 120));
+				}
+				else
+				{
+					switch (firstPlayer->getPlayerEra())
+					{
+					case enumEraName::ERA_ANCIENT: mapSprite.setTextureRect(sf::IntRect(120, 0, 120, 120)); break;
+					case enumEraName::ERA_CLASSIC: mapSprite.setTextureRect(sf::IntRect(240, 0, 120, 120)); break;
+					case enumEraName::ERA_MEDIVAL: mapSprite.setTextureRect(sf::IntRect(360, 0, 120, 120)); break;
+					case enumEraName::ERA_RENAISSANCEE: mapSprite.setTextureRect(sf::IntRect(480, 0, 120, 120)); break;
+					case enumEraName::ERA_INDUSTRIAL: mapSprite.setTextureRect(sf::IntRect(600, 0, 120, 120)); break;
+					case enumEraName::ERA_MODERN: mapSprite.setTextureRect(sf::IntRect(720, 0, 120, 120)); break;
+					case enumEraName::ERA_ATOMIC: mapSprite.setTextureRect(sf::IntRect(840, 0, 120, 120)); break;
+					case enumEraName::ERA_INFORMATION: mapSprite.setTextureRect(sf::IntRect(960, 0, 120, 120)); break;
+					case enumEraName::ERA_FUTURE: mapSprite.setTextureRect(sf::IntRect(1080, 0, 120, 120)); break;
+					}
 				}
 
 				mapSprite.setPosition(j * 120.0f, i * 120.0f);

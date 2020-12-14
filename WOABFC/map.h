@@ -15,3 +15,15 @@ sf::String TileMap[HEIGHT_MAP] = {
 	"ffffffffffffffff",
 	"ffffffffffffffff"
 };
+
+sf::String ShopMap[HEIGHT_MAP] = {
+	"gggggggggggggfff",
+	"ffffffffffffffff",
+	"gggggggggggggggg",
+	"ffffffffffffffff",
+	"ffffffffffffffff",
+	"ffffffffffffffff",
+	"gggggggggggggggg",
+	"ffffffffffffffff",
+	"gggggggggggggggg"
+};
