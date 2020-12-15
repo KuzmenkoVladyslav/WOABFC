@@ -73,3 +73,8 @@ enumSquad Army::getArmyUpgrade()
 {
     return this->armyUpgrade;
 }
+
+enumSquad Army::getArmyID()
+{
+    return this->armyID;
+}

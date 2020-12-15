@@ -38,6 +38,8 @@ public:
 
     virtual enumSquad getArmyUpgrade();
 
+    virtual enumSquad getArmyID();
+
 protected:
     sf::Texture armyTexture;
     sf::Sprite armySprite;
@@ -56,5 +58,6 @@ protected:
 
     enumEraName eraName = enumEraName::ERA_ANCIENT;
     enumTypeSquad armyType = enumTypeSquad::TYPE_NONE;
+    enumSquad armyID = enumSquad::NONE;
     enumSquad armyUpgrade = enumSquad::NONE;
 };

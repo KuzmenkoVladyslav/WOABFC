@@ -2,9 +2,10 @@
 
 Squad::Squad(enumSquad armyID)
 {
+    this->armyID = armyID;
     this->armyTexture.loadFromFile("images/army.png");
     this->armySprite.setTexture(armyTexture);
-    switch (armyID)
+    switch (this->armyID)
     {
         case enumSquad::SQUAD_WARRIOR:
             this->armySpriteCoordinateX = 0;
@@ -201,7 +202,7 @@ Squad::Squad(enumSquad armyID)
             this->armyHealthBasic = 3;
             this->armyName = "War Chariot";
             this->eraName = enumEraName::ERA_ANCIENT;
-            this->armyUpgrade = enumSquad::NONE;
+            this->armyUpgrade = enumSquad::SQUAD_HORSEMAN;
             this->armyType = enumTypeSquad::TYPE_CAVALRY;
             break;
 
@@ -212,7 +213,7 @@ Squad::Squad(enumSquad armyID)
             this->armyHealthBasic = 5;
             this->armyName = "Horseman";
             this->eraName = enumEraName::ERA_CLASSIC;
-            this->armyUpgrade = enumSquad::NONE;
+            this->armyUpgrade = enumSquad::SQUAD_KNIGHT;
             this->armyType = enumTypeSquad::TYPE_CAVALRY;
             break;
 

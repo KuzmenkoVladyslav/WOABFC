@@ -1022,7 +1022,7 @@ void returnAllShopSquadsToGeneralPull(std::vector <std::vector <Army*>>& pullGam
 	tempShopArmy.clear();
 }
 
-void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
+void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SHOP)", sf::Style::Fullscreen);
 
@@ -1102,7 +1102,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 	bool isPressedForMoveReserve = false;
 
 	bool showInfoText = true;
-	bool showInfoReRenderShop = true; 
+	bool showInfoReRenderShop = true;
 	bool showInfoReRenderActive = true;
 	bool showInfoReRenderReserve = true;
 	int showInfoParameterShop = 0;
@@ -1174,7 +1174,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 							break;
 						}
 					}
-				}				
+				}
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased)
@@ -1387,7 +1387,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 
 			if (event.type == sf::Event::KeyReleased)
 			{
-				if (event.key.code == sf::Keyboard::Escape) 
+				if (event.key.code == sf::Keyboard::Escape)
 				{
 					returnAllShopSquadsToGeneralPull(pullGame, tempShopArmy);
 					returnAllPlayerSquadsToGeneralPull(pullGame, firstPlayer);
@@ -1479,7 +1479,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 
 			if (!showInfoReRenderShop)
 			{
-				try 
+				try
 				{
 					if (!tempShopArmy.at(showInfoParameterShop)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 					{
@@ -1488,7 +1488,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 						showInfoText = true;
 					}
 				}
-				catch(const std::out_of_range& oor)
+				catch (const std::out_of_range& oor)
 				{
 					showInfoParameterShop = 0;
 					showInfoReRenderShop = true;
@@ -1549,6 +1549,178 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 		{
 			tempReserveArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
 		}
+
+		for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+		{
+			for (int j = 0; j < (int)tempActiveArmy.size(); j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+				else
+				{
+					if (tempActiveArmy.at(i)->getArmyUpgrade() == tempActiveArmy.at(j)->getArmyUpgrade() && tempActiveArmy.at(i)->getArmyUpgrade() != enumSquad::NONE)
+					{
+						if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempActiveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN ||
+							tempActiveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
+						{
+							if (firstPlayer->getPlayerEra() > tempActiveArmy.at(i)->getEraName()) 
+							{
+								pullGame.at(2).push_back(tempActiveArmy.at(i));
+								pullGame.at(2).push_back(tempActiveArmy.at(j));
+								if(i > j)
+								{
+									tempActiveArmy.erase(tempActiveArmy.begin() + i);
+									tempActiveArmy.erase(tempActiveArmy.begin() + j);
+								}
+								else 
+								{
+									tempActiveArmy.erase(tempActiveArmy.begin() + j);
+									tempActiveArmy.erase(tempActiveArmy.begin() + i);
+								}
+
+
+								for (int k = 0; k < (int)pullGame.at(3).size(); k++) 
+								{
+									if (pullGame.at(3).at(k)->getArmyID() == enumSquad::SQUAD_LANCER) 
+									{
+										pullGame.at(3).at(k)->setArmySpawnCoordinateY(430.0);
+										tempActiveArmy.push_back(pullGame.at(3).at(k));
+										pullGame.at(3).erase(pullGame.at(3).begin() + k);
+										break;
+									}
+								}
+
+								tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							}
+						}
+						else if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempActiveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT ||
+							tempActiveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN && tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
+						{
+							continue;
+						}
+						else
+						{
+							// check era of squad, delete double, after add new squad
+						}
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < (int)tempReserveArmy.size(); i++)
+		{
+			for (int j = 0; j < (int)tempReserveArmy.size(); j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+				else
+				{
+					if (tempReserveArmy.at(i)->getArmyUpgrade() == tempReserveArmy.at(j)->getArmyUpgrade() && tempReserveArmy.at(i)->getArmyUpgrade() != enumSquad::NONE)
+					{
+						if (tempReserveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN ||
+							tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
+						{
+							if (firstPlayer->getPlayerEra() > tempReserveArmy.at(i)->getEraName())
+							{
+								pullGame.at(2).push_back(tempReserveArmy.at(i));
+								pullGame.at(2).push_back(tempReserveArmy.at(j));
+								if (i > j)
+								{
+									tempReserveArmy.erase(tempReserveArmy.begin() + i);
+									tempReserveArmy.erase(tempReserveArmy.begin() + j);
+								}
+								else
+								{
+									tempReserveArmy.erase(tempReserveArmy.begin() + j);
+									tempReserveArmy.erase(tempReserveArmy.begin() + i);
+								}
+
+
+								for (int k = 0; k < (int)pullGame.at(3).size(); k++)
+								{
+									if (pullGame.at(3).at(k)->getArmyID() == enumSquad::SQUAD_LANCER)
+									{
+										pullGame.at(3).at(k)->setArmySpawnCoordinateY(430.0);
+										tempReserveArmy.push_back(pullGame.at(3).at(k));
+										pullGame.at(3).erase(pullGame.at(3).begin() + k);
+										break;
+									}
+								}
+
+								tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							}
+						}
+						else if (tempReserveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT ||
+							tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN && tempReserveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
+						{
+							continue;
+						}
+						else
+						{
+							// check era of squad, delete double, after add new squad
+						}
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+		{
+			for (int j = 0; j < (int)tempReserveArmy.size(); j++)
+			{
+				if (tempActiveArmy.at(i)->getArmyUpgrade() == tempReserveArmy.at(j)->getArmyUpgrade() && tempActiveArmy.at(i)->getArmyUpgrade() != enumSquad::NONE)
+				{
+					if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN ||
+						tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
+					{
+						if (firstPlayer->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
+						{
+							pullGame.at(2).push_back(tempActiveArmy.at(i));
+							pullGame.at(2).push_back(tempReserveArmy.at(j));
+							if (i > j)
+							{
+								tempActiveArmy.erase(tempActiveArmy.begin() + i);
+								tempReserveArmy.erase(tempReserveArmy.begin() + j);
+							}
+							else
+							{
+								tempReserveArmy.erase(tempReserveArmy.begin() + j);
+								tempActiveArmy.erase(tempActiveArmy.begin() + i);
+							}
+
+
+							for (int k = 0; k < (int)pullGame.at(3).size(); k++)
+							{
+								if (pullGame.at(3).at(k)->getArmyID() == enumSquad::SQUAD_LANCER)
+								{
+									pullGame.at(3).at(k)->setArmySpawnCoordinateY(430.0);
+									tempActiveArmy.push_back(pullGame.at(3).at(k));
+									pullGame.at(3).erase(pullGame.at(3).begin() + k);
+									break;
+								}
+							}
+
+							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+						}
+					}
+					else if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT ||
+						tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN && tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
+					{
+						continue;
+					}
+					else
+					{
+						// check era of squad, delete double, after add new squad
+					}
+				}
+
+			}
+		}
+
 
 		window.clear();
 
@@ -1693,7 +1865,6 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 
 		window.display();
 	}
-
 }
 
 void battle(std::vector <std::vector <Army*>>& pullGame)
