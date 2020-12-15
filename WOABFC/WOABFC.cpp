@@ -929,6 +929,99 @@ void refreshShopSquads(std::vector <std::vector <Army*>>& pullGame, Player*& fir
 	setOrderOfShopArmy(tempShopArmy);
 }
 
+void returnAllPlayerSquadsToGeneralPull(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
+{
+	for (int i = 0; i < (int)firstPlayer->getPlayerActiveArmy().size(); i++)
+	{
+		switch (firstPlayer->getPlayerActiveArmy().at(i)->getEraName())
+		{
+		case enumEraName::ERA_ANCIENT:
+			pullGame.at(0).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		case enumEraName::ERA_CLASSIC:
+			pullGame.at(1).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		case enumEraName::ERA_MEDIVAL:
+			pullGame.at(2).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		case enumEraName::ERA_RENAISSANCEE:
+			pullGame.at(3).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		case enumEraName::ERA_INDUSTRIAL:
+			pullGame.at(4).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		case enumEraName::ERA_MODERN:
+			pullGame.at(5).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		case enumEraName::ERA_ATOMIC:
+			pullGame.at(6).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		case enumEraName::ERA_INFORMATION:
+			pullGame.at(7).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		case enumEraName::ERA_FUTURE:
+			pullGame.at(8).push_back(firstPlayer->getPlayerActiveArmy().at(i)); break;
+		default:
+			break;
+		}
+	}
+
+	firstPlayer->getPlayerActiveArmy().clear();
+
+	for (int i = 0; i < (int)firstPlayer->getPlayerReserveArmy().size(); i++)
+	{
+		switch (firstPlayer->getPlayerReserveArmy().at(i)->getEraName())
+		{
+		case enumEraName::ERA_ANCIENT:
+			pullGame.at(0).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		case enumEraName::ERA_CLASSIC:
+			pullGame.at(1).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		case enumEraName::ERA_MEDIVAL:
+			pullGame.at(2).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		case enumEraName::ERA_RENAISSANCEE:
+			pullGame.at(3).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		case enumEraName::ERA_INDUSTRIAL:
+			pullGame.at(4).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		case enumEraName::ERA_MODERN:
+			pullGame.at(5).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		case enumEraName::ERA_ATOMIC:
+			pullGame.at(6).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		case enumEraName::ERA_INFORMATION:
+			pullGame.at(7).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		case enumEraName::ERA_FUTURE:
+			pullGame.at(8).push_back(firstPlayer->getPlayerReserveArmy().at(i)); break;
+		default:
+			break;
+		}
+	}
+
+	firstPlayer->getPlayerReserveArmy().clear();
+}
+
+void returnAllShopSquadsToGeneralPull(std::vector <std::vector <Army*>>& pullGame, std::vector <Army*>& tempShopArmy)
+{
+	for (int i = 0; i < (int)tempShopArmy.size(); i++)
+	{
+		switch (tempShopArmy.at(i)->getEraName())
+		{
+		case enumEraName::ERA_ANCIENT:
+			pullGame.at(0).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_CLASSIC:
+			pullGame.at(1).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_MEDIVAL:
+			pullGame.at(2).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_RENAISSANCEE:
+			pullGame.at(3).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_INDUSTRIAL:
+			pullGame.at(4).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_MODERN:
+			pullGame.at(5).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_ATOMIC:
+			pullGame.at(6).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_INFORMATION:
+			pullGame.at(7).push_back(tempShopArmy.at(i)); break;
+		case enumEraName::ERA_FUTURE:
+			pullGame.at(8).push_back(tempShopArmy.at(i)); break;
+		default:
+			break;
+		}
+	}
+
+	tempShopArmy.clear();
+}
+
 void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SHOP)", sf::Style::Fullscreen);
@@ -1296,7 +1389,10 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 			{
 				if (event.key.code == sf::Keyboard::Escape) 
 				{
-					window.close(); gameProcess(pullGame);
+					returnAllShopSquadsToGeneralPull(pullGame, tempShopArmy);
+					returnAllPlayerSquadsToGeneralPull(pullGame, firstPlayer);
+					window.close();
+					gameProcess(pullGame);
 				}
 			}
 
@@ -1789,7 +1885,9 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 			{
 				if (event.key.code == sf::Keyboard::Escape)
 				{
-					window.close(); gameProcess(pullGame);
+					returnAllPlayerSquadsToGeneralPull(pullGame, firstPlayer);
+					window.close(); 
+					gameProcess(pullGame);
 				}
 			}
 
@@ -2001,10 +2099,10 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 
 void gameProcess(std::vector <std::vector <Army*>>& pullGame)
 {
-	menu();	
+	menu();
 	Player* firstPlayer = new Player();
 	shop(pullGame, firstPlayer);
-	//battle(pullGame);	
+	//battle(pullGame);
 }
 
 int main()
