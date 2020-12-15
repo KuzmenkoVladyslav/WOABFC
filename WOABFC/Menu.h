@@ -11,7 +11,7 @@ void menu()
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (MENU)", sf::Style::Fullscreen);
 	setlocale(LC_ALL, "");
 	int randomNumberBackground;
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 	randomNumberBackground = rand() % 10;
 	sf::Texture menuBackgroundTexture, menuButtonTexture;
 	menuBackgroundTexture.loadFromFile("images/map.png");
@@ -152,7 +152,7 @@ void settings()
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SETTINGS)", sf::Style::Fullscreen);
 	int randomNumberBackground;
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 	randomNumberBackground = rand() % 10;
 	sf::Texture menuBackgroundTexture;
 	menuBackgroundTexture.loadFromFile("images/map.png");

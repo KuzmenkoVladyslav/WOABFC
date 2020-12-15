@@ -15,6 +15,8 @@
 #include "Strings.h"
 #include "TextStringHelpers.h"
 
+void gameProcess(std::vector <std::vector <Army*>>& pullGame);
+
 void setOrderOfShopArmy(std::vector <Army*> tempShopArmy)
 {
 	switch (tempShopArmy.size())
@@ -44,11 +46,13 @@ void setOrderOfShopArmy(std::vector <Army*> tempShopArmy)
 
 std::vector <std::vector <Army*>> initializePullSquads()
 {
-	std::thread threadLoading([]()
+	bool windowClose = false;
+	
+	std::thread threadLoading([&windowClose]()
 	{		
 		sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (LOADING)", sf::Style::Fullscreen);
 		int randomNumberBackground;
-		srand(time(NULL));
+		srand((unsigned)time(NULL));
 		randomNumberBackground = rand() % 10;
 		sf::Texture menuBackgroundTexture;
 		menuBackgroundTexture.loadFromFile("images/map.png");
@@ -137,6 +141,11 @@ std::vector <std::vector <Army*>> initializePullSquads()
 					Sleep(100);
 					break;
 				}
+			}
+
+			if (windowClose) 
+			{
+				window.close();
 			}
 
 			window.display();
@@ -262,6 +271,8 @@ std::vector <std::vector <Army*>> initializePullSquads()
 	pullGame.at(7) = pullInfromation;
 	pullGame.at(8) = pullFuture;
 
+	windowClose = true;
+
 	return pullGame;
 }
 
@@ -299,7 +310,7 @@ void refreshShopSquads(std::vector <std::vector <Army*>>& pullGame, Player*& fir
 	int randomSquadGenerator;
 	int randomChanceGenerator;
 
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 
 	switch (firstPlayer->getPlayerEra())
 	{
@@ -932,21 +943,21 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 	sf::Sprite healthSpriteFirst;
 	healthSpriteFirst.setTexture(heatlhTexture);
 	healthSpriteFirst.setScale(0.5f, 0.5f);
-	healthSpriteFirst.setPosition(window.getSize().x - 200, window.getSize().y - 100);
+	healthSpriteFirst.setPosition(window.getSize().x - 200.0f, window.getSize().y - 100.0f);
 
 	sf::Texture refreshTexture;
 	refreshTexture.loadFromFile("images/refresh.png");
 	sf::Sprite refreshSprite;
 	refreshSprite.setTexture(refreshTexture);
 	refreshSprite.setScale(0.25f, 0.25f);
-	refreshSprite.setPosition(window.getSize().x - 296, 20);
+	refreshSprite.setPosition(window.getSize().x - 296.0f, 20.0f);
 
 	sf::Texture upTexture;
 	upTexture.loadFromFile("images/up.png");
 	sf::Sprite upSprite;
 	upSprite.setTexture(upTexture);
 	upSprite.setScale(0.25f, 0.25f);
-	upSprite.setPosition(window.getSize().x - 148, 20);
+	upSprite.setPosition(window.getSize().x - 148.0f, 20.0f);
 
 
 	sf::Font font;
@@ -962,7 +973,7 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 	textPlayerHealthFirst.setOutlineThickness(3);
 	textPlayerHealthFirst.setOutlineColor(sf::Color::White);
 	textPlayerHealthFirst.setCharacterSize(60);
-	textPlayerHealthFirst.setPosition(window.getSize().x - 70, window.getSize().y - 90);
+	textPlayerHealthFirst.setPosition(window.getSize().x - 70.0f, window.getSize().y - 90.0f);
 	textPlayerHealthFirst.setString(std::to_string(firstPlayer->getPlayerHealth()));
 
 	sf::Text textInfo = textAttack;
@@ -1281,6 +1292,14 @@ void shop(std::vector <std::vector <Army*>> &pullGame, Player* &firstPlayer)
 				}
 			}
 
+			if (event.type == sf::Event::KeyReleased)
+			{
+				if (event.key.code == sf::Keyboard::Escape) 
+				{
+					window.close(); gameProcess(pullGame);
+				}
+			}
+
 			if (showInfoReRenderShop)
 			{
 				for (int i = 0; i < (int)tempShopArmy.size(); i++)
@@ -1596,8 +1615,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 	healthSpriteFirst.setTexture(heatlhTexture);
 	healthSpriteFirst.setScale(0.5f, 0.5f);
 	healthSpriteSecond = healthSpriteFirst;
-	healthSpriteFirst.setPosition(window.getSize().x - 200, window.getSize().y - 100);
-	healthSpriteSecond.setPosition(window.getSize().x - 200, 20);
+	healthSpriteFirst.setPosition(window.getSize().x - 200.0f, window.getSize().y - 100.0f);
+	healthSpriteSecond.setPosition(window.getSize().x - 200.0f, 20.0f);
 
 	std::vector <Army*> tempFirstArmy;
 	std::vector <Army*> tempSecondArmy;
@@ -1621,8 +1640,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 	textPlayerHealthFirst.setOutlineColor(sf::Color::White);
 	textPlayerHealthFirst.setCharacterSize(60);
 	sf::Text textPlayerHealthSecond = textPlayerHealthFirst;
-	textPlayerHealthFirst.setPosition(window.getSize().x - 70, window.getSize().y - 90);
-	textPlayerHealthSecond.setPosition(window.getSize().x - 70, 30);
+	textPlayerHealthFirst.setPosition(window.getSize().x - 70.0f, window.getSize().y - 90.0f);
+	textPlayerHealthSecond.setPosition(window.getSize().x - 70.0f, 30.0f);
 
 	textPlayerHealthFirst.setString(std::to_string(firstPlayer->getPlayerHealth()));
 	textPlayerHealthSecond.setString(std::to_string(secondPlayer->getPlayerHealth()));
@@ -1763,6 +1782,14 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 						firstPlayer->setPlayerActiveArmy(tempFirstArmy);
 						isPressedForMove = false;
 					}
+				}
+			}
+
+			if (event.type == sf::Event::KeyReleased)
+			{
+				if (event.key.code == sf::Keyboard::Escape)
+				{
+					window.close(); gameProcess(pullGame);
 				}
 			}
 
@@ -1972,14 +1999,19 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 	}
 }
 
+void gameProcess(std::vector <std::vector <Army*>>& pullGame)
+{
+	menu();	
+	Player* firstPlayer = new Player();
+	shop(pullGame, firstPlayer);
+	//battle(pullGame);	
+}
+
 int main()
 {
 	setlocale(LC_ALL, "");
-	menu();
 	std::vector <std::vector <Army*>> pullGame(9);
 	pullGame = initializePullSquads();
-	Player* firstPlayer = new Player();
-	shop(pullGame, firstPlayer);
-	//battle(pullGame);		
+	gameProcess(pullGame);
 	return 0;
 };
