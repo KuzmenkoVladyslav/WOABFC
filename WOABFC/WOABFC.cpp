@@ -1602,7 +1602,38 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 						}
 						else
 						{
-							// check era of squad, delete double, after add new squad
+							if (firstPlayer->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
+							{
+								pullGame.at((int)tempActiveArmy.at(i)->getEraName()).push_back(tempActiveArmy.at(i));
+								pullGame.at((int)tempActiveArmy.at(j)->getEraName()).push_back(tempActiveArmy.at(j));
+
+								int tempIndexForEraName = (int)tempActiveArmy.at(i)->getEraName() + 1;
+								enumSquad tempIndexForEnumSquad = tempActiveArmy.at(i)->getArmyUpgrade();
+
+								if (i > j)
+								{
+									tempActiveArmy.erase(tempActiveArmy.begin() + i);
+									tempActiveArmy.erase(tempActiveArmy.begin() + j);
+								}
+								else
+								{
+									tempActiveArmy.erase(tempActiveArmy.begin() + j);
+									tempActiveArmy.erase(tempActiveArmy.begin() + i);
+								}
+
+								for (int k = 0; k < (int)pullGame.at(tempIndexForEraName).size(); k++)
+								{
+									if (pullGame.at(tempIndexForEraName).at(k)->getArmyID() == tempIndexForEnumSquad)
+									{
+										pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(430.0);
+										tempActiveArmy.push_back(pullGame.at(tempIndexForEraName).at(k));
+										pullGame.at(tempIndexForEraName).erase(pullGame.at(tempIndexForEraName).begin() + k);
+										break;
+									}
+								}
+
+								tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							}
 						}
 					}
 				}
@@ -1661,7 +1692,38 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 						}
 						else
 						{
-							// check era of squad, delete double, after add new squad
+							if (firstPlayer->getPlayerEra() > tempReserveArmy.at(i)->getEraName())
+							{
+								pullGame.at((int)tempReserveArmy.at(i)->getEraName()).push_back(tempReserveArmy.at(i));
+								pullGame.at((int)tempReserveArmy.at(j)->getEraName()).push_back(tempReserveArmy.at(j));
+
+								int tempIndexForEraName = (int)tempReserveArmy.at(i)->getEraName() + 1;
+								enumSquad tempIndexForEnumSquad = tempReserveArmy.at(i)->getArmyUpgrade();
+
+								if (i > j)
+								{
+									tempReserveArmy.erase(tempReserveArmy.begin() + i);
+									tempReserveArmy.erase(tempReserveArmy.begin() + j);
+								}
+								else
+								{
+									tempReserveArmy.erase(tempReserveArmy.begin() + j);
+									tempReserveArmy.erase(tempReserveArmy.begin() + i);
+								}
+
+								for (int k = 0; k < (int)pullGame.at(tempIndexForEraName).size(); k++)
+								{
+									if (pullGame.at(tempIndexForEraName).at(k)->getArmyID() == tempIndexForEnumSquad)
+									{
+										pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(430.0);
+										tempReserveArmy.push_back(pullGame.at(tempIndexForEraName).at(k));
+										pullGame.at(tempIndexForEraName).erase(pullGame.at(tempIndexForEraName).begin() + k);
+										break;
+									}
+								}
+
+								tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							}
 						}
 					}
 				}
@@ -1705,6 +1767,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 							}
 
 							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
 						}
 					}
 					else if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT ||
@@ -1714,13 +1777,44 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 					}
 					else
 					{
-						// check era of squad, delete double, after add new squad
+						if (firstPlayer->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
+						{
+							pullGame.at((int)tempActiveArmy.at(i)->getEraName()).push_back(tempActiveArmy.at(i));
+							pullGame.at((int)tempReserveArmy.at(j)->getEraName()).push_back(tempReserveArmy.at(j));
+
+							int tempIndexForEraName = (int)tempActiveArmy.at(i)->getEraName() + 1;
+							enumSquad tempIndexForEnumSquad = tempActiveArmy.at(i)->getArmyUpgrade();
+
+							if (i > j)
+							{
+								tempActiveArmy.erase(tempActiveArmy.begin() + i);
+								tempReserveArmy.erase(tempReserveArmy.begin() + j);
+							}
+							else
+							{
+								tempReserveArmy.erase(tempReserveArmy.begin() + j);
+								tempActiveArmy.erase(tempActiveArmy.begin() + i);
+							}
+
+							for (int k = 0; k < (int)pullGame.at(tempIndexForEraName).size(); k++)
+							{
+								if (pullGame.at(tempIndexForEraName).at(k)->getArmyID() == tempIndexForEnumSquad)
+								{
+									pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(430.0);
+									tempActiveArmy.push_back(pullGame.at(tempIndexForEraName).at(k));
+									pullGame.at(tempIndexForEraName).erase(pullGame.at(tempIndexForEraName).begin() + k);
+									break;
+								}
+							}
+
+							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+						}
 					}
 				}
 
 			}
 		}
-
 
 		window.clear();
 
