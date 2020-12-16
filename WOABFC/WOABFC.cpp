@@ -1038,6 +1038,13 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	healthSpriteFirst.setScale(0.5f, 0.5f);
 	healthSpriteFirst.setPosition(window.getSize().x - 200.0f, window.getSize().y - 100.0f);
 
+	sf::Texture coinTexture;
+	coinTexture.loadFromFile("images/coin.png");
+	sf::Sprite coinSprite;
+	coinSprite.setTexture(coinTexture);
+	coinSprite.setScale(0.2f, 0.2f);
+	coinSprite.setPosition(10.0f, window.getSize().y - 112.4f);
+
 	sf::Texture refreshTexture;
 	refreshTexture.loadFromFile("images/refresh.png");
 	sf::Sprite refreshSprite;
@@ -1062,12 +1069,19 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	textAttack.setStyle(sf::Text::Bold);
 
 	sf::Text textPlayerHealthFirst = textAttack;
-	textPlayerHealthFirst.setFillColor(sf::Color::Red);
-	textPlayerHealthFirst.setOutlineThickness(3);
+	textPlayerHealthFirst.setFillColor(sf::Color(155, 17, 30));
+	textPlayerHealthFirst.setOutlineThickness(2);
 	textPlayerHealthFirst.setOutlineColor(sf::Color::White);
 	textPlayerHealthFirst.setCharacterSize(60);
-	textPlayerHealthFirst.setPosition(window.getSize().x - 70.0f, window.getSize().y - 90.0f);
+	textPlayerHealthFirst.setPosition(window.getSize().x - 70.0f, window.getSize().y - 100.0f);
 	textPlayerHealthFirst.setString(std::to_string(firstPlayer->getPlayerHealth()));
+
+	sf::Text textCoinCount = textAttack;
+	textCoinCount.setFillColor(sf::Color(184, 134, 11));
+	textCoinCount.setOutlineThickness(2);
+	textCoinCount.setOutlineColor(sf::Color::White);
+	textCoinCount.setCharacterSize(60);
+	textCoinCount.setPosition(132.4f, window.getSize().y - 100.0f);
 
 	sf::Text textInfo = textAttack;
 	textInfo.setCharacterSize(25);
@@ -1952,8 +1966,14 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 			window.draw(textInfo);
 		}
 
+		std::ostringstream playerCoinsString;
+		playerCoinsString << firstPlayer->getPlayerActionPointsNow() << " / " << firstPlayer->getPlayerActionPointsMax();
+		textCoinCount.setString(playerCoinsString.str());
+
 		window.draw(textPlayerHealthFirst);
 		window.draw(healthSpriteFirst);
+		window.draw(coinSprite);
+		window.draw(textCoinCount);
 		window.draw(refreshSprite);
 		window.draw(upSprite);
 
