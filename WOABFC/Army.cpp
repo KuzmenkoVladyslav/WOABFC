@@ -78,3 +78,8 @@ enumSquad Army::getArmyID()
 {
     return this->armyID;
 }
+
+int Army::getArmyCost() 
+{
+    return this->armyCost;
+}

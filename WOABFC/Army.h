@@ -40,6 +40,8 @@ public:
 
     virtual enumSquad getArmyID();
 
+    virtual int getArmyCost();
+
 protected:
     sf::Texture armyTexture;
     sf::Sprite armySprite;
@@ -50,7 +52,7 @@ protected:
     float armySpriteCoordinateY = 0;
     float armySpawnCoordinateX = 0;
     float armySpawnCoordinateY = 0;
-    float armyCost = 1;
+    int armyCost = 1;
     int armyHealthBasic = 0;
     int armyAttackBasic = 0;
     int armyHealthNow = 0;
