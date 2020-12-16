@@ -25,19 +25,19 @@ void setOrderOfShopArmy(std::vector <Army*> tempShopArmy)
 		tempShopArmy.at(0)->setArmySpawnCoordinates(860.0, 80.0);
 		break;
 	case 2:
-		tempShopArmy.at(0)->setArmySpawnCoordinates(735.0, 80.0);
-		tempShopArmy.at(1)->setArmySpawnCoordinates(985.0, 80.0);
+		tempShopArmy.at(0)->setArmySpawnCoordinates(760.0, 80.0);
+		tempShopArmy.at(1)->setArmySpawnCoordinates(960.0, 80.0);
 		break;
 	case 3:
-		tempShopArmy.at(0)->setArmySpawnCoordinates(610.0, 80.0);
+		tempShopArmy.at(0)->setArmySpawnCoordinates(660.0, 80.0);
 		tempShopArmy.at(1)->setArmySpawnCoordinates(860.0, 80.0);
-		tempShopArmy.at(2)->setArmySpawnCoordinates(1110.0, 80.0);
+		tempShopArmy.at(2)->setArmySpawnCoordinates(1060.0, 80.0);
 		break;
 	case 4:
-		tempShopArmy.at(0)->setArmySpawnCoordinates(485.0, 80.0);
-		tempShopArmy.at(1)->setArmySpawnCoordinates(735.0, 80.0);
-		tempShopArmy.at(2)->setArmySpawnCoordinates(985.0, 80.0);
-		tempShopArmy.at(3)->setArmySpawnCoordinates(1235.0, 80.0);
+		tempShopArmy.at(0)->setArmySpawnCoordinates(560.0, 80.0);
+		tempShopArmy.at(1)->setArmySpawnCoordinates(760.0, 80.0);
+		tempShopArmy.at(2)->setArmySpawnCoordinates(960.0, 80.0);
+		tempShopArmy.at(3)->setArmySpawnCoordinates(1160.0, 80.0);
 		break;
 	default:
 		break;
@@ -85,7 +85,7 @@ std::vector <std::vector <Army*>> initializePullSquads()
 
 			while (window.pollEvent(event))
 			{
-				if (event.type == sf::Event::Closed || event.type == sf::Event::LostFocus)
+				if (event.type == sf::Event::Closed)
 				{
 					window.close();
 				}
@@ -1059,6 +1059,10 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	upSprite.setScale(0.25f, 0.25f);
 	upSprite.setPosition(window.getSize().x - 148.0f, 20.0f);
 
+	sf::Texture deleteTexture;
+	deleteTexture.loadFromFile("images/trash.png");
+	sf::Sprite deleteSprite;
+	deleteSprite.setTexture(deleteTexture);
 
 	sf::Font font;
 	font.loadFromFile("16249.ttf");
@@ -1123,6 +1127,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	int showInfoParameterActive = 0;
 	int showInfoParameterReserve = 0;
 
+	bool isDrawTrash = false;
+
 	std::vector <Army*> tempShopArmy;
 	refreshShopSquads(pullGame, firstPlayer, tempShopArmy);
 
@@ -1173,6 +1179,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 							spriteMoveParameter = i;
 							dXSpriteMove = mousePosition.x - tempActiveArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
 							isSpriteMoveActive = true;
+							deleteSprite.setPosition(10.0f, 440.0f);
+							isDrawTrash = true;							
 							break;
 						}
 					}
@@ -1185,10 +1193,12 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 							spriteMoveParameter = i;
 							dXSpriteMove = mousePosition.x - tempReserveArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
 							isSpriteMoveReserve = true;
+							deleteSprite.setPosition(10.0f, 800.0f);
+							isDrawTrash = true;
 							break;
 						}
 					}
-				}
+				}				
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased)
@@ -1230,33 +1240,65 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 
 					if (isPressedForMoveActive)
 					{
-						for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+						if (tempActiveArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX() <= 160.0f)
 						{
-							if (i < spriteMoveParameter)
+							switch (tempActiveArmy.at(spriteMoveParameter)->getEraName())
 							{
-								if ((float)mousePosition.x < tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+							case enumEraName::ERA_ANCIENT:
+								pullGame.at(0).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_CLASSIC:
+								pullGame.at(1).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_MEDIVAL:
+								pullGame.at(2).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_RENAISSANCEE:
+								pullGame.at(3).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_INDUSTRIAL:
+								pullGame.at(4).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_MODERN:
+								pullGame.at(5).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_ATOMIC:
+								pullGame.at(6).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_INFORMATION:
+								pullGame.at(7).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_FUTURE:
+								pullGame.at(8).push_back(tempActiveArmy.at(spriteMoveParameter)); break;
+							default:
+								break;
+							}
+							tempActiveArmy.erase(tempActiveArmy.begin() + spriteMoveParameter);
+							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							spriteMoveParameter = -1;
+						}
+						else 
+						{
+							for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+							{
+								if (i < spriteMoveParameter)
 								{
-									std::swap(tempActiveArmy[i], tempActiveArmy[spriteMoveParameter]);
-									firstPlayer->setPlayerActiveArmy(tempActiveArmy);
-									firstPlayer->setOrderOfActiveArmy();
-									break;
+									if ((float)mousePosition.x < tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+									{
+										std::swap(tempActiveArmy[i], tempActiveArmy[spriteMoveParameter]);
+										firstPlayer->setPlayerActiveArmy(tempActiveArmy);
+										firstPlayer->setOrderOfActiveArmy();
+										break;
+									}
 								}
 							}
-						}
 
-						for (int i = tempActiveArmy.size() - 1; i > -1; i--)
-						{
-							if (i > spriteMoveParameter)
+							for (int i = tempActiveArmy.size() - 1; i > -1; i--)
 							{
-								if ((float)mousePosition.x > tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								if (i > spriteMoveParameter)
 								{
-									std::swap(tempActiveArmy[i], tempActiveArmy[spriteMoveParameter]);
-									firstPlayer->setPlayerActiveArmy(tempActiveArmy);
-									firstPlayer->setOrderOfActiveArmy();
-									break;
+									if ((float)mousePosition.x > tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+									{
+										std::swap(tempActiveArmy[i], tempActiveArmy[spriteMoveParameter]);
+										firstPlayer->setPlayerActiveArmy(tempActiveArmy);
+										firstPlayer->setOrderOfActiveArmy();
+										break;
+									}
 								}
 							}
-						}
+						}						
 
 						isSpriteMoveActive = false;
 						firstPlayer->setOrderOfActiveArmy();
@@ -1335,6 +1377,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 							break;
 						}
 					}
+
+					isDrawTrash = false;
 				}
 
 				if (event.key.code == sf::Mouse::Right)
@@ -1355,7 +1399,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 					{
 						if (tempReserveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 						{
-							tempReserveArmy.at(i)->setArmySpawnCoordinateY(430.0);
+							tempReserveArmy.at(i)->setArmySpawnCoordinateY(440.0f);
 							tempActiveArmy.push_back(tempReserveArmy.at(i));
 							tempReserveArmy.erase(tempReserveArmy.begin() + i);
 							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
@@ -1367,6 +1411,16 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 					for (int i = 0; i < (int)tempActiveArmy.size(); i++)
 					{
 						if (tempActiveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+						{
+							tempActiveArmy.at(i)->setArmySpawnCoordinateY(440.0f);
+							tempReserveArmy.push_back(tempActiveArmy.at(i));
+							tempActiveArmy.erase(tempActiveArmy.begin() + i);
+							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							break;
+						}
+
+						/*if (tempActiveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 						{
 							switch (tempActiveArmy.at(i)->getEraName())
 							{
@@ -1394,7 +1448,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 							tempActiveArmy.erase(tempActiveArmy.begin() + i);
 							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
 							break;
-						}
+						}*/
 					}
 				}
 			}
@@ -1549,19 +1603,22 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 			}
 		}
 
-		if (isSpriteMoveShop)
+		if (spriteMoveParameter != -1) 
 		{
-			tempShopArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
-		}
+			if (isSpriteMoveShop)
+			{
+				tempShopArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
+			}
 
-		if (isSpriteMoveActive)
-		{
-			tempActiveArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
-		}
+			if (isSpriteMoveActive)
+			{
+				tempActiveArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
+			}
 
-		if (isSpriteMoveReserve)
-		{
-			tempReserveArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
+			if (isSpriteMoveReserve)
+			{
+				tempReserveArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
+			}
 		}
 
 		for (int i = 0; i < (int)tempActiveArmy.size(); i++)
@@ -1599,7 +1656,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 								{
 									if (pullGame.at(3).at(k)->getArmyID() == enumSquad::SQUAD_LANCER) 
 									{
-										pullGame.at(3).at(k)->setArmySpawnCoordinateY(430.0);
+										pullGame.at(3).at(k)->setArmySpawnCoordinateY(440.0f);
 										tempActiveArmy.push_back(pullGame.at(3).at(k));
 										pullGame.at(3).erase(pullGame.at(3).begin() + k);
 										break;
@@ -1639,7 +1696,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 								{
 									if (pullGame.at(tempIndexForEraName).at(k)->getArmyID() == tempIndexForEnumSquad)
 									{
-										pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(430.0);
+										pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(440.0);
 										tempActiveArmy.push_back(pullGame.at(tempIndexForEraName).at(k));
 										pullGame.at(tempIndexForEraName).erase(pullGame.at(tempIndexForEraName).begin() + k);
 										break;
@@ -1689,7 +1746,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 								{
 									if (pullGame.at(3).at(k)->getArmyID() == enumSquad::SQUAD_LANCER)
 									{
-										pullGame.at(3).at(k)->setArmySpawnCoordinateY(430.0);
+										pullGame.at(3).at(k)->setArmySpawnCoordinateY(440.0f);
 										tempReserveArmy.push_back(pullGame.at(3).at(k));
 										pullGame.at(3).erase(pullGame.at(3).begin() + k);
 										break;
@@ -1729,7 +1786,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 								{
 									if (pullGame.at(tempIndexForEraName).at(k)->getArmyID() == tempIndexForEnumSquad)
 									{
-										pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(430.0);
+										pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(440.0f);
 										tempReserveArmy.push_back(pullGame.at(tempIndexForEraName).at(k));
 										pullGame.at(tempIndexForEraName).erase(pullGame.at(tempIndexForEraName).begin() + k);
 										break;
@@ -1773,7 +1830,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 							{
 								if (pullGame.at(3).at(k)->getArmyID() == enumSquad::SQUAD_LANCER)
 								{
-									pullGame.at(3).at(k)->setArmySpawnCoordinateY(430.0);
+									pullGame.at(3).at(k)->setArmySpawnCoordinateY(440.0f);
 									tempActiveArmy.push_back(pullGame.at(3).at(k));
 									pullGame.at(3).erase(pullGame.at(3).begin() + k);
 									break;
@@ -1814,7 +1871,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 							{
 								if (pullGame.at(tempIndexForEraName).at(k)->getArmyID() == tempIndexForEnumSquad)
 								{
-									pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(430.0);
+									pullGame.at(tempIndexForEraName).at(k)->setArmySpawnCoordinateY(440.0f);
 									tempActiveArmy.push_back(pullGame.at(tempIndexForEraName).at(k));
 									pullGame.at(tempIndexForEraName).erase(pullGame.at(tempIndexForEraName).begin() + k);
 									break;
@@ -1976,6 +2033,11 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 		window.draw(textCoinCount);
 		window.draw(refreshSprite);
 		window.draw(upSprite);
+
+		if (isDrawTrash) 
+		{
+			window.draw(deleteSprite);
+		}
 
 		window.display();
 	}
