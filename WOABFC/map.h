@@ -17,7 +17,7 @@ sf::String TileMap[HEIGHT_MAP] = {
 };
 
 sf::String ShopMap[HEIGHT_MAP] = {
-	"gggggggggggggfff",
+	"ggggggggggggffff",
 	"ffffffffffffffff",
 	"gggggggggggggggg",
 	"ffffffffffffffff",
@@ -25,5 +25,5 @@ sf::String ShopMap[HEIGHT_MAP] = {
 	"ffffffffffffffff",
 	"gggggggggggggggg",
 	"ffffffffffffffff",
-	"gggggggggggggggg"
+	"fffgggggggggggff"
 };

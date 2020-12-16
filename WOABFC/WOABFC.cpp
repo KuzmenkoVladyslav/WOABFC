@@ -1050,7 +1050,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	sf::Sprite refreshSprite;
 	refreshSprite.setTexture(refreshTexture);
 	refreshSprite.setScale(0.25f, 0.25f);
-	refreshSprite.setPosition(window.getSize().x - 346.0f, 20.0f);
+	refreshSprite.setPosition(window.getSize().x - 396.0f, 20.0f);
 
 	sf::Texture upTexture;
 	upTexture.loadFromFile("images/up.png");
@@ -1092,7 +1092,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	textCoinCount.setOutlineThickness(2);
 	textCoinCount.setOutlineColor(sf::Color::White);
 	textCoinCount.setCharacterSize(60);
-	textCoinCount.setPosition(132.4f, window.getSize().y - 100.0f);
+	textCoinCount.setPosition(162.4f, window.getSize().y - 100.0f);
 
 	sf::Text textInfo = textAttack;
 	textInfo.setCharacterSize(25);
