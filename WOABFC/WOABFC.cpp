@@ -1064,6 +1064,13 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	sf::Sprite deleteSprite;
 	deleteSprite.setTexture(deleteTexture);
 
+	sf::Texture battleTexture;
+	battleTexture.loadFromFile("images/battle.png");
+	sf::Sprite battleSprite;
+	battleSprite.setTexture(battleTexture);
+	battleSprite.setScale(0.78f, 0.78f);
+	battleSprite.setPosition(window.getSize().x - 210.0f, 440.0f);
+
 	sf::Font font;
 	font.loadFromFile("16249.ttf");
 
@@ -1314,30 +1321,62 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 
 					if (isPressedForMoveReserve)
 					{
-						for (int i = 0; i < (int)tempReserveArmy.size(); i++)
+						if (tempReserveArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX() <= 160.0f)
 						{
-							if (i < spriteMoveParameter)
+							switch (tempReserveArmy.at(spriteMoveParameter)->getEraName())
 							{
-								if ((float)mousePosition.x < tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+							case enumEraName::ERA_ANCIENT:
+								pullGame.at(0).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_CLASSIC:
+								pullGame.at(1).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_MEDIVAL:
+								pullGame.at(2).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_RENAISSANCEE:
+								pullGame.at(3).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_INDUSTRIAL:
+								pullGame.at(4).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_MODERN:
+								pullGame.at(5).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_ATOMIC:
+								pullGame.at(6).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_INFORMATION:
+								pullGame.at(7).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							case enumEraName::ERA_FUTURE:
+								pullGame.at(8).push_back(tempReserveArmy.at(spriteMoveParameter)); break;
+							default:
+								break;
+							}
+							tempReserveArmy.erase(tempReserveArmy.begin() + spriteMoveParameter);
+							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							spriteMoveParameter = -1;
+						}
+						else
+						{
+							for (int i = 0; i < (int)tempReserveArmy.size(); i++)
+							{
+								if (i < spriteMoveParameter)
 								{
-									std::swap(tempReserveArmy[i], tempReserveArmy[spriteMoveParameter]);
-									firstPlayer->setPlayerReserveArmy(tempReserveArmy);
-									firstPlayer->setOrderOfReserveArmy();
-									break;
+									if ((float)mousePosition.x < tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+									{
+										std::swap(tempReserveArmy[i], tempReserveArmy[spriteMoveParameter]);
+										firstPlayer->setPlayerReserveArmy(tempReserveArmy);
+										firstPlayer->setOrderOfReserveArmy();
+										break;
+									}
 								}
 							}
-						}
 
-						for (int i = tempReserveArmy.size() - 1; i > -1; i--)
-						{
-							if (i > spriteMoveParameter)
+							for (int i = tempReserveArmy.size() - 1; i > -1; i--)
 							{
-								if ((float)mousePosition.x > tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+								if (i > spriteMoveParameter)
 								{
-									std::swap(tempReserveArmy[i], tempReserveArmy[spriteMoveParameter]);
-									firstPlayer->setPlayerReserveArmy(tempReserveArmy);
-									firstPlayer->setOrderOfReserveArmy();
-									break;
+									if ((float)mousePosition.x > tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 100)
+									{
+										std::swap(tempReserveArmy[i], tempReserveArmy[spriteMoveParameter]);
+										firstPlayer->setPlayerReserveArmy(tempReserveArmy);
+										firstPlayer->setOrderOfReserveArmy();
+										break;
+									}
 								}
 							}
 						}
@@ -1419,36 +1458,6 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
 							break;
 						}
-
-						/*if (tempActiveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
-						{
-							switch (tempActiveArmy.at(i)->getEraName())
-							{
-							case enumEraName::ERA_ANCIENT:
-								pullGame.at(0).push_back(tempActiveArmy.at(i)); break;
-							case enumEraName::ERA_CLASSIC:
-								pullGame.at(1).push_back(tempActiveArmy.at(i)); break;
-							case enumEraName::ERA_MEDIVAL:
-								pullGame.at(2).push_back(tempActiveArmy.at(i)); break;
-							case enumEraName::ERA_RENAISSANCEE:
-								pullGame.at(3).push_back(tempActiveArmy.at(i)); break;
-							case enumEraName::ERA_INDUSTRIAL:
-								pullGame.at(4).push_back(tempActiveArmy.at(i)); break;
-							case enumEraName::ERA_MODERN:
-								pullGame.at(5).push_back(tempActiveArmy.at(i)); break;
-							case enumEraName::ERA_ATOMIC:
-								pullGame.at(6).push_back(tempActiveArmy.at(i)); break;
-							case enumEraName::ERA_INFORMATION:
-								pullGame.at(7).push_back(tempActiveArmy.at(i)); break;
-							case enumEraName::ERA_FUTURE:
-								pullGame.at(8).push_back(tempActiveArmy.at(i)); break;
-							default:
-								break;
-							}
-							tempActiveArmy.erase(tempActiveArmy.begin() + i);
-							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
-							break;
-						}*/
 					}
 				}
 			}
@@ -2033,6 +2042,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 		window.draw(textCoinCount);
 		window.draw(refreshSprite);
 		window.draw(upSprite);
+		window.draw(battleSprite);
 
 		if (isDrawTrash) 
 		{
