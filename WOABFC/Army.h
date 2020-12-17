@@ -7,9 +7,6 @@
 class Army
 {
 public:
-    Army() {};
-    ~Army() {};
-
     virtual sf::Sprite getArmySprite();
 
     virtual float getArmySpawnCoordinateX();

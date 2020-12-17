@@ -5,7 +5,6 @@
 #include <thread>
 #include <sstream>
 #include <time.h>
-#include <Windows.h>
 
 #include "Army.h"
 #include "Squad.h"
@@ -183,8 +182,15 @@ std::vector <std::vector <Army*>> initializePullSquads()
 		loagindSprite7.setTexture(loagindTexture7);
 		loagindSprite8.setTexture(loagindTexture8);
 
+		sf::Clock clock;
+		int timerOfLoaging = 0;
+
 		while (window.isOpen())
 		{			
+			float time = (float)clock.getElapsedTime().asMicroseconds();
+			clock.restart();
+			time = time / 800;
+
 			sf::Event event;
 
 			while (window.pollEvent(event))
@@ -237,13 +243,16 @@ std::vector <std::vector <Army*>> initializePullSquads()
 			{
 				if (nowSpriteDrawing == i) 
 				{
-					nowSpriteDrawing++;
-					if (nowSpriteDrawing > 8) 
+					if (timerOfLoaging > 250) 
 					{
-						nowSpriteDrawing = 1;
-					}
-					Sleep(100);
-					break;
+						nowSpriteDrawing++;
+						if (nowSpriteDrawing > 8)
+						{
+							nowSpriteDrawing = 1;
+						}
+						timerOfLoaging = 0;
+						break;
+					}					
 				}
 			}
 
@@ -251,6 +260,8 @@ std::vector <std::vector <Army*>> initializePullSquads()
 			{
 				window.close();
 			}
+
+			timerOfLoaging += time;
 
 			window.display();
 		}

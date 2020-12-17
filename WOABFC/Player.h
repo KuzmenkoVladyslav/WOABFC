@@ -6,9 +6,6 @@
 class Player
 {
 public:
-    Player() {};
-    ~Player() {};
-
     bool getIsWinLastGame();
 
     void setIsWinLastGame(bool isWinLastGame);

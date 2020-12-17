@@ -6,5 +6,4 @@ class Squad :
 {
 public:
     Squad(enumSquad armyID);
-    ~Squad() {};
 };
