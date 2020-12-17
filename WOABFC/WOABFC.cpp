@@ -2198,7 +2198,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 	}
 }
 
-void battle(std::vector <std::vector <Army*>>& pullGame)
+void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, Player*& secondPlayer)
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (BATTLE)", sf::Style::Fullscreen);
 
@@ -2216,13 +2216,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 	healthSpriteFirst.setPosition(window.getSize().x - 200.0f, window.getSize().y - 100.0f);
 	healthSpriteSecond.setPosition(window.getSize().x - 200.0f, 20.0f);
 
-	std::vector <Army*> tempFirstArmy;
-	std::vector <Army*> tempSecondArmy;
-
-	Player* firstPlayer = new Player();
-	firstPlayer->setPlayerEra(enumEraName::ERA_FUTURE);
-	Player* secondPlayer = new Player();
-	secondPlayer->setPlayerEra(enumEraName::ERA_INFORMATION);
+	std::vector <Army*> tempFirstArmy = firstPlayer->getPlayerActiveArmy();
+	std::vector <Army*> tempSecondArmy = secondPlayer->getPlayerActiveArmy();
 
 	sf::Font font;
 	font.loadFromFile("16249.ttf");
@@ -2233,13 +2228,13 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 	textAttack.setStyle(sf::Text::Bold);
 
 	sf::Text textPlayerHealthFirst = textAttack;
-	textPlayerHealthFirst.setFillColor(sf::Color::Red);
-	textPlayerHealthFirst.setOutlineThickness(3);
+	textPlayerHealthFirst.setFillColor(sf::Color(155, 17, 30));
+	textPlayerHealthFirst.setOutlineThickness(2);
 	textPlayerHealthFirst.setOutlineColor(sf::Color::White);
 	textPlayerHealthFirst.setCharacterSize(60);
 	sf::Text textPlayerHealthSecond = textPlayerHealthFirst;
-	textPlayerHealthFirst.setPosition(window.getSize().x - 70.0f, window.getSize().y - 90.0f);
-	textPlayerHealthSecond.setPosition(window.getSize().x - 70.0f, 30.0f);
+	textPlayerHealthFirst.setPosition(window.getSize().x - 70.0f, window.getSize().y - 100.0f);
+	textPlayerHealthSecond.setPosition(window.getSize().x - 70.0f, 20.0f);
 
 	textPlayerHealthFirst.setString(std::to_string(firstPlayer->getPlayerHealth()));
 	textPlayerHealthSecond.setString(std::to_string(secondPlayer->getPlayerHealth()));
@@ -2276,14 +2271,6 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 	bool showInfoReRenderFirst = true, showInfoReRenderSecond = true;
 	int showInfoParameter = 0;
 
-	tempFirstArmy.push_back(pullGame.at(3).at(32));
-	tempFirstArmy.push_back(pullGame.at(8).at(6));
-
-	tempSecondArmy.push_back(pullGame.at(7).at(0));
-	tempSecondArmy.push_back(pullGame.at(7).at(8));
-	tempSecondArmy.push_back(pullGame.at(7).at(16));
-	tempSecondArmy.push_back(pullGame.at(7).at(24));
-
 	for (int i = 0; i < (const int)tempFirstArmy.size(); i++)
 	{
 		tempFirstArmy.at(i)->setArmySpawnCoordinateY(800.0);
@@ -2315,82 +2302,6 @@ void battle(std::vector <std::vector <Army*>>& pullGame)
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
-			}
-
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				if (event.key.code == sf::Mouse::Left)
-				{
-					for (int i = 0; i < (int)tempFirstArmy.size(); i++)
-					{
-						if (tempFirstArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
-						{
-							isPressedForMove = true;
-							spriteMoveParameter = i;
-							dXSpriteMove = mousePosition.x - tempFirstArmy.at(spriteMoveParameter)->getArmySpawnCoordinateX();
-							isSpriteMove = true;
-							break;
-						}
-					}
-				}
-			}
-
-			if (event.type == sf::Event::MouseButtonReleased)
-			{
-				if (event.key.code == sf::Mouse::Left)
-				{
-					if (isPressedForMove)
-					{
-						for (int i = 0; i < (int)tempFirstArmy.size(); i++)
-						{
-							if (i < spriteMoveParameter)
-							{
-								if ((float)mousePosition.x < tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 100)
-								{
-									std::swap(tempFirstArmy[i], tempFirstArmy[spriteMoveParameter]);
-									firstPlayer->setPlayerActiveArmy(tempFirstArmy);
-									firstPlayer->setOrderOfActiveArmy();
-									break;
-								}
-							}
-						}
-
-						for (int i = tempFirstArmy.size() - 1; i > -1; i--)
-						{
-							if (i > spriteMoveParameter)
-							{
-								if ((float)mousePosition.x > tempFirstArmy.at(i)->getArmySpawnCoordinateX() + 100)
-								{
-									std::swap(tempFirstArmy[i], tempFirstArmy[spriteMoveParameter]);
-									firstPlayer->setPlayerActiveArmy(tempFirstArmy);
-									firstPlayer->setOrderOfActiveArmy();
-									break;
-								}
-							}
-						}
-
-						isSpriteMove = false;
-						firstPlayer->setOrderOfActiveArmy();
-
-						for (size_t i = 0; i < tempFirstArmy.size(); i++)
-						{
-							tempFirstArmy.at(i)->setArmySpawnCoordinateY(800.0);
-						}
-
-						firstPlayer->setPlayerActiveArmy(tempFirstArmy);
-						isPressedForMove = false;
-					}
-				}
-			}
-
-			if (event.type == sf::Event::KeyReleased)
-			{
-				if (event.key.code == sf::Keyboard::Escape)
-				{
-					returnAllPlayerSquadsToGeneralPull(pullGame, firstPlayer);
-					window.close(); 
-					gameProcess(pullGame);
-				}
 			}
 
 			if (showInfoReRenderFirst)
@@ -2622,9 +2533,8 @@ void gameProcess(std::vector <std::vector <Army*>>& pullGame)
 				break;
 			}
 		}
+		battle(pullGame, playersVector.at(0), playersVector.at(1));
 	}
-	
-	//battle(pullGame);
 }
 
 int main()
