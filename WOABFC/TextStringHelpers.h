@@ -14,7 +14,7 @@ sf::String getStringEraName(enumEraName eraName)
 	case enumEraName::ERA_ATOMIC: return languageString(14);
 	case enumEraName::ERA_INFORMATION: return languageString(15);
 	case enumEraName::ERA_FUTURE: return languageString(16);
-	default: return languageString(23);
+	default: return "";
 	}
 }
 
@@ -28,7 +28,7 @@ sf::String getStringArmyType(enumTypeSquad armyType)
 	case enumTypeSquad::TYPE_ANTICAVALRY: return languageString(20);
 	case enumTypeSquad::TYPE_ANTICAVALRYCAVALRY: return languageString(21);
 	case enumTypeSquad::TYPE_NONE: return languageString(22);
-	default: return languageString(23);
+	default: return "";
 	}
 }
 

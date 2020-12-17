@@ -13,7 +13,7 @@ static void setState(int newState)
 	state = newState;
 }
 
-static sf::String languageEnglish[24] = {
+static sf::String languageEnglish[26] = {
 	"Tutorial",
 	"Multiplayer",
 	"Settings",
@@ -37,10 +37,12 @@ static sf::String languageEnglish[24] = {
 	"Anti-Cavalry\nDeal double damage to Cavalry\nsquads. If a Cavalry squad\nattacks an Anti-Cavalrywith its\nfirst hit of a turn, it loses\nthe ability to attack a second\ntime that turn.",
 	"Anti-Cavalry Cavalry\nCan attack twice each turn.\nDeal double damage to Cavalry\nsquads. If a Cavalry squad\nattacks an Anti-Cavalrywith its\nfirst hit of a turn, it loses\nthe ability to attack a second\ntime that turn.",
 	"Doesn't have uniqe ability.",
-	""
+	"Cost: ",
+	" points of the turn.",
+	"You are running out of space or points for the turn."
 };
 
-static sf::String languageRussian[24] = {
+static sf::String languageRussian[26] = {
 	L"Обучение",
 	L"Многопользовательская игра",
 	L"Настройки",
@@ -64,10 +66,12 @@ static sf::String languageRussian[24] = {
 	L"Анти-Кавалерия\nНаносит двойной урон войскам\nКавалерии противника. Если\nКавалерийский отряд\nатаковал Анти-кавалерийский на\nсвоём первом ударе за ход,\nто он теряет возможность\nатаковать второй раз\nза этот ход.",
 	L"Анти-Кавалерийская Кавалерия\nМожет атаковать дважды\nза один ход.\nНаносит двойной урон войскам\nКавалерии противника. Если\nКавалерийский отряд\nатаковал Анти-кавалерийский на\nсвоём первом ударе за ход,\nто он теряет возможность\nатаковать второй раз\nза этот ход.",
 	L"Нет уникальных\nособенностей.",
-	L""
+	L"Стоимость: ",
+	L" баллов действий.",
+	L"У Вас не хватает места или баллов действий!"
 };
 
-static sf::String languageUkrainian[24] = {
+static sf::String languageUkrainian[26] = {
 	L"Навчання",
 	L"Багато користувальницька гра",
 	L"Налаштування",
@@ -91,7 +95,9 @@ static sf::String languageUkrainian[24] = {
 	L"Анти-Кавалерія\nНаносить подвійну шкоду\nвійськам Кавалерії супротивника.\nЯкщо Кавалерійский загін атакував\nАнти-кавалерійский на своїй\nпершій атаці за хід, то він\nвтрачає можливість атакувати\nдругий раз за цей хід.",
 	L"Анти-Кавалерійска Кавалерія\nМоже атакувати двічі за один\nхід. Наносить подвійну шкоду\nвійськам Кавалерії супротивника.\nЯкщо Кавалерійский загін атакував\nАнти-кавалерійский на своїй\nпершій атаці за хід, то він\nвтрачає можливість атакувати\nдругий раз за цей хід.",
 	L"Немає унікальних здібностей.",
-	L""
+	L"Вартість: ",
+	L" балів дій.",
+	L"У Вас недостатньо місця або балів дій!"
 };
 
 static sf::String languageString(int indexOfString)

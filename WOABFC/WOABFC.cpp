@@ -1022,7 +1022,7 @@ void returnAllShopSquadsToGeneralPull(std::vector <std::vector <Army*>>& pullGam
 	tempShopArmy.clear();
 }
 
-void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
+void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SHOP)", sf::Style::Fullscreen);
 
@@ -1085,7 +1085,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	textPlayerHealthFirst.setOutlineColor(sf::Color::White);
 	textPlayerHealthFirst.setCharacterSize(60);
 	textPlayerHealthFirst.setPosition(window.getSize().x - 70.0f, window.getSize().y - 100.0f);
-	textPlayerHealthFirst.setString(std::to_string(firstPlayer->getPlayerHealth()));
+	textPlayerHealthFirst.setString(std::to_string(player->getPlayerHealth()));
 
 	sf::Text textCoinCount = textAttack;
 	textCoinCount.setFillColor(sf::Color(184, 134, 11));
@@ -1093,6 +1093,13 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	textCoinCount.setOutlineColor(sf::Color::White);
 	textCoinCount.setCharacterSize(60);
 	textCoinCount.setPosition(162.4f, window.getSize().y - 100.0f);
+
+	sf::Text textErrorCoinsCount = textAttack;
+	textErrorCoinsCount.setOutlineThickness(2);
+	textErrorCoinsCount.setCharacterSize(40);
+	textErrorCoinsCount.setPosition(550.0f, window.getSize().y - 90.0f);
+	textErrorCoinsCount.setString(languageString(25));
+	textErrorCoinsCount.setOutlineColor(sf::Color::Red);
 
 	sf::Text textInfo = textAttack;
 	textInfo.setCharacterSize(25);
@@ -1137,12 +1144,14 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 	bool isDrawTrash = false;
 
 	std::vector <Army*> tempShopArmy;
-	refreshShopSquads(pullGame, firstPlayer, tempShopArmy);
+	refreshShopSquads(pullGame, player, tempShopArmy);
 
 	std::vector <Army*> tempActiveArmy;
 	std::vector <Army*> tempReserveArmy;
 
 	sf::Clock clock;
+	float textErrorTimer = 0;
+	bool isTextErrorTimer = false;
 
 	while (window.isOpen())
 	{
@@ -1271,7 +1280,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 								break;
 							}
 							tempActiveArmy.erase(tempActiveArmy.begin() + spriteMoveParameter);
-							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+							tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
 							spriteMoveParameter = -1;
 						}
 						else 
@@ -1283,8 +1292,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 									if ((float)mousePosition.x < tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 100)
 									{
 										std::swap(tempActiveArmy[i], tempActiveArmy[spriteMoveParameter]);
-										firstPlayer->setPlayerActiveArmy(tempActiveArmy);
-										firstPlayer->setOrderOfActiveArmy();
+										player->setPlayerActiveArmy(tempActiveArmy);
+										player->setOrderOfActiveArmy();
 										break;
 									}
 								}
@@ -1297,8 +1306,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 									if ((float)mousePosition.x > tempActiveArmy.at(i)->getArmySpawnCoordinateX() + 100)
 									{
 										std::swap(tempActiveArmy[i], tempActiveArmy[spriteMoveParameter]);
-										firstPlayer->setPlayerActiveArmy(tempActiveArmy);
-										firstPlayer->setOrderOfActiveArmy();
+										player->setPlayerActiveArmy(tempActiveArmy);
+										player->setOrderOfActiveArmy();
 										break;
 									}
 								}
@@ -1306,14 +1315,14 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 						}						
 
 						isSpriteMoveActive = false;
-						firstPlayer->setOrderOfActiveArmy();
+						player->setOrderOfActiveArmy();
 
 						for (size_t i = 0; i < tempActiveArmy.size(); i++)
 						{
 							tempActiveArmy.at(i)->setArmySpawnCoordinateY(440.0);
 						}
 
-						firstPlayer->setPlayerActiveArmy(tempActiveArmy);
+						player->setPlayerActiveArmy(tempActiveArmy);
 						isPressedForMoveActive = false;
 					}
 
@@ -1345,7 +1354,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 								break;
 							}
 							tempReserveArmy.erase(tempReserveArmy.begin() + spriteMoveParameter);
-							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
 							spriteMoveParameter = -1;
 						}
 						else
@@ -1357,8 +1366,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 									if ((float)mousePosition.x < tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 100)
 									{
 										std::swap(tempReserveArmy[i], tempReserveArmy[spriteMoveParameter]);
-										firstPlayer->setPlayerReserveArmy(tempReserveArmy);
-										firstPlayer->setOrderOfReserveArmy();
+										player->setPlayerReserveArmy(tempReserveArmy);
+										player->setOrderOfReserveArmy();
 										break;
 									}
 								}
@@ -1371,8 +1380,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 									if ((float)mousePosition.x > tempReserveArmy.at(i)->getArmySpawnCoordinateX() + 100)
 									{
 										std::swap(tempReserveArmy[i], tempReserveArmy[spriteMoveParameter]);
-										firstPlayer->setPlayerReserveArmy(tempReserveArmy);
-										firstPlayer->setOrderOfReserveArmy();
+										player->setPlayerReserveArmy(tempReserveArmy);
+										player->setOrderOfReserveArmy();
 										break;
 									}
 								}
@@ -1380,55 +1389,55 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 						}
 
 						isSpriteMoveReserve = false;
-						firstPlayer->setOrderOfReserveArmy();
-						firstPlayer->setPlayerReserveArmy(tempReserveArmy);
+						player->setOrderOfReserveArmy();
+						player->setPlayerReserveArmy(tempReserveArmy);
 						isPressedForMoveReserve = false;
 					}
 
 					if (refreshSprite.getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 					{
-						if (firstPlayer->getPlayerActionPointsNow() >= 1) 
+						if (player->getPlayerActionPointsNow() >= 1) 
 						{
-							firstPlayer->setPlayerActionPointsNow(firstPlayer->getPlayerActionPointsNow() - 1);
-							refreshShopSquads(pullGame, firstPlayer, tempShopArmy);
+							player->setPlayerActionPointsNow(player->getPlayerActionPointsNow() - 1);
+							refreshShopSquads(pullGame, player, tempShopArmy);
 						}
 						else 
 						{
-							// to do text error message not enought money
+							isTextErrorTimer = true;
 						}
 					}
 
 					if (upSprite.getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 					{
-						if (firstPlayer->getPlayerActionPointsNow() >= firstPlayer->getPlayerNextEraCost())
+						if (player->getPlayerActionPointsNow() >= player->getPlayerNextEraCost())
 						{
-							firstPlayer->setPlayerActionPointsNow(firstPlayer->getPlayerActionPointsNow() - firstPlayer->getPlayerNextEraCost());
+							player->setPlayerActionPointsNow(player->getPlayerActionPointsNow() - player->getPlayerNextEraCost());
 
-							switch (firstPlayer->getPlayerEra())
+							switch (player->getPlayerEra())
 							{
 							case enumEraName::ERA_ANCIENT:
-								firstPlayer->setPlayerEra(enumEraName::ERA_CLASSIC); break;
+								player->setPlayerEra(enumEraName::ERA_CLASSIC); break;
 							case enumEraName::ERA_CLASSIC:
-								firstPlayer->setPlayerEra(enumEraName::ERA_MEDIVAL); break;
+								player->setPlayerEra(enumEraName::ERA_MEDIVAL); break;
 							case enumEraName::ERA_MEDIVAL:
-								firstPlayer->setPlayerEra(enumEraName::ERA_RENAISSANCEE); break;
+								player->setPlayerEra(enumEraName::ERA_RENAISSANCEE); break;
 							case enumEraName::ERA_RENAISSANCEE:
-								firstPlayer->setPlayerEra(enumEraName::ERA_INDUSTRIAL); break;
+								player->setPlayerEra(enumEraName::ERA_INDUSTRIAL); break;
 							case enumEraName::ERA_INDUSTRIAL:
-								firstPlayer->setPlayerEra(enumEraName::ERA_MODERN); break;
+								player->setPlayerEra(enumEraName::ERA_MODERN); break;
 							case enumEraName::ERA_MODERN:
-								firstPlayer->setPlayerEra(enumEraName::ERA_ATOMIC); break;
+								player->setPlayerEra(enumEraName::ERA_ATOMIC); break;
 							case enumEraName::ERA_ATOMIC:
-								firstPlayer->setPlayerEra(enumEraName::ERA_INFORMATION); break;
+								player->setPlayerEra(enumEraName::ERA_INFORMATION); break;
 							case enumEraName::ERA_INFORMATION:
-								firstPlayer->setPlayerEra(enumEraName::ERA_FUTURE); break;
+								player->setPlayerEra(enumEraName::ERA_FUTURE); break;
 							default:
 								break;
 							}
 						}
 						else
 						{
-							// to do text error message not enought money
+							isTextErrorTimer = true;
 						}
 					}
 
@@ -1441,17 +1450,17 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 					{
 						if (tempShopArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 						{
-							if (firstPlayer->getPlayerReserveCount() > (int)tempReserveArmy.size() && firstPlayer->getPlayerActionPointsNow() >= tempShopArmy.at(i)->getArmyCost())
+							if (player->getPlayerReserveCount() > (int)tempReserveArmy.size() && player->getPlayerActionPointsNow() >= tempShopArmy.at(i)->getArmyCost())
 							{
-								firstPlayer->setPlayerActionPointsNow(firstPlayer->getPlayerActionPointsNow() - tempShopArmy.at(i)->getArmyCost());
+								player->setPlayerActionPointsNow(player->getPlayerActionPointsNow() - tempShopArmy.at(i)->getArmyCost());
 								tempReserveArmy.push_back(tempShopArmy.at(i));
 								tempShopArmy.erase(tempShopArmy.begin() + i);
 								setOrderOfShopArmy(tempShopArmy);
-								tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);								
+								tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);								
 							}
 							else 
 							{
-								// to do text error message not enought size or money
+								isTextErrorTimer = true;
 							}
 
 							break;							
@@ -1462,17 +1471,17 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 					{
 						if (tempReserveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 						{
-							if (firstPlayer->getPlayerArmyCount() > (int)tempActiveArmy.size())
+							if (player->getPlayerArmyCount() > (int)tempActiveArmy.size())
 							{
 								tempReserveArmy.at(i)->setArmySpawnCoordinateY(440.0f);
 								tempActiveArmy.push_back(tempReserveArmy.at(i));
 								tempReserveArmy.erase(tempReserveArmy.begin() + i);
-								tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
-								tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+								tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
+								tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
 							}
 							else
 							{
-								// to do text error message not enought size
+								isTextErrorTimer = true;
 							}
 
 							break;
@@ -1483,17 +1492,17 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 					{
 						if (tempActiveArmy.at(i)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
 						{
-							if (firstPlayer->getPlayerReserveCount() > (int)tempReserveArmy.size()) 
+							if (player->getPlayerReserveCount() > (int)tempReserveArmy.size()) 
 							{
 								tempActiveArmy.at(i)->setArmySpawnCoordinateY(440.0f);
 								tempReserveArmy.push_back(tempActiveArmy.at(i));
 								tempActiveArmy.erase(tempActiveArmy.begin() + i);
-								tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
-								tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+								tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
+								tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
 							}
 							else
 							{
-								// to do text error message not enought size
+								isTextErrorTimer = true;
 							}
 							
 							break;
@@ -1507,7 +1516,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 				if (event.key.code == sf::Keyboard::Escape)
 				{
 					returnAllShopSquadsToGeneralPull(pullGame, tempShopArmy);
-					returnAllPlayerSquadsToGeneralPull(pullGame, firstPlayer);
+					returnAllPlayerSquadsToGeneralPull(pullGame, player);
 					window.close();
 					gameProcess(pullGame);
 				}
@@ -1685,7 +1694,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 						if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempActiveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN ||
 							tempActiveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
 						{
-							if (firstPlayer->getPlayerEra() > tempActiveArmy.at(i)->getEraName()) 
+							if (player->getPlayerEra() > tempActiveArmy.at(i)->getEraName()) 
 							{
 								pullGame.at(2).push_back(tempActiveArmy.at(i));
 								pullGame.at(2).push_back(tempActiveArmy.at(j));
@@ -1712,7 +1721,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 									}
 								}
 
-								tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+								tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
 							}
 						}
 						else if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempActiveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT ||
@@ -1722,7 +1731,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 						}
 						else
 						{
-							if (firstPlayer->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
+							if (player->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
 							{
 								pullGame.at((int)tempActiveArmy.at(i)->getEraName()).push_back(tempActiveArmy.at(i));
 								pullGame.at((int)tempActiveArmy.at(j)->getEraName()).push_back(tempActiveArmy.at(j));
@@ -1752,7 +1761,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 									}
 								}
 
-								tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
+								tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
 							}
 						}
 					}
@@ -1775,7 +1784,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 						if (tempReserveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN ||
 							tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
 						{
-							if (firstPlayer->getPlayerEra() > tempReserveArmy.at(i)->getEraName())
+							if (player->getPlayerEra() > tempReserveArmy.at(i)->getEraName())
 							{
 								pullGame.at(2).push_back(tempReserveArmy.at(i));
 								pullGame.at(2).push_back(tempReserveArmy.at(j));
@@ -1802,7 +1811,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 									}
 								}
 
-								tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+								tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
 							}
 						}
 						else if (tempReserveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT ||
@@ -1812,7 +1821,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 						}
 						else
 						{
-							if (firstPlayer->getPlayerEra() > tempReserveArmy.at(i)->getEraName())
+							if (player->getPlayerEra() > tempReserveArmy.at(i)->getEraName())
 							{
 								pullGame.at((int)tempReserveArmy.at(i)->getEraName()).push_back(tempReserveArmy.at(i));
 								pullGame.at((int)tempReserveArmy.at(j)->getEraName()).push_back(tempReserveArmy.at(j));
@@ -1842,7 +1851,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 									}
 								}
 
-								tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+								tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
 							}
 						}
 					}
@@ -1859,7 +1868,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 					if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_PIKEMAN ||
 						tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_PIKEMAN)
 					{
-						if (firstPlayer->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
+						if (player->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
 						{
 							pullGame.at(2).push_back(tempActiveArmy.at(i));
 							pullGame.at(2).push_back(tempReserveArmy.at(j));
@@ -1886,8 +1895,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 								}
 							}
 
-							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
-							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
+							tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
 						}
 					}
 					else if (tempActiveArmy.at(i)->getArmyID() == enumSquad::SQUAD_KNIGHT && tempReserveArmy.at(j)->getArmyID() == enumSquad::SQUAD_KNIGHT ||
@@ -1897,7 +1906,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 					}
 					else
 					{
-						if (firstPlayer->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
+						if (player->getPlayerEra() > tempActiveArmy.at(i)->getEraName())
 						{
 							pullGame.at((int)tempActiveArmy.at(i)->getEraName()).push_back(tempActiveArmy.at(i));
 							pullGame.at((int)tempReserveArmy.at(j)->getEraName()).push_back(tempReserveArmy.at(j));
@@ -1927,8 +1936,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 								}
 							}
 
-							tempActiveArmy = firstPlayer->setPlayerTempActiveArmy(tempActiveArmy);
-							tempReserveArmy = firstPlayer->setPlayerTempReserveArmy(tempReserveArmy);
+							tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
+							tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
 						}
 					}
 				}
@@ -1948,7 +1957,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 				}
 				else
 				{
-					switch (firstPlayer->getPlayerEra())
+					switch (player->getPlayerEra())
 					{
 					case enumEraName::ERA_ANCIENT: mapSprite.setTextureRect(sf::IntRect(120, 0, 120, 120)); break;
 					case enumEraName::ERA_CLASSIC: mapSprite.setTextureRect(sf::IntRect(240, 0, 120, 120)); break;
@@ -2073,7 +2082,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 		}
 
 		std::ostringstream playerCoinsString;
-		playerCoinsString << firstPlayer->getPlayerActionPointsNow() << " / " << firstPlayer->getPlayerActionPointsMax();
+		playerCoinsString << player->getPlayerActionPointsNow() << " / " << player->getPlayerActionPointsMax();
 		textCoinCount.setString(playerCoinsString.str());
 
 		window.draw(textPlayerHealthFirst);
@@ -2083,6 +2092,21 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer)
 		window.draw(refreshSprite);
 		window.draw(upSprite);
 		window.draw(battleSprite);
+
+		if (isTextErrorTimer) 
+		{
+			textErrorTimer += time;
+		}
+
+		if (textErrorTimer <= 3000 && textErrorTimer != 0)
+		{
+			window.draw(textErrorCoinsCount);
+		}
+		else 
+		{
+			textErrorTimer = 0;
+			isTextErrorTimer = false;
+		}
 
 		if (isDrawTrash) 
 		{
