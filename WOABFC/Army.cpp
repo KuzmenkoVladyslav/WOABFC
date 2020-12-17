@@ -35,6 +35,16 @@ int Army::getArmyHealthNow()
     return this->armyHealthNow;
 }
 
+void Army::setArmyHealthNow(int newArmyHealth)
+{
+    this->armyHealthNow = newArmyHealth;
+}
+
+int Army::getArmyHealthBasic() 
+{
+    return this->armyHealthBasic;
+}
+
 void Army::setArmySpawnCoordinateX(float armySpawnCoordinateX)
 {
     this->armySpawnCoordinateX = armySpawnCoordinateX;

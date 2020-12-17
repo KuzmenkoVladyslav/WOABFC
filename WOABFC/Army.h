@@ -24,6 +24,10 @@ public:
 
     virtual int getArmyHealthNow();
 
+    virtual void setArmyHealthNow(int newArmyHealth);
+
+    virtual int getArmyHealthBasic();
+
     virtual void setArmySpawnCoordinateX(float armySpawnCoordinateX);
 
     virtual void setArmySpawnCoordinateY(float armySpawnCoordinateY);

@@ -44,6 +44,110 @@ void setOrderOfShopArmy(std::vector <Army*> tempShopArmy)
 	}
 }
 
+void setOrderOfTempBattleArmy(std::vector <Army*> tempBattleArmy, int numberOfPlayer)
+{
+	if (numberOfPlayer == 0) 
+	{
+		switch (tempBattleArmy.size())
+		{
+		case 1:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(860.0, 800.0);
+			break;
+		case 2:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(760.0, 800.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(960.0, 800.0);
+			break;
+		case 3:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(660.0, 800.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(860.0, 800.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(1060.0, 800.0);
+			break;
+		case 4:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(560.0, 800.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(760.0, 800.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(960.0, 800.0);
+			tempBattleArmy.at(3)->setArmySpawnCoordinates(1160.0, 800.0);
+			break;
+		case 5:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(460.0, 800.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(660.0, 800.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(860.0, 800.0);
+			tempBattleArmy.at(3)->setArmySpawnCoordinates(1060.0, 800.0);
+			tempBattleArmy.at(4)->setArmySpawnCoordinates(1260.0, 800.0);
+			break;
+		case 6:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(360.0, 800.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(560.0, 800.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(760.0, 800.0);
+			tempBattleArmy.at(3)->setArmySpawnCoordinates(960.0, 800.0);
+			tempBattleArmy.at(4)->setArmySpawnCoordinates(1160.0, 800.0);
+			tempBattleArmy.at(5)->setArmySpawnCoordinates(1360.0, 800.0);
+			break;
+		case 7:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(260.0, 800.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(460.0, 800.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(660.0, 800.0);
+			tempBattleArmy.at(3)->setArmySpawnCoordinates(860.0, 800.0);
+			tempBattleArmy.at(4)->setArmySpawnCoordinates(1060.0, 800.0);
+			tempBattleArmy.at(5)->setArmySpawnCoordinates(1260.0, 800.0);
+			tempBattleArmy.at(6)->setArmySpawnCoordinates(1460.0, 800.0);
+			break;
+		default:
+			break;
+		}
+	}
+	else 
+	{
+		switch (tempBattleArmy.size())
+		{
+		case 1:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(860.0, 80.0);
+			break;
+		case 2:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(760.0, 80.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(960.0, 80.0);
+			break;
+		case 3:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(660.0, 80.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(860.0, 80.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(1060.0, 80.0);
+			break;
+		case 4:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(560.0, 80.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(760.0, 80.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(960.0, 80.0);
+			tempBattleArmy.at(3)->setArmySpawnCoordinates(1160.0, 80.0);
+			break;
+		case 5:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(460.0, 80.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(660.0, 80.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(860.0, 80.0);
+			tempBattleArmy.at(3)->setArmySpawnCoordinates(1060.0, 80.0);
+			tempBattleArmy.at(4)->setArmySpawnCoordinates(1260.0, 80.0);
+			break;
+		case 6:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(360.0, 80.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(560.0, 80.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(760.0, 80.0);
+			tempBattleArmy.at(3)->setArmySpawnCoordinates(960.0, 80.0);
+			tempBattleArmy.at(4)->setArmySpawnCoordinates(1160.0, 80.0);
+			tempBattleArmy.at(5)->setArmySpawnCoordinates(1360.0, 80.0);
+			break;
+		case 7:
+			tempBattleArmy.at(0)->setArmySpawnCoordinates(260.0, 80.0);
+			tempBattleArmy.at(1)->setArmySpawnCoordinates(460.0, 80.0);
+			tempBattleArmy.at(2)->setArmySpawnCoordinates(660.0, 80.0);
+			tempBattleArmy.at(3)->setArmySpawnCoordinates(860.0, 80.0);
+			tempBattleArmy.at(4)->setArmySpawnCoordinates(1060.0, 80.0);
+			tempBattleArmy.at(5)->setArmySpawnCoordinates(1260.0, 80.0);
+			tempBattleArmy.at(6)->setArmySpawnCoordinates(1460.0, 80.0);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 std::vector <std::vector <Army*>> initializePullSquads()
 {
 	bool windowClose = false;
@@ -1165,7 +1269,27 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 	refreshShopSquads(pullGame, player, tempShopArmy);
 
 	std::vector <Army*> tempActiveArmy = player->getPlayerActiveArmy();
+
+	for (int i = 0; i < (int)tempActiveArmy.size(); i++) 
+	{
+		tempActiveArmy.at(i)->setArmyHealthNow(tempActiveArmy.at(i)->getArmyHealthBasic());
+	}
+
+	for (int i = 0; i < (int)tempActiveArmy.size(); i++)
+	{
+		tempActiveArmy.at(i)->setArmySpawnCoordinateY(440.0f);
+	}
+
+	tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
+
 	std::vector <Army*> tempReserveArmy = player->getPlayerReserveArmy();
+
+	for (int i = 0; i < (int)tempReserveArmy.size(); i++)
+	{
+		tempReserveArmy.at(i)->setArmyHealthNow(tempReserveArmy.at(i)->getArmyHealthBasic());
+	}
+
+	tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
 
 	sf::Clock clock;
 	float textErrorTimer = 0;
@@ -2238,9 +2362,6 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 	textPlayerHealthFirst.setPosition(window.getSize().x - 70.0f, window.getSize().y - 100.0f);
 	textPlayerHealthSecond.setPosition(window.getSize().x - 70.0f, 20.0f);
 
-	textPlayerHealthFirst.setString(std::to_string(firstPlayer->getPlayerHealth()));
-	textPlayerHealthSecond.setString(std::to_string(secondPlayer->getPlayerHealth()));
-
 	sf::Text textInfo = textAttack;
 	textInfo.setCharacterSize(25);
 	textInfo.setOutlineThickness(1.5f);
@@ -2264,29 +2385,12 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 	spriteInfo.setTextureRect(sf::IntRect(0, 0, 340, 510));
 	spriteInfo.setScale(1.4f, 0.8f);
 		
-	bool isSpriteMove = false;
-	float dXSpriteMove = 0;
-	int spriteMoveParameter = 0;
-	bool isPressedForMove = false;
-
 	bool showInfoText = true;
 	bool showInfoReRenderFirst = true, showInfoReRenderSecond = true;
 	int showInfoParameter = 0;
 
-	for (int i = 0; i < (const int)tempFirstArmy.size(); i++)
-	{
-		tempFirstArmy.at(i)->setArmySpawnCoordinateY(800.0);
-	}
-
-	for (int i = 0; i < (const int)tempSecondArmy.size(); i++)
-	{
-		tempSecondArmy.at(i)->setArmySpawnCoordinateY(80.0);
-	}
-
-	tempFirstArmy = firstPlayer->setPlayerTempActiveArmy(tempFirstArmy);
-	tempSecondArmy = secondPlayer->setPlayerTempActiveArmy(tempSecondArmy);
-
-	sf::Clock clock;
+	setOrderOfTempBattleArmy(tempFirstArmy, 0);
+	setOrderOfTempBattleArmy(tempSecondArmy, 1);
 
 	int playerThatWillAttackFirst;
 
@@ -2328,6 +2432,12 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 		playerThatWillAttackFirst = rand() % 2;
 	}
 
+	sf::Clock clock;
+	int timerOfEnding = 0;
+	bool firstPointsEnding = false;
+	bool secondPointsEnding = false;
+	bool thirdPointsEnding = false;
+
 	while (window.isOpen())
 	{
 		float time = (float)clock.getElapsedTime().asMicroseconds();
@@ -2344,6 +2454,46 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
+			}
+
+			//udalit posle testov
+			if (event.type == sf::Event::MouseButtonReleased)
+			{
+				if (event.key.code == sf::Mouse::Left)
+				{
+					for (int i = 0; i < (int)tempFirstArmy.size(); i++) 
+					{
+						tempFirstArmy.at(i)->setArmyHealthNow(tempFirstArmy.at(i)->getArmyHealthNow() - 1);
+					}
+				}
+
+				if (event.key.code == sf::Mouse::Right)
+				{
+					for (int i = 0; i < (int)tempSecondArmy.size(); i++)
+					{
+						tempSecondArmy.at(i)->setArmyHealthNow(tempSecondArmy.at(i)->getArmyHealthNow() - 1);
+					}
+				}
+			}
+			// po suda
+			for (int i = 0; i < (int)tempFirstArmy.size(); i++) 
+			{
+				if (tempFirstArmy.at(i)->getArmyHealthNow() < 1)
+				{
+					tempFirstArmy.erase(tempFirstArmy.begin() + i);
+					setOrderOfTempBattleArmy(tempFirstArmy, 0);
+					break;
+				}
+			}
+
+			for (int i = 0; i < (int)tempSecondArmy.size(); i++)
+			{
+				if (tempSecondArmy.at(i)->getArmyHealthNow() < 1)
+				{
+					tempSecondArmy.erase(tempSecondArmy.begin() + i);
+					setOrderOfTempBattleArmy(tempSecondArmy, 1);
+					break;
+				}
 			}
 
 			if (showInfoReRenderFirst)
@@ -2419,12 +2569,6 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 			}
 		}
 
-		if (isSpriteMove)
-		{
-			tempFirstArmy.at(spriteMoveParameter)->setArmySpawnCoordinateX(mousePosition.x - dXSpriteMove);
-			firstPlayer->setPlayerActiveArmy(tempFirstArmy);
-		}
-
 		window.clear();
 
 		for (int i = 0; i < HEIGHT_MAP; i++)
@@ -2495,7 +2639,10 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 			}
 
 			textAttack.setString(std::to_string(tempFirstArmy.at(i)->getArmyAttackNow()));
-			textHealth.setString(std::to_string(tempFirstArmy.at(i)->getArmyHealthNow()));
+
+			std::ostringstream firstPlayerArmyHealth;
+			firstPlayerArmyHealth << tempFirstArmy.at(i)->getArmyHealthNow();
+			textHealth.setString(firstPlayerArmyHealth.str());
 
 			window.draw(tempFirstArmy.at(i)->getArmySprite());
 			window.draw(shapeAttack);
@@ -2528,7 +2675,10 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 			}
 
 			textAttack.setString(std::to_string(tempSecondArmy.at(i)->getArmyAttackNow()));
-			textHealth.setString(std::to_string(tempSecondArmy.at(i)->getArmyHealthNow()));
+
+			std::ostringstream secondPlayerArmyHealth;
+			secondPlayerArmyHealth << tempSecondArmy.at(i)->getArmyHealthNow();
+			textHealth.setString(secondPlayerArmyHealth.str());
 
 			window.draw(tempSecondArmy.at(i)->getArmySprite());
 			window.draw(shapeAttack);
@@ -2541,6 +2691,85 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 		{
 			window.draw(spriteInfo);
 			window.draw(textInfo);
+		}
+
+		std::ostringstream firstPlayerHealthText;
+		firstPlayerHealthText << firstPlayer->getPlayerHealth();
+		textPlayerHealthFirst.setString(firstPlayerHealthText.str());
+
+		std::ostringstream secondPlayerHealthText;
+		secondPlayerHealthText << secondPlayer->getPlayerHealth();
+		textPlayerHealthSecond.setString(secondPlayerHealthText.str());
+
+		if ((int)tempFirstArmy.size() == 0 || (int)tempSecondArmy.size() == 0)
+		{
+			if (timerOfEnding == 0)
+			{
+				firstPointsEnding = true;
+				secondPointsEnding = true;
+				thirdPointsEnding = true;
+			}
+			timerOfEnding += time;
+		}
+
+		if ((int)tempFirstArmy.size() == 0 && (int)tempSecondArmy.size() == 0)
+		{
+			if (timerOfEnding > 2000)
+			{
+				window.close();
+			}
+		}
+		else if ((int)tempFirstArmy.size() == 0)
+		{
+			if (firstPointsEnding && timerOfEnding > 1000) 
+			{
+				firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - (int)secondPlayer->getPlayerEra());
+				firstPointsEnding = false;
+			}
+
+			if (secondPointsEnding && timerOfEnding > 2000) 
+			{
+				firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - ((int)firstPlayer->getPlayerEra() / 2));
+				secondPointsEnding = false;
+			}
+			
+			if (thirdPointsEnding && timerOfEnding > 3000) 
+			{
+				firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - ((int)tempSecondArmy.size()));
+				thirdPointsEnding = false;
+			}
+
+			if (timerOfEnding > 5000)
+			{
+				tempSecondArmy.clear();
+				window.close();
+			}
+		}
+		else if ((int)tempSecondArmy.size() == 0)
+		{
+			if (firstPointsEnding && timerOfEnding > 1000)
+			{
+				secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - (int)firstPlayer->getPlayerEra());
+				firstPointsEnding = false;
+			}
+
+			if (secondPointsEnding && timerOfEnding > 2000)
+			{
+				secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - ((int)secondPlayer->getPlayerEra() / 2));
+				secondPointsEnding = false;
+			}
+
+			if (thirdPointsEnding && timerOfEnding > 3000)
+			{
+				secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - ((int)tempFirstArmy.size()));
+				thirdPointsEnding = false;
+			}
+
+			if (timerOfEnding > 5000)
+			{
+				tempFirstArmy.clear();
+				window.close();
+			}
 		}
 
 		window.draw(textPlayerHealthFirst);
