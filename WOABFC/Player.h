@@ -29,6 +29,8 @@ public:
 
     int getPlayerNextEraCost();
 
+    void setPlayerNextEraCost(int playerNextEraCost);
+
     int getPlayerAdditionalPlaceForSquadCost();
 
     void setPlayerAdditionalPlaceForSquadCost(int playerAdditionalPlaceForSquadCost);

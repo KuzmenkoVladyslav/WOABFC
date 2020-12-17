@@ -1050,7 +1050,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 	sf::Sprite refreshSprite;
 	refreshSprite.setTexture(refreshTexture);
 	refreshSprite.setScale(0.25f, 0.25f);
-	refreshSprite.setPosition(window.getSize().x - 396.0f, 20.0f);
+	refreshSprite.setPosition(window.getSize().x - 444.0f, 20.0f);
 
 	sf::Texture upTexture;
 	upTexture.loadFromFile("images/up.png");
@@ -1058,6 +1058,13 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 	upSprite.setTexture(upTexture);
 	upSprite.setScale(0.25f, 0.25f);
 	upSprite.setPosition(window.getSize().x - 148.0f, 20.0f);
+
+	sf::Texture addPlaceTexture;
+	addPlaceTexture.loadFromFile("images/addPlace.png");
+	sf::Sprite addPlaceSprite;
+	addPlaceSprite.setTexture(addPlaceTexture);
+	addPlaceSprite.setScale(0.25f, 0.25f);
+	addPlaceSprite.setPosition(window.getSize().x - 296.0f, 20.0f);
 
 	sf::Texture deleteTexture;
 	deleteTexture.loadFromFile("images/trash.png");
@@ -1078,6 +1085,17 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 	textAttack.setFont(font);
 	textAttack.setOutlineColor(sf::Color::Black);
 	textAttack.setStyle(sf::Text::Bold);
+	
+	sf::Text refreshText = textAttack;
+	refreshText.setCharacterSize(60);
+	refreshText.setOutlineThickness(2);
+	refreshText.setPosition(window.getSize().x - 396.0f, 150.0f);
+
+	sf::Text upText = refreshText;
+	upText.setPosition(window.getSize().x - 100.0f, 150.0f);
+
+	sf::Text addPlaceText = refreshText;
+	addPlaceText.setPosition(window.getSize().x - 248.0f, 150.0f);
 
 	sf::Text textPlayerHealthFirst = textAttack;
 	textPlayerHealthFirst.setFillColor(sf::Color(155, 17, 30));
@@ -1146,8 +1164,8 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 	std::vector <Army*> tempShopArmy;
 	refreshShopSquads(pullGame, player, tempShopArmy);
 
-	std::vector <Army*> tempActiveArmy;
-	std::vector <Army*> tempReserveArmy;
+	std::vector <Army*> tempActiveArmy = player->getPlayerActiveArmy();
+	std::vector <Army*> tempReserveArmy = player->getPlayerReserveArmy();
 
 	sf::Clock clock;
 	float textErrorTimer = 0;
@@ -1439,6 +1457,52 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 						{
 							isTextErrorTimer = true;
 						}
+					}
+
+					if (addPlaceSprite.getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						if (player->getPlayerActionPointsNow() >= player->getPlayerAdditionalPlaceForSquadCost()) 
+						{
+							if (player->getPlayerArmyCount() < 4 && (int)player->getPlayerEra() >= 2 ||
+								player->getPlayerArmyCount() < 5 && (int)player->getPlayerEra() >= 4 ||
+								player->getPlayerArmyCount() < 6 && (int)player->getPlayerEra() >= 6 ||
+								player->getPlayerArmyCount() < 7 && (int)player->getPlayerEra() >= 8)
+							{
+								player->setPlayerActionPointsNow(player->getPlayerActionPointsNow() - player->getPlayerAdditionalPlaceForSquadCost());
+								player->setPlayerAdditionalPlaceForSquadCost(6);
+								player->setPlayerArmyCount(player->getPlayerArmyCount() + 1);
+							}
+							else 
+							{
+								isTextErrorTimer = true;
+							}
+						}
+						else
+						{
+							isTextErrorTimer = true;
+						}
+					}
+
+					if (battleSprite.getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						player->setPlayerActionPointsNow(player->getPlayerActionPointsMax());
+						if (player->getPlayerNextEraCost() > 0)
+						{
+							player->setPlayerNextEraCost(player->getPlayerNextEraCost() - 1);
+						}						
+
+						if (player->getPlayerArmyCount() < 4 && (int)player->getPlayerEra() >= 2 ||
+							player->getPlayerArmyCount() < 5 && (int)player->getPlayerEra() >= 4 ||
+							player->getPlayerArmyCount() < 6 && (int)player->getPlayerEra() >= 6 ||
+							player->getPlayerArmyCount() < 7 && (int)player->getPlayerEra() >= 8) 
+						{
+							if (player->getPlayerAdditionalPlaceForSquadCost() > 0)
+							{
+								player->setPlayerAdditionalPlaceForSquadCost(player->getPlayerAdditionalPlaceForSquadCost() - 1);
+							}							
+						}
+
+						window.close();
 					}
 
 					isDrawTrash = false;
@@ -2085,12 +2149,29 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 		playerCoinsString << player->getPlayerActionPointsNow() << " / " << player->getPlayerActionPointsMax();
 		textCoinCount.setString(playerCoinsString.str());
 
+		std::ostringstream playerRefreshCoinCount;
+		playerRefreshCoinCount << 1;
+		refreshText.setString(playerRefreshCoinCount.str());
+
+		std::ostringstream playerUpCoinCount;
+		playerUpCoinCount << player->getPlayerNextEraCost();
+		upText.setString(playerUpCoinCount.str());
+
+		std::ostringstream playerAddPlaceCoinCount;
+		playerAddPlaceCoinCount << player->getPlayerAdditionalPlaceForSquadCost();
+		addPlaceText.setString(playerAddPlaceCoinCount.str());
+
+
 		window.draw(textPlayerHealthFirst);
 		window.draw(healthSpriteFirst);
 		window.draw(coinSprite);
 		window.draw(textCoinCount);
 		window.draw(refreshSprite);
+		window.draw(refreshText);
 		window.draw(upSprite);
+		window.draw(upText);
+		window.draw(addPlaceSprite);
+		window.draw(addPlaceText);
 		window.draw(battleSprite);
 
 		if (isTextErrorTimer) 
@@ -2522,7 +2603,27 @@ void gameProcess(std::vector <std::vector <Army*>>& pullGame)
 {
 	menu();
 	Player* firstPlayer = new Player();
-	shop(pullGame, firstPlayer);
+	Player* secondPlayer = new Player();
+	std::vector <Player*> playersVector;
+	bool isPlayerDead = false;
+	playersVector.push_back(firstPlayer);
+	playersVector.push_back(secondPlayer);
+	while (!isPlayerDead)
+	{
+		for (int i = 0; i < (int)playersVector.size(); i++)
+		{
+			if (playersVector.at(i)->getPlayerHealth() > 0)
+			{
+				shop(pullGame, playersVector.at(i));
+			}
+			else
+			{
+				isPlayerDead = true;
+				break;
+			}
+		}
+	}
+	
 	//battle(pullGame);
 }
 
