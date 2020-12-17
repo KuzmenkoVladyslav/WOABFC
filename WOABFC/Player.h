@@ -9,6 +9,10 @@ public:
     Player() {};
     ~Player() {};
 
+    bool getIsWinLastGame();
+
+    void setIsWinLastGame(bool isWinLastGame);
+
     int getPlayerHealth();
     
     void setPlayerHealth(int playerHealth);
@@ -63,6 +67,7 @@ private:
     int playerArmyCount = 3;
     int playerNextEraCost = 4;
     int playerAdditionalPlaceForSquadCost = 5;
+    bool isWinLastGame = false;
 
     std::vector <Army*> playerActiveArmy;
     std::vector <Army*> playerReserveArmy;

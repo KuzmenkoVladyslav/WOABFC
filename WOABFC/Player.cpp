@@ -1,5 +1,15 @@
 #include "Player.h"
 
+bool Player::getIsWinLastGame() 
+{
+    return isWinLastGame;
+}
+
+void Player::setIsWinLastGame(bool isWinLastGame) 
+{
+    this->isWinLastGame = isWinLastGame;
+}
+
 int Player::getPlayerHealth()
 {
     return this->playerHealth;

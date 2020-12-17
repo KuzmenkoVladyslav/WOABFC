@@ -2202,6 +2202,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (BATTLE)", sf::Style::Fullscreen);
 
+	srand((unsigned)time(NULL));
+
 	sf::Texture mapTexture;
 	mapTexture.loadFromFile("images/map.png");
 	sf::Sprite mapSprite;
@@ -2285,6 +2287,46 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 	tempSecondArmy = secondPlayer->setPlayerTempActiveArmy(tempSecondArmy);
 
 	sf::Clock clock;
+
+	int playerThatWillAttackFirst;
+
+	if (firstPlayer->getPlayerEra() != secondPlayer->getPlayerEra()) 
+	{
+		if ((int)firstPlayer->getPlayerEra() > (int)secondPlayer->getPlayerEra()) 
+		{
+			playerThatWillAttackFirst = 0;
+		}
+		else 
+		{
+			playerThatWillAttackFirst = 1;
+		}
+	}
+	else if (firstPlayer->getPlayerActiveArmy().size() != secondPlayer->getPlayerActiveArmy().size()) 
+	{
+		if (firstPlayer->getPlayerActiveArmy().size() > secondPlayer->getPlayerActiveArmy().size()) 
+		{
+			playerThatWillAttackFirst = 0;
+		}
+		else
+		{
+			playerThatWillAttackFirst = 1;
+		}
+	}
+	else if (firstPlayer->getIsWinLastGame() != secondPlayer->getIsWinLastGame()) 
+	{
+		if (firstPlayer->getIsWinLastGame())
+		{
+			playerThatWillAttackFirst = 0;
+		}
+		else
+		{
+			playerThatWillAttackFirst = 1;
+		}
+	}
+	else 
+	{
+		playerThatWillAttackFirst = rand() % 2;
+	}
 
 	while (window.isOpen())
 	{
