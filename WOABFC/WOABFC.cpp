@@ -183,7 +183,7 @@ std::vector <std::vector <Army*>> initializePullSquads()
 		loagindSprite8.setTexture(loagindTexture8);
 
 		sf::Clock clock;
-		int timerOfLoaging = 0;
+		float timerOfLoaging = 0.0f;
 
 		while (window.isOpen())
 		{			
@@ -2444,10 +2444,12 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 	}
 
 	sf::Clock clock;
-	int timerOfEnding = 0;
+	float timerOfEnding = 0.0f;
 	bool firstPointsEnding = false;
 	bool secondPointsEnding = false;
 	bool thirdPointsEnding = false;
+
+	float distance = 0;
 
 	while (window.isOpen())
 	{
@@ -2467,26 +2469,6 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 				window.close();
 			}
 
-			//udalit posle testov
-			if (event.type == sf::Event::MouseButtonReleased)
-			{
-				if (event.key.code == sf::Mouse::Left)
-				{
-					for (int i = 0; i < (int)tempFirstArmy.size(); i++) 
-					{
-						tempFirstArmy.at(i)->setArmyHealthNow(tempFirstArmy.at(i)->getArmyHealthNow() - 1);
-					}
-				}
-
-				if (event.key.code == sf::Mouse::Right)
-				{
-					for (int i = 0; i < (int)tempSecondArmy.size(); i++)
-					{
-						tempSecondArmy.at(i)->setArmyHealthNow(tempSecondArmy.at(i)->getArmyHealthNow() - 1);
-					}
-				}
-			}
-			// po suda
 			for (int i = 0; i < (int)tempFirstArmy.size(); i++) 
 			{
 				if (tempFirstArmy.at(i)->getArmyHealthNow() < 1)
@@ -2578,6 +2560,20 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 					showInfoText = true;
 				}
 			}
+		}
+
+		distance = sqrt((860.0f - tempFirstArmy.at(0)->getArmySpawnCoordinateX()) * (860.0f - tempFirstArmy.at(0)->getArmySpawnCoordinateX()) + 
+					    (440.0f - tempFirstArmy.at(0)->getArmySpawnCoordinateY()) * (440.0f - tempFirstArmy.at(0)->getArmySpawnCoordinateY()));
+
+		if (distance > 2)
+		{
+			tempFirstArmy.at(0)->setArmySpawnCoordinateX(tempFirstArmy.at(0)->getArmySpawnCoordinateX() + 0.1f * time * (860.0f - tempFirstArmy.at(0)->getArmySpawnCoordinateX()) / distance);
+			tempFirstArmy.at(0)->setArmySpawnCoordinateY(tempFirstArmy.at(0)->getArmySpawnCoordinateY() + 0.1f * time * (440.0f - tempFirstArmy.at(0)->getArmySpawnCoordinateY()) / distance);
+		}
+		else 
+		{
+			tempFirstArmy.at(0)->setArmySpawnCoordinateX(860.0f);
+			tempFirstArmy.at(0)->setArmySpawnCoordinateY(440.0f);
 		}
 
 		window.clear();
