@@ -83,3 +83,13 @@ int Army::getArmyCost()
 {
     return this->armyCost;
 }
+
+bool Army::getIsAttackedAlready() 
+{
+    return this->isAttackedAlready;
+}
+
+void Army::setIsAttackedAlready(bool isAttackedAlready) 
+{
+    this->isAttackedAlready = isAttackedAlready;
+}

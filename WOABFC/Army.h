@@ -39,6 +39,10 @@ public:
 
     virtual int getArmyCost();
 
+    virtual bool getIsAttackedAlready();
+
+    virtual void setIsAttackedAlready(bool isAttackedAlready);
+
 protected:
     sf::Texture armyTexture;
     sf::Sprite armySprite;
@@ -52,6 +56,7 @@ protected:
     int armyAttackBasic = 0;
     int armyHealthNow = 0;
     int armyAttackNow = 0;
+    bool isAttackedAlready = false;
 
     enumEraName eraName = enumEraName::ERA_ANCIENT;
     enumTypeSquad armyType = enumTypeSquad::TYPE_NONE;

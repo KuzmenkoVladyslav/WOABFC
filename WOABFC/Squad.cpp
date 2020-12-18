@@ -7,7 +7,7 @@ Squad::Squad(enumSquad armyID)
     switch (this->armyID)
     {
         case enumSquad::SQUAD_WARRIOR:
-            this->armyTexture.loadFromFile("images/squads/swordsman.png");
+            this->armyTexture.loadFromFile("images/squads/warrior.png");
             this->armyAttackBasic = 1;
             this->armyHealthBasic = 3;
             this->armyName = "Warrior";
