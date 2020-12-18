@@ -14,7 +14,7 @@ static void setState(int newState)
 }
 
 static sf::String languageEnglish[26] = {
-	"Tutorial",
+	"HotSeat",
 	"Multiplayer",
 	"Settings",
 	"How to play",
@@ -43,7 +43,7 @@ static sf::String languageEnglish[26] = {
 };
 
 static sf::String languageRussian[26] = {
-	L"Обучение",
+	L"HotSeat",
 	L"Многопользовательская игра",
 	L"Настройки",
 	L"Как играть",
@@ -72,7 +72,7 @@ static sf::String languageRussian[26] = {
 };
 
 static sf::String languageUkrainian[26] = {
-	L"Навчання",
+	L"HotSeat",
 	L"Багато користувальницька гра",
 	L"Налаштування",
 	L"Як грати",

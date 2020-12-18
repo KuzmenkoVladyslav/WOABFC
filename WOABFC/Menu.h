@@ -45,7 +45,7 @@ void menu()
 
 	if (getState() == 0)
 	{
-		textMenuSingle.setPosition(830, 190);
+		textMenuSingle.setPosition(835, 190);
 		textMenuMulti.setPosition(780, 340);
 		textMenuSettings.setPosition(830, 490);
 		textMenuHelp.setPosition(770, 640);
@@ -53,7 +53,7 @@ void menu()
 	}
 	else if (getState() == 1)
 	{
-		textMenuSingle.setPosition(810, 190);
+		textMenuSingle.setPosition(835, 190);
 		textMenuMulti.setPosition(470, 340);
 		textMenuSettings.setPosition(790, 490);
 		textMenuHelp.setPosition(785, 640);
@@ -61,7 +61,7 @@ void menu()
 	}
 	else 
 	{
-		textMenuSingle.setPosition(800, 190);
+		textMenuSingle.setPosition(835, 190);
 		textMenuMulti.setPosition(450, 340);
 		textMenuSettings.setPosition(725, 490);
 		textMenuHelp.setPosition(820, 640);
