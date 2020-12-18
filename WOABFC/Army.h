@@ -12,10 +12,6 @@ public:
     virtual float getArmySpawnCoordinateX();
 
     virtual float getArmySpawnCoordinateY();
-
-    virtual float getArmySpriteCoordinateX();
-
-    virtual float getArmySpriteCoordinateY();
     
     virtual int getArmyAttackNow();
 
@@ -49,8 +45,6 @@ protected:
     std::string armyName;
 
     float armySize = 200;
-    float armySpriteCoordinateX = 0;
-    float armySpriteCoordinateY = 0;
     float armySpawnCoordinateX = 0;
     float armySpawnCoordinateY = 0;
     int armyCost = 1;

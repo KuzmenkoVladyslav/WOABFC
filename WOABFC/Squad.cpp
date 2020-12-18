@@ -3,13 +3,11 @@
 Squad::Squad(enumSquad armyID)
 {
     this->armyID = armyID;
-    this->armyTexture.loadFromFile("images/army.png");
-    this->armySprite.setTexture(armyTexture);
+    
     switch (this->armyID)
     {
         case enumSquad::SQUAD_WARRIOR:
-            this->armySpriteCoordinateX = 0;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/swordsman.png");
             this->armyAttackBasic = 1;
             this->armyHealthBasic = 3;
             this->armyName = "Warrior";
@@ -19,8 +17,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_SWORDSMAN:
-            this->armySpriteCoordinateX = 200;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/swordsman.png");
             this->armyAttackBasic = 2;
             this->armyHealthBasic = 4;
             this->armyName = "Swordsman";
@@ -30,8 +27,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_LONGSWORDSMAN:
-            this->armySpriteCoordinateX = 400;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/longswordsman.png");
             this->armyAttackBasic = 2;
             this->armyHealthBasic = 7;
             this->armyName = "Longswordsman";
@@ -41,8 +37,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_HARQUEBUSIER:
-            this->armySpriteCoordinateX = 600;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/harquebusier.png");
             this->armyAttackBasic = 3;
             this->armyHealthBasic = 8;
             this->armyName = "Harquebusier";
@@ -52,8 +47,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_MUSKETEER:
-            this->armySpriteCoordinateX = 800;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/musketeer.png");
             this->armyAttackBasic = 3;
             this->armyHealthBasic = 11;
             this->armyName = "Musketman";
@@ -63,8 +57,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_INFANTRYMAN:
-            this->armySpriteCoordinateX = 1000;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/infantryman.png");
             this->armyAttackBasic = 4;
             this->armyHealthBasic = 12;
             this->armyName = "Infantry";
@@ -74,8 +67,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_SEAINFANTRYMAN:
-            this->armySpriteCoordinateX = 1200;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/seainfantryman.png");
             this->armyAttackBasic = 5;
             this->armyHealthBasic = 14;
             this->armyName = "Marine";
@@ -85,8 +77,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_MOTORIZEDINFANTRY:
-            this->armySpriteCoordinateX = 1400;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/motorizedinfantry.png");
             this->armyAttackBasic = 7;
             this->armyHealthBasic = 17;
             this->armyName = "Mechanized Infantry";
@@ -96,8 +87,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_FUTURESMAN:
-            this->armySpriteCoordinateX = 1600;
-            this->armySpriteCoordinateY = 0;
+            this->armyTexture.loadFromFile("images/squads/futuresman.png");
             this->armyAttackBasic = 12;
             this->armyHealthBasic = 26;
             this->armyName = "Exoskeleton";
@@ -108,8 +98,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ARCHER:
-            this->armySpriteCoordinateX = 0;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/archer.png");
             this->armyAttackBasic = 1;
             this->armyHealthBasic = 1;
             this->armyName = "Archer";
@@ -119,8 +108,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_LONGBOWARCHER:
-            this->armySpriteCoordinateX = 200;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/longbowarcher.png");
             this->armyAttackBasic = 2;
             this->armyHealthBasic = 1;
             this->armyName = "Composite Bowman";
@@ -130,8 +118,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_CROSSBOWMAN:
-            this->armySpriteCoordinateX = 400;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/crossbowman.png");
             this->armyAttackBasic = 2;
             this->armyHealthBasic = 3;
             this->armyName = "Crossbowman";
@@ -141,8 +128,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_CANNON:
-            this->armySpriteCoordinateX = 600;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/cannon.png");
             this->armyAttackBasic = 3;
             this->armyHealthBasic = 4;
             this->armyName = "Cannon"; 
@@ -152,8 +138,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_GATLING:
-            this->armySpriteCoordinateX = 800;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/gatling.png");
             this->armyAttackBasic = 4;
             this->armyHealthBasic = 4;
             this->armyName = "Gatling Gun";
@@ -163,8 +148,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_MACHINGGUN:
-            this->armySpriteCoordinateX = 1000;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/machinggun.png");
             this->armyAttackBasic = 6;
             this->armyHealthBasic = 5;
             this->armyName = "Machine Gun";
@@ -174,8 +158,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_BAZOOKA:
-            this->armySpriteCoordinateX = 1200;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/bazooka.png");
             this->armyAttackBasic = 8;
             this->armyHealthBasic = 6;
             this->armyName = "Bazooka";
@@ -185,8 +168,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ROCKET:
-            this->armySpriteCoordinateX = 1400;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/rocket.png");
             this->armyAttackBasic = 11;
             this->armyHealthBasic = 8;
             this->armyName = "Guided Missile";
@@ -196,8 +178,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_HOURSEARCHER:
-            this->armySpriteCoordinateX = 0;
-            this->armySpriteCoordinateY = 400;
+            this->armyTexture.loadFromFile("images/squads/hoursearcher.png");
             this->armyAttackBasic = 1;
             this->armyHealthBasic = 3;
             this->armyName = "War Chariot";
@@ -207,8 +188,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_HORSEMAN:
-            this->armySpriteCoordinateX = 200;
-            this->armySpriteCoordinateY = 400;
+            this->armyTexture.loadFromFile("images/squads/horseman.png");
             this->armyAttackBasic = 1;
             this->armyHealthBasic = 5;
             this->armyName = "Horseman";
@@ -218,8 +198,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_KNIGHT:
-            this->armySpriteCoordinateX = 400;
-            this->armySpriteCoordinateY = 400;
+            this->armyTexture.loadFromFile("images/squads/knight.png");
             this->armyAttackBasic = 2;
             this->armyHealthBasic = 6;
             this->armyName = "Knight";
@@ -229,8 +208,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_LANCER:
-            this->armySpriteCoordinateX = 600;
-            this->armySpriteCoordinateY = 400;
+            this->armyTexture.loadFromFile("images/squads/lancer.png");
             this->armyAttackBasic = 3;
             this->armyHealthBasic = 9;
             this->armyName = "Lancer"; 
@@ -240,8 +218,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_CAVALRY:
-            this->armySpriteCoordinateX = 800;
-            this->armySpriteCoordinateY = 400;
+            this->armyTexture.loadFromFile("images/squads/cavalry.png");
             this->armyAttackBasic = 4;
             this->armyHealthBasic = 9;
             this->armyName = "Cavalry";
@@ -251,8 +228,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_TANKETTE:
-            this->armySpriteCoordinateX = 1000;
-            this->armySpriteCoordinateY = 400;
+            this->armyTexture.loadFromFile("images/squads/tankette.png");
             this->armyAttackBasic = 4;
             this->armyHealthBasic = 14;
             this->armyName = "Tankette";
@@ -262,8 +238,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_TANK:
-            this->armySpriteCoordinateX = 1200;
-            this->armySpriteCoordinateY = 400;
+            this->armyTexture.loadFromFile("images/squads/tank.png");
             this->armyAttackBasic = 4;
             this->armyHealthBasic = 17;
             this->armyName = "Tank";
@@ -273,8 +248,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_MODERNTANK:
-            this->armySpriteCoordinateX = 1400;
-            this->armySpriteCoordinateY = 400;
+            this->armyTexture.loadFromFile("images/squads/moderntank.png");
             this->armyAttackBasic = 6;
             this->armyHealthBasic = 23;
             this->armyName = "Modern Tank";
@@ -284,8 +258,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_SPEARMAN:
-            this->armySpriteCoordinateX = 0;
-            this->armySpriteCoordinateY = 600;
+            this->armyTexture.loadFromFile("images/squads/spearman.png");
             this->armyAttackBasic = 1;
             this->armyHealthBasic = 2;
             this->armyName = "Spearman";
@@ -295,8 +268,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_HOPLITE:
-            this->armySpriteCoordinateX = 200;
-            this->armySpriteCoordinateY = 600;
+            this->armyTexture.loadFromFile("images/squads/hoplite.png");
             this->armyAttackBasic = 2;
             this->armyHealthBasic = 3;
             this->armyName = "Hoplite";
@@ -306,8 +278,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_PIKEMAN:
-            this->armySpriteCoordinateX = 400;
-            this->armySpriteCoordinateY = 600;
+            this->armyTexture.loadFromFile("images/squads/pikeman.png");
             this->armyAttackBasic = 2;
             this->armyHealthBasic = 5;
             this->armyName = "Pikeman";
@@ -317,8 +288,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ARTBATTERY:
-            this->armySpriteCoordinateX = 1000;
-            this->armySpriteCoordinateY = 600;
+            this->armyTexture.loadFromFile("images/squads/artbattery.png");
             this->armyAttackBasic = 6;
             this->armyHealthBasic = 10;
             this->armyName = "Artillery";
@@ -328,8 +298,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ANTITANKCANNON:
-            this->armySpriteCoordinateX = 1200;
-            this->armySpriteCoordinateY = 600;
+            this->armyTexture.loadFromFile("images/squads/antitankcannon.png");
             this->armyAttackBasic = 8;
             this->armyHealthBasic = 11;
             this->armyName = "Anti-Tank Gun";
@@ -339,8 +308,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ROCKETARTILLERY:
-            this->armySpriteCoordinateX = 1400;
-            this->armySpriteCoordinateY = 600;
+            this->armyTexture.loadFromFile("images/squads/rocketartillery.png");
             this->armyAttackBasic = 12;
             this->armyHealthBasic = 17;
             this->armyName = "Rocket Artillery";
@@ -350,8 +318,7 @@ Squad::Squad(enumSquad armyID)
             break;
 
         case enumSquad::SQUAD_ROBOT:
-            this->armySpriteCoordinateX = 1600;
-            this->armySpriteCoordinateY = 200;
+            this->armyTexture.loadFromFile("images/squads/robot.png");
             this->armyAttackBasic = 9;
             this->armyHealthBasic = 32;
             this->armyName = "Giant Robot";
@@ -364,7 +331,7 @@ Squad::Squad(enumSquad armyID)
         break;
     }
 
-    this->armySprite.setTextureRect(sf::IntRect(static_cast<int>(this->armySpriteCoordinateX), static_cast<int>(this->armySpriteCoordinateY), static_cast<int>(this->armySize), static_cast<int>(this->armySize)));
+    this->armySprite.setTexture(armyTexture);
     this->armyAttackNow = this->armyAttackBasic;
     this->armyHealthNow = this->armyHealthBasic;
 }

@@ -15,16 +15,6 @@ float Army::getArmySpawnCoordinateY()
     return this->armySpawnCoordinateY;
 }
 
-float Army::getArmySpriteCoordinateX()
-{
-    return this->armySpriteCoordinateX;
-}
-
-float Army::getArmySpriteCoordinateY()
-{
-    return this->armySpriteCoordinateY;
-}
-
 int Army::getArmyAttackNow()
 {
     return this->armyAttackNow;
