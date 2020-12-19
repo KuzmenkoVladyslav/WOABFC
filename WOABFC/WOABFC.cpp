@@ -294,7 +294,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 							}
 						}
 
-						for (int i = tempShopArmy.size() - 1; i > -1; i--)
+						for (int i = (int)tempShopArmy.size() - 1; i > -1; i--)
 						{
 							if (i > spriteMoveParameter)
 							{
@@ -365,7 +365,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 								}
 							}
 
-							for (int i = tempActiveArmy.size() - 1; i > -1; i--)
+							for (int i = (int)tempActiveArmy.size() - 1; i > -1; i--)
 							{
 								if (i > spriteMoveParameter)
 								{
@@ -445,7 +445,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 								}
 							}
 
-							for (int i = tempReserveArmy.size() - 1; i > -1; i--)
+							for (int i = (int)tempReserveArmy.size() - 1; i > -1; i--)
 							{
 								if (i > spriteMoveParameter)
 								{
