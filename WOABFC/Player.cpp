@@ -106,51 +106,51 @@ void Player::setPlayerEra(enumEraName playerEra)
     switch (this->playerEra)
     {
     case enumEraName::ERA_CLASSIC:
-        this->playerReserveCount = 3;
-        this->playerNextEraCost = 6;
+        this->playerReserveCount = 4;
+        this->playerNextEraCost = 5;
         this->playerActionPointsMax = 3;
         break;
 
     case enumEraName::ERA_MEDIVAL:
         this->playerReserveCount = 4;
-        this->playerNextEraCost = 6;
-        this->playerActionPointsMax = 3;
+        this->playerNextEraCost = 5;
+        this->playerActionPointsMax = 4;
         break;
 
     case enumEraName::ERA_RENAISSANCEE:
-        this->playerReserveCount = 4;
-        this->playerNextEraCost = 6;
+        this->playerReserveCount = 5;
+        this->playerNextEraCost = 5;
         this->playerActionPointsMax = 4;
         break;
 
     case enumEraName::ERA_INDUSTRIAL:
         this->playerReserveCount = 5;
-        this->playerNextEraCost = 7;
-        this->playerActionPointsMax = 4;
+        this->playerNextEraCost = 6;
+        this->playerActionPointsMax = 5;
         break;
 
     case enumEraName::ERA_MODERN:
-        this->playerReserveCount = 5;
-        this->playerNextEraCost = 7;
-        this->playerActionPointsMax = 4;
+        this->playerReserveCount = 6;
+        this->playerNextEraCost = 6;
+        this->playerActionPointsMax = 5;
         break;
 
     case enumEraName::ERA_ATOMIC:
         this->playerReserveCount = 6;
-        this->playerNextEraCost = 8;
-        this->playerActionPointsMax = 5;
+        this->playerNextEraCost = 7;
+        this->playerActionPointsMax = 6;
         break;
 
     case enumEraName::ERA_INFORMATION:
-        this->playerReserveCount = 6;
-        this->playerNextEraCost = 9;
-        this->playerActionPointsMax = 5;
+        this->playerReserveCount = 7;
+        this->playerNextEraCost = 8;
+        this->playerActionPointsMax = 6;
         break;
 
     case enumEraName::ERA_FUTURE:
         this->playerReserveCount = 7;
-        this->playerNextEraCost = -1;
-        this->playerActionPointsMax = 6;
+        this->playerNextEraCost = 0;
+        this->playerActionPointsMax = 7;
         break;
 
     default:
