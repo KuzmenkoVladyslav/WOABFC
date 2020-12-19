@@ -1376,6 +1376,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 	int firstAttackingIndex = 0;
 	int secondAttackingIndex = 0;
 
+	bool isCavalryAttackedAntiCavalry = false;
+
 	while (window.isOpen())
 	{
 		float time = (float)clock.getElapsedTime().asMicroseconds();
@@ -1748,6 +1750,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 							else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY ||
 								tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
 							{
+								isCavalryAttackedAntiCavalry = true;
 								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
 								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
 							}
@@ -1765,11 +1768,13 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 							}
 							else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
 							{
+								isCavalryAttackedAntiCavalry = true;
 								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
 								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
 							}
 							else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
 							{
+								isCavalryAttackedAntiCavalry = true;
 								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
 								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
 							}
@@ -1854,8 +1859,16 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 							if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
 								tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
 							{
-								tempFirstArmy.at(firstAttackingIndex)->setIsAttackedAlready(false);
-								playerThatWillAttack = 0;
+								
+								if (!isCavalryAttackedAntiCavalry)
+								{
+									tempFirstArmy.at(firstAttackingIndex)->setIsAttackedAlready(false);
+									playerThatWillAttack = 0;
+								}
+								else 
+								{
+									isCavalryAttackedAntiCavalry = false;
+								}
 							}
 							isMovingToCenter = true;
 							isFirstSavingOfBasicCoordinates = true;
@@ -1963,6 +1976,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 							else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY ||
 								tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
 							{
+								isCavalryAttackedAntiCavalry = true;
 								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
 								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
 							}
@@ -1980,11 +1994,13 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 							}
 							else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
 							{
+								isCavalryAttackedAntiCavalry = true;
 								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
 								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
 							}
 							else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
 							{
+								isCavalryAttackedAntiCavalry = true;
 								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
 								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
 							}
@@ -2069,8 +2085,15 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 							if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
 								tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
 							{
-								tempSecondArmy.at(secondAttackingIndex)->setIsAttackedAlready(false);
-								playerThatWillAttack = 1;
+								if (!isCavalryAttackedAntiCavalry)
+								{
+									tempSecondArmy.at(secondAttackingIndex)->setIsAttackedAlready(false);
+									playerThatWillAttack = 1;
+								}
+								else
+								{
+									isCavalryAttackedAntiCavalry = false;
+								}
 							}
 
 							isMovingToCenter = true;
