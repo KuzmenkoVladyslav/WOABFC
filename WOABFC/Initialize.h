@@ -126,92 +126,73 @@ std::vector <std::vector <Army*>> initializePullSquads()
 		}
 	});
 
-	std::vector <std::vector <Army*>> pullGame;
-	std::vector <Army*> pullAncient, pullClassic, pullMedival, pullRenaissancee, pullIndustrial, pullModern, pullAtomic, pullInfromation, pullFuture;
+	std::vector <std::vector <Army*>> pullGame(9);
 
-	std::thread threadAncientClassicMedival([&pullAncient, &pullClassic, &pullMedival]()
+	std::thread threadAncientClassicMedivalRenaissanceeIndustrial([&pullGame]()
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
-			pullAncient.push_back(new Squad(enumSquad::SQUAD_WARRIOR));
-			pullAncient.push_back(new Squad(enumSquad::SQUAD_ARCHER));
-			pullAncient.push_back(new Squad(enumSquad::SQUAD_HOURSEARCHER));
-			pullAncient.push_back(new Squad(enumSquad::SQUAD_SPEARMAN));
-			pullClassic.push_back(new Squad(enumSquad::SQUAD_SWORDSMAN));
-			pullClassic.push_back(new Squad(enumSquad::SQUAD_LONGBOWARCHER));
-			pullClassic.push_back(new Squad(enumSquad::SQUAD_HORSEMAN));
-			pullClassic.push_back(new Squad(enumSquad::SQUAD_HOPLITE));
-			pullMedival.push_back(new Squad(enumSquad::SQUAD_LONGSWORDSMAN));
-			pullMedival.push_back(new Squad(enumSquad::SQUAD_CROSSBOWMAN));
-			pullMedival.push_back(new Squad(enumSquad::SQUAD_KNIGHT));
-			pullMedival.push_back(new Squad(enumSquad::SQUAD_PIKEMAN));
+			pullGame.at(0).push_back(new Squad(enumSquad::SQUAD_WARRIOR));
+			pullGame.at(0).push_back(new Squad(enumSquad::SQUAD_ARCHER));
+			pullGame.at(0).push_back(new Squad(enumSquad::SQUAD_HOURSEARCHER));
+			pullGame.at(0).push_back(new Squad(enumSquad::SQUAD_SPEARMAN));
+			pullGame.at(1).push_back(new Squad(enumSquad::SQUAD_SWORDSMAN));
+			pullGame.at(1).push_back(new Squad(enumSquad::SQUAD_LONGBOWARCHER));
+			pullGame.at(1).push_back(new Squad(enumSquad::SQUAD_HORSEMAN));
+			pullGame.at(1).push_back(new Squad(enumSquad::SQUAD_HOPLITE));
+			pullGame.at(2).push_back(new Squad(enumSquad::SQUAD_LONGSWORDSMAN));
+			pullGame.at(2).push_back(new Squad(enumSquad::SQUAD_CROSSBOWMAN));
+			pullGame.at(2).push_back(new Squad(enumSquad::SQUAD_KNIGHT));
+			pullGame.at(2).push_back(new Squad(enumSquad::SQUAD_PIKEMAN));
+			pullGame.at(3).push_back(new Squad(enumSquad::SQUAD_HARQUEBUSIER));
+			pullGame.at(3).push_back(new Squad(enumSquad::SQUAD_CANNON));
+			pullGame.at(3).push_back(new Squad(enumSquad::SQUAD_LANCER));
+			pullGame.at(4).push_back(new Squad(enumSquad::SQUAD_MUSKETEER));
+			pullGame.at(4).push_back(new Squad(enumSquad::SQUAD_GATLING));
+			pullGame.at(4).push_back(new Squad(enumSquad::SQUAD_CAVALRY));
 		}
 	});
 
-	std::thread threadRenaissanceeIndustrial([&pullRenaissancee, &pullIndustrial]()
-	{
-		for (size_t i = 0; i < 16; i++)
-		{
-			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_HARQUEBUSIER));
-			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_CANNON));
-			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_LANCER));
-			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_MUSKETEER));
-			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_GATLING));
-			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_CAVALRY));
-		}
-	});
-
-	std::thread threadModern([&pullModern]()
+	std::thread threadModern([&pullGame]()
 	{
 		for (size_t i = 0; i < 12; i++)
 		{
-			pullModern.push_back(new Squad(enumSquad::SQUAD_INFANTRYMAN));
-			pullModern.push_back(new Squad(enumSquad::SQUAD_MACHINGGUN));
-			pullModern.push_back(new Squad(enumSquad::SQUAD_TANKETTE));
-			pullModern.push_back(new Squad(enumSquad::SQUAD_ARTBATTERY));
+			pullGame.at(5).push_back(new Squad(enumSquad::SQUAD_INFANTRYMAN));
+			pullGame.at(5).push_back(new Squad(enumSquad::SQUAD_MACHINGGUN));
+			pullGame.at(5).push_back(new Squad(enumSquad::SQUAD_TANKETTE));
+			pullGame.at(5).push_back(new Squad(enumSquad::SQUAD_ARTBATTERY));
 		}
 	});
 
-	std::thread threadAtomicInformation([&pullAtomic, &pullInfromation]()
+	std::thread threadAtomicInformation([&pullGame]()
 	{
 		for (size_t i = 0; i < 8; i++)
 		{
-			pullAtomic.push_back(new Squad(enumSquad::SQUAD_SEAINFANTRYMAN));
-			pullAtomic.push_back(new Squad(enumSquad::SQUAD_BAZOOKA));
-			pullAtomic.push_back(new Squad(enumSquad::SQUAD_TANK));
-			pullAtomic.push_back(new Squad(enumSquad::SQUAD_ANTITANKCANNON));
-			pullInfromation.push_back(new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY));
-			pullInfromation.push_back(new Squad(enumSquad::SQUAD_ROCKET));
-			pullInfromation.push_back(new Squad(enumSquad::SQUAD_MODERNTANK));
-			pullInfromation.push_back(new Squad(enumSquad::SQUAD_ROCKETARTILLERY));
+			pullGame.at(6).push_back(new Squad(enumSquad::SQUAD_SEAINFANTRYMAN));
+			pullGame.at(6).push_back(new Squad(enumSquad::SQUAD_BAZOOKA));
+			pullGame.at(6).push_back(new Squad(enumSquad::SQUAD_TANK));
+			pullGame.at(6).push_back(new Squad(enumSquad::SQUAD_ANTITANKCANNON));
+			pullGame.at(7).push_back(new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY));
+			pullGame.at(7).push_back(new Squad(enumSquad::SQUAD_ROCKET));
+			pullGame.at(7).push_back(new Squad(enumSquad::SQUAD_MODERNTANK));
+			pullGame.at(7).push_back(new Squad(enumSquad::SQUAD_ROCKETARTILLERY));
 		}
 	});
 
-	std::thread threadFuture([&pullFuture]()
+	std::thread threadFuture([&pullGame]()
 	{
 		for (size_t i = 0; i < 6; i++)
 		{
-			pullFuture.push_back(new Squad(enumSquad::SQUAD_FUTURESMAN));
-			pullFuture.push_back(new Squad(enumSquad::SQUAD_ROBOT));
+			pullGame.at(8).push_back(new Squad(enumSquad::SQUAD_FUTURESMAN));
+			pullGame.at(8).push_back(new Squad(enumSquad::SQUAD_ROBOT));
 		}
 	});
 
-	threadAncientClassicMedival.join();
-	threadRenaissanceeIndustrial.join();
+	threadAncientClassicMedivalRenaissanceeIndustrial.join();
 	threadModern.join();
 	threadAtomicInformation.join();
 	threadFuture.join();
 	threadLoading.detach();
-
-	pullGame.push_back(pullAncient);
-	pullGame.push_back(pullClassic);
-	pullGame.push_back(pullMedival);
-	pullGame.push_back(pullRenaissancee);
-	pullGame.push_back(pullIndustrial);
-	pullGame.push_back(pullModern);
-	pullGame.push_back(pullAtomic);
-	pullGame.push_back(pullInfromation);
-	pullGame.push_back(pullFuture);
 
 	windowClose = true;
 

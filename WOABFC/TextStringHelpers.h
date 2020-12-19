@@ -34,5 +34,5 @@ sf::String getStringArmyType(enumTypeSquad armyType)
 
 sf::String getStringTextInfo(Army* tempArmy)
 {
-	return languageString(5) + getStringEraName(tempArmy->getEraName()) + "\n" + languageString(6) + tempArmy->getArmyName() + "\n" + languageString(7) + getStringArmyType(tempArmy->getArmyType());
+	return languageString(5) + getStringEraName(tempArmy->getEraName()) + "\n" + languageString(6) + tempArmy->getArmyName() + "\n" + languageString(7) + getStringArmyType(tempArmy->getArmyType()) + "\n" + languageString(23) + std::to_string(tempArmy->getArmyCost()) + languageString(24);
 }

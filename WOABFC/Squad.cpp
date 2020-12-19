@@ -29,7 +29,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_LONGSWORDSMAN:
             this->armyTexture.loadFromFile("images/squads/longswordsman.png");
             this->armyAttackBasic = 2;
-            this->armyHealthBasic = 7;
+            this->armyHealthBasic = 6;
             this->armyName = "Longswordsman";
             this->eraName = enumEraName::ERA_MEDIVAL;
             this->armyUpgrade = enumSquad::SQUAD_HARQUEBUSIER;
@@ -49,7 +49,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_MUSKETEER:
             this->armyTexture.loadFromFile("images/squads/musketeer.png");
             this->armyAttackBasic = 3;
-            this->armyHealthBasic = 11;
+            this->armyHealthBasic = 10;
             this->armyName = "Musketman";
             this->eraName = enumEraName::ERA_INDUSTRIAL;
             this->armyUpgrade = enumSquad::SQUAD_INFANTRYMAN;
@@ -250,7 +250,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_MODERNTANK:
             this->armyTexture.loadFromFile("images/squads/moderntank.png");
             this->armyAttackBasic = 6;
-            this->armyHealthBasic = 25;
+            this->armyHealthBasic = 27;
             this->armyName = "Modern Tank";
             this->eraName = enumEraName::ERA_INFORMATION;
             this->armyUpgrade = enumSquad::NONE;
@@ -310,7 +310,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_ROCKETARTILLERY:
             this->armyTexture.loadFromFile("images/squads/rocketartillery.png");
             this->armyAttackBasic = 9;
-            this->armyHealthBasic = 17;
+            this->armyHealthBasic = 18;
             this->armyName = "Rocket Artillery";
             this->eraName = enumEraName::ERA_INFORMATION;
             this->armyUpgrade = enumSquad::NONE;
@@ -320,7 +320,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_ROBOT:
             this->armyTexture.loadFromFile("images/squads/robot.png");
             this->armyAttackBasic = 10;
-            this->armyHealthBasic = 35;
+            this->armyHealthBasic = 34;
             this->armyName = "Giant Robot";
             this->eraName = enumEraName::ERA_FUTURE;
             this->armyUpgrade = enumSquad::NONE;

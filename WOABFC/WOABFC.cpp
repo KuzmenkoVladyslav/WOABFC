@@ -85,6 +85,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 	addPlaceSprite.setTexture(addPlaceTexture);
 	addPlaceSprite.setScale(0.25f, 0.25f);
 	addPlaceSprite.setPosition(window.getSize().x - 296.0f, 20.0f);
+	addPlaceSprite.setColor(sf::Color(128, 128, 128));
 
 	sf::Texture deleteTexture;
 	deleteTexture.loadFromFile("images/trash.png");
@@ -116,6 +117,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 
 	sf::Text addPlaceText = refreshText;
 	addPlaceText.setPosition(window.getSize().x - 248.0f, 150.0f);
+	addPlaceText.setFillColor(sf::Color(128, 128, 128));
 
 	sf::Text textPlayerHealthFirst = textAttack;
 	textPlayerHealthFirst.setFillColor(sf::Color(155, 17, 30));
@@ -509,7 +511,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 								player->getPlayerArmyCount() < 7 && (int)player->getPlayerEra() >= 8)
 							{
 								player->setPlayerActionPointsNow(player->getPlayerActionPointsNow() - player->getPlayerAdditionalPlaceForSquadCost());
-								player->setPlayerAdditionalPlaceForSquadCost(6);
+								player->setPlayerAdditionalPlaceForSquadCost(5);
 								player->setPlayerArmyCount(player->getPlayerArmyCount() + 1);
 							}
 							else 
@@ -1078,6 +1080,20 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 				mapSprite.setPosition(j * 120.0f, i * 120.0f);
 				window.draw(mapSprite);
 			}
+		}
+
+		if (player->getPlayerArmyCount() < 4 && (int)player->getPlayerEra() >= 2 ||
+			player->getPlayerArmyCount() < 5 && (int)player->getPlayerEra() >= 4 ||
+			player->getPlayerArmyCount() < 6 && (int)player->getPlayerEra() >= 6 ||
+			player->getPlayerArmyCount() < 7 && (int)player->getPlayerEra() >= 8) 
+		{
+			addPlaceSprite.setColor(sf::Color::White);
+			addPlaceText.setFillColor(sf::Color::White);
+		}
+		else 
+		{
+			addPlaceSprite.setColor(sf::Color(128, 128, 128));
+			addPlaceText.setFillColor(sf::Color(128, 128, 128));
 		}
 
 		for (int i = 0; i < (const int)tempShopArmy.size(); i++)
