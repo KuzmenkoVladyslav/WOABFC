@@ -1344,7 +1344,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 	}
 	else if (firstPlayer->getIsWinLastGame() != secondPlayer->getIsWinLastGame()) 
 	{
-		if (firstPlayer->getIsWinLastGame())
+		if (!firstPlayer->getIsWinLastGame())
 		{
 			playerThatWillAttack = 0;
 		}
@@ -1551,6 +1551,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 			{
 				if (timerOfEnding > 2000)
 				{
+					firstPlayer->setIsWinLastGame(false);
+					secondPlayer->setIsWinLastGame(false);
 					window.close();
 				}
 			}
@@ -1577,6 +1579,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 				if (timerOfEnding > 5000)
 				{
 					tempSecondArmy.clear();
+					firstPlayer->setIsWinLastGame(false);
+					secondPlayer->setIsWinLastGame(true);
 					window.close();
 				}
 			}
@@ -1603,6 +1607,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 				if (timerOfEnding > 5000)
 				{
 					tempFirstArmy.clear();
+					firstPlayer->setIsWinLastGame(true);
+					secondPlayer->setIsWinLastGame(false);
 					window.close();
 				}
 			}
