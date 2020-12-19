@@ -1378,6 +1378,8 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 
 	bool isCavalryAttackedAntiCavalry = false;
 
+	float timerBeforeStartBattle = 0.0f;
+
 	while (window.isOpen())
 	{
 		float time = (float)clock.getElapsedTime().asMicroseconds();
@@ -1460,19 +1462,25 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 
 			if (!showInfoReRenderFirst)
 			{
-				if (!tempFirstArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				if (showInfoParameter < tempFirstArmy.size() && tempFirstArmy.size() > 0)
 				{
-					showInfoReRenderFirst = true;					
-					showInfoText = true;
+					if (!tempFirstArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoReRenderFirst = true;
+						showInfoText = true;
+					}
 				}
 			}
 
 			if (!showInfoReRenderSecond)
 			{
-				if (!tempSecondArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+				if (showInfoParameter < tempSecondArmy.size() && tempSecondArmy.size() > 0)
 				{
-					showInfoReRenderSecond = true;
-					showInfoText = true;
+					if (!tempSecondArmy.at(showInfoParameter)->getArmySprite().getGlobalBounds().contains((float)mousePosition.x, (float)mousePosition.y))
+					{
+						showInfoReRenderSecond = true;
+						showInfoText = true;
+					}
 				}
 			}
 		}
@@ -1523,581 +1531,587 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 			}
 		}
 
-		if ((int)tempFirstArmy.size() == 0 || (int)tempSecondArmy.size() == 0)
+		timerBeforeStartBattle += time;
+
+		if(timerBeforeStartBattle >= 3000)
 		{
-			if (timerOfEnding == 0)
+			timerBeforeStartBattle = 3000;
+			if ((int)tempFirstArmy.size() == 0 || (int)tempSecondArmy.size() == 0)
 			{
-				firstPointsEnding = true;
-				secondPointsEnding = true;
-				thirdPointsEnding = true;
-			}
-			timerOfEnding += time;
-		}
-
-		if ((int)tempFirstArmy.size() == 0 && (int)tempSecondArmy.size() == 0)
-		{
-			if (timerOfEnding > 2000)
-			{
-				window.close();
-			}
-		}
-		else if ((int)tempFirstArmy.size() == 0)
-		{
-			if (firstPointsEnding && timerOfEnding > 1000)
-			{
-				firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - (int)secondPlayer->getPlayerEra());
-				firstPointsEnding = false;
-			}
-
-			if (secondPointsEnding && timerOfEnding > 2000)
-			{
-				firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - ((int)firstPlayer->getPlayerEra() / 2));
-				secondPointsEnding = false;
-			}
-
-			if (thirdPointsEnding && timerOfEnding > 3000)
-			{
-				firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - ((int)tempSecondArmy.size()));
-				thirdPointsEnding = false;
-			}
-
-			if (timerOfEnding > 5000)
-			{
-				tempSecondArmy.clear();
-				window.close();
-			}
-		}
-		else if ((int)tempSecondArmy.size() == 0)
-		{
-			if (firstPointsEnding && timerOfEnding > 1000)
-			{
-				secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - (int)firstPlayer->getPlayerEra());
-				firstPointsEnding = false;
-			}
-
-			if (secondPointsEnding && timerOfEnding > 2000)
-			{
-				secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - ((int)secondPlayer->getPlayerEra() / 2));
-				secondPointsEnding = false;
-			}
-
-			if (thirdPointsEnding && timerOfEnding > 3000)
-			{
-				secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - ((int)tempFirstArmy.size()));
-				thirdPointsEnding = false;
-			}
-
-			if (timerOfEnding > 5000)
-			{
-				tempFirstArmy.clear();
-				window.close();
-			}
-		}
-
-		checkForKilled(tempFirstArmy, tempSecondArmy);
-
-		if (firstAttackingIndex >= tempFirstArmy.size())
-		{
-			firstAttackingIndex = 0;
-		}
-
-		if ((int)tempFirstArmy.size() > 0)
-		{
-			for (int i = 0; i < (int)tempFirstArmy.size(); i++) 
-			{
-				if (!tempFirstArmy.at(i)->getIsAttackedAlready()) 
+				if (timerOfEnding == 0)
 				{
-					firstAttackingIndex = i;
-					break;
+					firstPointsEnding = true;
+					secondPointsEnding = true;
+					thirdPointsEnding = true;
 				}
-				else if (i == ((int)tempFirstArmy.size() - 1))
+				timerOfEnding += time;
+			}
+
+			if ((int)tempFirstArmy.size() == 0 && (int)tempSecondArmy.size() == 0)
+			{
+				if (timerOfEnding > 2000)
 				{
-					for (int j = 0; j < (int)tempFirstArmy.size(); j++)
+					window.close();
+				}
+			}
+			else if ((int)tempFirstArmy.size() == 0)
+			{
+				if (firstPointsEnding && timerOfEnding > 1000)
+				{
+					firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - (int)secondPlayer->getPlayerEra());
+					firstPointsEnding = false;
+				}
+
+				if (secondPointsEnding && timerOfEnding > 2000)
+				{
+					firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - ((int)firstPlayer->getPlayerEra() / 2));
+					secondPointsEnding = false;
+				}
+
+				if (thirdPointsEnding && timerOfEnding > 3000)
+				{
+					firstPlayer->setPlayerHealth(firstPlayer->getPlayerHealth() - ((int)tempSecondArmy.size()));
+					thirdPointsEnding = false;
+				}
+
+				if (timerOfEnding > 5000)
+				{
+					tempSecondArmy.clear();
+					window.close();
+				}
+			}
+			else if ((int)tempSecondArmy.size() == 0)
+			{
+				if (firstPointsEnding && timerOfEnding > 1000)
+				{
+					secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - (int)firstPlayer->getPlayerEra());
+					firstPointsEnding = false;
+				}
+
+				if (secondPointsEnding && timerOfEnding > 2000)
+				{
+					secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - ((int)secondPlayer->getPlayerEra() / 2));
+					secondPointsEnding = false;
+				}
+
+				if (thirdPointsEnding && timerOfEnding > 3000)
+				{
+					secondPlayer->setPlayerHealth(secondPlayer->getPlayerHealth() - ((int)tempFirstArmy.size()));
+					thirdPointsEnding = false;
+				}
+
+				if (timerOfEnding > 5000)
+				{
+					tempFirstArmy.clear();
+					window.close();
+				}
+			}
+
+			checkForKilled(tempFirstArmy, tempSecondArmy);
+
+			if (firstAttackingIndex >= tempFirstArmy.size())
+			{
+				firstAttackingIndex = 0;
+			}
+
+			if ((int)tempFirstArmy.size() > 0)
+			{
+				for (int i = 0; i < (int)tempFirstArmy.size(); i++)
+				{
+					if (!tempFirstArmy.at(i)->getIsAttackedAlready())
 					{
-						tempFirstArmy.at(j)->setIsAttackedAlready(false);
+						firstAttackingIndex = i;
+						break;
 					}
-
-					firstAttackingIndex = 0;
-				}
-			}
-		}
-
-		if (secondAttackingIndex >= tempSecondArmy.size())
-		{
-			secondAttackingIndex = 0;			
-		}
-
-		if ((int)tempSecondArmy.size() > 0)
-		{
-			for (int i = 0; i < (int)tempSecondArmy.size(); i++)
-			{
-				if (!tempSecondArmy.at(i)->getIsAttackedAlready())
-				{
-					secondAttackingIndex = i;
-					break;
-				}
-				else if (i == ((int)tempSecondArmy.size() - 1))
-				{
-					for (int j = 0; j < (int)tempSecondArmy.size(); j++)
+					else if (i == ((int)tempFirstArmy.size() - 1))
 					{
-						tempSecondArmy.at(j)->setIsAttackedAlready(false);
-					}
-
-					secondAttackingIndex = 0;
-				}
-			}
-		}
-
-		if ((int)tempFirstArmy.size() > 0 && (int)tempSecondArmy.size() > 0)
-		{
-			if (playerThatWillAttack == 0)
-			{
-				if (isFirstSavingOfBasicCoordinates)
-				{
-					beforeMovingCoordinateX = tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX();
-					beforeMovingCoordinateY = tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY();
-					isFirstSavingOfBasicCoordinates = false;
-				}
-
-				if (isMovingToCenter)
-				{
-					distance = sqrt((860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
-						(440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
-
-					if (distance > 2)
-					{
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
-					}
-					else
-					{
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(860.0f);
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(440.0f);
-						isMovingToCenter = false;
-						isMovingToEnemy = true;
-						randomAttackedArmy = rand() % (int)tempSecondArmy.size();
-					}
-				}
-				if (isMovingToEnemy)
-				{
-					distance = sqrt((tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
-						(tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
-
-					if (distance > 2)
-					{
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.5f * time * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.5f * time * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
-					}
-					else
-					{
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX());
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY());
-
-						if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+						for (int j = 0; j < (int)tempFirstArmy.size(); j++)
 						{
-							if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_MEELE)
-							{
-								if (tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow() == 1)
-								{
-									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 1);
-								}
-								else
-								{
-									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow() / 2);
-								}
-							}
-							else
-							{
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
+							tempFirstArmy.at(j)->setIsAttackedAlready(false);
 						}
-						else if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_MEELE)
+
+						firstAttackingIndex = 0;
+					}
+				}
+			}
+
+			if (secondAttackingIndex >= tempSecondArmy.size())
+			{
+				secondAttackingIndex = 0;
+			}
+
+			if ((int)tempSecondArmy.size() > 0)
+			{
+				for (int i = 0; i < (int)tempSecondArmy.size(); i++)
+				{
+					if (!tempSecondArmy.at(i)->getIsAttackedAlready())
+					{
+						secondAttackingIndex = i;
+						break;
+					}
+					else if (i == ((int)tempSecondArmy.size() - 1))
+					{
+						for (int j = 0; j < (int)tempSecondArmy.size(); j++)
 						{
-							if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-							else
-							{
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
+							tempSecondArmy.at(j)->setIsAttackedAlready(false);
 						}
-						else if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
+
+						secondAttackingIndex = 0;
+					}
+				}
+			}
+
+			if ((int)tempFirstArmy.size() > 0 && (int)tempSecondArmy.size() > 0)
+			{
+				if (playerThatWillAttack == 0)
+				{
+					if (isFirstSavingOfBasicCoordinates)
+					{
+						beforeMovingCoordinateX = tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX();
+						beforeMovingCoordinateY = tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY();
+						isFirstSavingOfBasicCoordinates = false;
+					}
+
+					if (isMovingToCenter)
+					{
+						distance = sqrt((860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
+							(440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
+
+						if (distance > 2)
 						{
-							if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
-								tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-							{
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * (tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow()));
-							}
-							else
-							{
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-						}
-						else if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY)
-						{
-							if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY ||
-								tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-							{
-								isCavalryAttackedAntiCavalry = true;
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-							else
-							{
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-						}
-						else if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-						{
-							if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
-							{
-								isCavalryAttackedAntiCavalry = true;
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-							{
-								isCavalryAttackedAntiCavalry = true;
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_CAVALRY)
-							{
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * (tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow()));
-							}
-							else
-							{
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
 						}
 						else
 						{
-							if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-							else
-							{
-								tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
-							}
-						}
-
-						isMovingToEnemy = false;
-						isMovingBack = true;
-
-						for (int i = 0; i < (int)tempFirstArmy.size(); i++)
-						{
-							if (tempFirstArmy.at(i)->getArmyHealthNow() < 1)
-							{
-								tempFirstArmy.erase(tempFirstArmy.begin() + i);
-								setOrderOfTempBattleArmy(tempFirstArmy, 0);
-								isMovingBack = false;
-								playerThatWillAttack = 1;
-
-								if (tempSecondArmy.size() > 0 && tempFirstArmy.size() > 0)
-								{
-									isMovingToCenter = true;
-									isFirstSavingOfBasicCoordinates = true;
-								}
-
-								break;
-							}
-						}
-
-						for (int i = 0; i < (int)tempSecondArmy.size(); i++)
-						{
-							if (tempSecondArmy.at(i)->getArmyHealthNow() < 1)
-							{
-								tempSecondArmy.erase(tempSecondArmy.begin() + i);
-								setOrderOfTempBattleArmy(tempSecondArmy, 1);
-								break;
-							}
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(860.0f);
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(440.0f);
+							isMovingToCenter = false;
+							isMovingToEnemy = true;
+							randomAttackedArmy = rand() % (int)tempSecondArmy.size();
 						}
 					}
-				}
-				if (isMovingBack)
-				{
-					distance = sqrt((beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
-						(beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
-
-					if (distance > 2)
+					if (isMovingToEnemy)
 					{
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
-					}
-					else
-					{
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(beforeMovingCoordinateX);
-						tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(beforeMovingCoordinateY);
-						isMovingBack = false;
-						playerThatWillAttack = 1;
+						distance = sqrt((tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
+							(tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
 
-						if (tempSecondArmy.size() > 0 && tempFirstArmy.size() > 0)
+						if (distance > 2)
 						{
-							tempFirstArmy.at(firstAttackingIndex)->setIsAttackedAlready(true);
-
-							if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
-								tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-							{
-								
-								if (!isCavalryAttackedAntiCavalry)
-								{
-									tempFirstArmy.at(firstAttackingIndex)->setIsAttackedAlready(false);
-									playerThatWillAttack = 0;
-								}
-								else 
-								{
-									isCavalryAttackedAntiCavalry = false;
-								}
-							}
-							isMovingToCenter = true;
-							isFirstSavingOfBasicCoordinates = true;
-						}
-					}
-				}
-			}
-			else
-			{
-				if (isFirstSavingOfBasicCoordinates)
-				{
-					beforeMovingCoordinateX = tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX();
-					beforeMovingCoordinateY = tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY();
-					isFirstSavingOfBasicCoordinates = false;
-				}
-
-				if (isMovingToCenter)
-				{
-					distance = sqrt((860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
-						(440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
-
-					if (distance > 2)
-					{
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);
-					}
-					else
-					{
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(860.0f);
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(440.0f);
-						isMovingToCenter = false;
-						isMovingToEnemy = true;
-						randomAttackedArmy = rand() % (int)tempFirstArmy.size();
-					}
-				}
-				if (isMovingToEnemy)
-				{
-					distance = sqrt((tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
-						(tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
-
-					if (distance > 2)
-					{
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.5f * time * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.5f * time * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);
-					}
-					else
-					{
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX());
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY());
-
-						if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-						{
-							if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_MEELE)
-							{
-								if (tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow() == 1)
-								{
-									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 1);
-								}
-								else
-								{
-									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow() / 2);
-								}
-							}
-							else
-							{
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-						}
-						else if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_MEELE)
-						{
-							if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-							else
-							{
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-						}
-						else if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
-						{
-							if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
-								tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-							{
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * (tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow()));
-							}
-							else
-							{
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-						}
-						else if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY)
-						{
-							if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY ||
-								tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-							{
-								isCavalryAttackedAntiCavalry = true;
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-							else
-							{
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-						}
-						else if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-						{
-							if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
-							{
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
-							{
-								isCavalryAttackedAntiCavalry = true;
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-							{
-								isCavalryAttackedAntiCavalry = true;
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-							else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_CAVALRY)
-							{
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * (tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow()));
-							}
-							else
-							{
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.5f * time * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.5f * time * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
 						}
 						else
 						{
-							if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX());
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY());
+
+							if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_RANGE)
 							{
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_MEELE)
+								{
+									if (tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow() == 1)
+									{
+										tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 1);
+									}
+									else
+									{
+										tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow() / 2);
+									}
+								}
+								else
+								{
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_MEELE)
+							{
+								if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+								else
+								{
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
+							{
+								if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
+									tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+								{
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * (tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow()));
+								}
+								else
+								{
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY)
+							{
+								if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY ||
+									tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+								{
+									isCavalryAttackedAntiCavalry = true;
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+								else
+								{
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+							{
+								if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
+								{
+									isCavalryAttackedAntiCavalry = true;
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+								{
+									isCavalryAttackedAntiCavalry = true;
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - 2 * tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_CAVALRY)
+								{
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * (tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow()));
+								}
+								else
+								{
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
 							}
 							else
 							{
-								tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
-								tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
-							}
-						}
-
-						isMovingToEnemy = false;
-						isMovingBack = true;
-
-						for (int i = 0; i < (int)tempFirstArmy.size(); i++)
-						{
-							if (tempFirstArmy.at(i)->getArmyHealthNow() < 1)
-							{
-								tempFirstArmy.erase(tempFirstArmy.begin() + i);
-								setOrderOfTempBattleArmy(tempFirstArmy, 0);
-								break;
-							}
-						}
-
-						for (int i = 0; i < (int)tempSecondArmy.size(); i++)
-						{
-							if (tempSecondArmy.at(i)->getArmyHealthNow() < 1)
-							{
-								tempSecondArmy.erase(tempSecondArmy.begin() + i);
-								setOrderOfTempBattleArmy(tempSecondArmy, 1);
-								isMovingBack = false;
-								playerThatWillAttack = 0;
-
-								if (tempSecondArmy.size() > 0 && tempFirstArmy.size() > 0)
+								if (tempSecondArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
 								{
-									isMovingToCenter = true;
-									isFirstSavingOfBasicCoordinates = true;
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
 								}
-
-								break;
-							}
-						}
-					}
-				}
-				if (isMovingBack)
-				{
-					distance = sqrt((beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
-						(beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
-
-					if (distance > 2)
-					{
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);
-					}
-					else
-					{
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(beforeMovingCoordinateX);
-						tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(beforeMovingCoordinateY);
-						isMovingBack = false;
-						playerThatWillAttack = 0;
-
-						if (tempSecondArmy.size() > 0 && tempFirstArmy.size() > 0)
-						{
-							tempSecondArmy.at(secondAttackingIndex)->setIsAttackedAlready(true);
-
-							if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
-								tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
-							{
-								if (!isCavalryAttackedAntiCavalry)
+								else
 								{
-									tempSecondArmy.at(secondAttackingIndex)->setIsAttackedAlready(false);
+									tempFirstArmy.at(firstAttackingIndex)->setArmyHealthNow(tempFirstArmy.at(firstAttackingIndex)->getArmyHealthNow() - tempSecondArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempSecondArmy.at(randomAttackedArmy)->setArmyHealthNow(tempSecondArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempFirstArmy.at(firstAttackingIndex)->getArmyAttackNow());
+								}
+							}
+
+							isMovingToEnemy = false;
+							isMovingBack = true;
+
+							for (int i = 0; i < (int)tempFirstArmy.size(); i++)
+							{
+								if (tempFirstArmy.at(i)->getArmyHealthNow() < 1)
+								{
+									tempFirstArmy.erase(tempFirstArmy.begin() + i);
+									setOrderOfTempBattleArmy(tempFirstArmy, 0);
+									isMovingBack = false;
 									playerThatWillAttack = 1;
-								}
-								else
-								{
-									isCavalryAttackedAntiCavalry = false;
+
+									if (tempSecondArmy.size() > 0 && tempFirstArmy.size() > 0)
+									{
+										isMovingToCenter = true;
+										isFirstSavingOfBasicCoordinates = true;
+									}
+
+									break;
 								}
 							}
 
-							isMovingToCenter = true;
-							isFirstSavingOfBasicCoordinates = true;
+							for (int i = 0; i < (int)tempSecondArmy.size(); i++)
+							{
+								if (tempSecondArmy.at(i)->getArmyHealthNow() < 1)
+								{
+									tempSecondArmy.erase(tempSecondArmy.begin() + i);
+									setOrderOfTempBattleArmy(tempSecondArmy, 1);
+									break;
+								}
+							}
+						}
+					}
+					if (isMovingBack)
+					{
+						distance = sqrt((beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
+							(beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
+
+						if (distance > 2)
+						{
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
+						}
+						else
+						{
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(beforeMovingCoordinateX);
+							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(beforeMovingCoordinateY);
+							isMovingBack = false;
+							playerThatWillAttack = 1;
+
+							if (tempSecondArmy.size() > 0 && tempFirstArmy.size() > 0)
+							{
+								tempFirstArmy.at(firstAttackingIndex)->setIsAttackedAlready(true);
+
+								if (tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
+									tempFirstArmy.at(firstAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+								{
+									if (!isCavalryAttackedAntiCavalry)
+									{
+										tempFirstArmy.at(firstAttackingIndex)->setIsAttackedAlready(false);
+										playerThatWillAttack = 0;
+									}
+									else
+									{
+										isCavalryAttackedAntiCavalry = false;
+									}
+								}
+
+								isMovingToCenter = true;
+								isFirstSavingOfBasicCoordinates = true;
+							}
+						}
+					}
+				}
+				else
+				{
+					if (isFirstSavingOfBasicCoordinates)
+					{
+						beforeMovingCoordinateX = tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX();
+						beforeMovingCoordinateY = tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY();
+						isFirstSavingOfBasicCoordinates = false;
+					}
+
+					if (isMovingToCenter)
+					{
+						distance = sqrt((860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
+							(440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
+
+						if (distance > 2)
+						{
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);
+						}
+						else
+						{
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(860.0f);
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(440.0f);
+							isMovingToCenter = false;
+							isMovingToEnemy = true;
+							randomAttackedArmy = rand() % (int)tempFirstArmy.size();
+						}
+					}
+					if (isMovingToEnemy)
+					{
+						distance = sqrt((tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
+							(tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
+
+						if (distance > 2)
+						{
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.5f * time * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.5f * time * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);
+						}
+						else
+						{
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX());
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY());
+
+							if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+							{
+								if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_MEELE)
+								{
+									if (tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow() == 1)
+									{
+										tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 1);
+									}
+									else
+									{
+										tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow() / 2);
+									}
+								}
+								else
+								{
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_MEELE)
+							{
+								if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+								else
+								{
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
+							{
+								if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
+									tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+								{
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * (tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow()));
+								}
+								else
+								{
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY)
+							{
+								if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY ||
+									tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+								{
+									isCavalryAttackedAntiCavalry = true;
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+								else
+								{
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+							{
+								if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRY)
+								{
+									isCavalryAttackedAntiCavalry = true;
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+								{
+									isCavalryAttackedAntiCavalry = true;
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - 2 * tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+								else if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_CAVALRY)
+								{
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - 2 * (tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow()));
+								}
+								else
+								{
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+							}
+							else
+							{
+								if (tempFirstArmy.at(randomAttackedArmy)->getArmyType() == enumTypeSquad::TYPE_RANGE)
+								{
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+								else
+								{
+									tempSecondArmy.at(secondAttackingIndex)->setArmyHealthNow(tempSecondArmy.at(secondAttackingIndex)->getArmyHealthNow() - tempFirstArmy.at(randomAttackedArmy)->getArmyAttackNow());
+									tempFirstArmy.at(randomAttackedArmy)->setArmyHealthNow(tempFirstArmy.at(randomAttackedArmy)->getArmyHealthNow() - tempSecondArmy.at(secondAttackingIndex)->getArmyAttackNow());
+								}
+							}
+
+							isMovingToEnemy = false;
+							isMovingBack = true;
+
+							for (int i = 0; i < (int)tempFirstArmy.size(); i++)
+							{
+								if (tempFirstArmy.at(i)->getArmyHealthNow() < 1)
+								{
+									tempFirstArmy.erase(tempFirstArmy.begin() + i);
+									setOrderOfTempBattleArmy(tempFirstArmy, 0);
+									break;
+								}
+							}
+
+							for (int i = 0; i < (int)tempSecondArmy.size(); i++)
+							{
+								if (tempSecondArmy.at(i)->getArmyHealthNow() < 1)
+								{
+									tempSecondArmy.erase(tempSecondArmy.begin() + i);
+									setOrderOfTempBattleArmy(tempSecondArmy, 1);
+									isMovingBack = false;
+									playerThatWillAttack = 0;
+
+									if (tempSecondArmy.size() > 0 && tempFirstArmy.size() > 0)
+									{
+										isMovingToCenter = true;
+										isFirstSavingOfBasicCoordinates = true;
+									}
+
+									break;
+								}
+							}
+						}
+					}
+					if (isMovingBack)
+					{
+						distance = sqrt((beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
+							(beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
+
+						if (distance > 2)
+						{
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);
+						}
+						else
+						{
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(beforeMovingCoordinateX);
+							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(beforeMovingCoordinateY);
+							isMovingBack = false;
+							playerThatWillAttack = 0;
+
+							if (tempSecondArmy.size() > 0 && tempFirstArmy.size() > 0)
+							{
+								tempSecondArmy.at(secondAttackingIndex)->setIsAttackedAlready(true);
+
+								if (tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_CAVALRY ||
+									tempSecondArmy.at(secondAttackingIndex)->getArmyType() == enumTypeSquad::TYPE_ANTICAVALRYCAVALRY)
+								{
+									if (!isCavalryAttackedAntiCavalry)
+									{
+										tempSecondArmy.at(secondAttackingIndex)->setIsAttackedAlready(false);
+										playerThatWillAttack = 1;
+									}
+									else
+									{
+										isCavalryAttackedAntiCavalry = false;
+									}
+								}
+
+								isMovingToCenter = true;
+								isFirstSavingOfBasicCoordinates = true;
+							}
 						}
 					}
 				}
