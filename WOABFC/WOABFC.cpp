@@ -1320,20 +1320,21 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 
 	int playerThatWillAttack;
 
-	if (firstPlayer->getPlayerEra() != secondPlayer->getPlayerEra()) 
+	if (firstPlayer->getPlayerActiveArmy().size() != secondPlayer->getPlayerActiveArmy().size())
 	{
-		if ((int)firstPlayer->getPlayerEra() > (int)secondPlayer->getPlayerEra()) 
+		if (firstPlayer->getPlayerActiveArmy().size() > secondPlayer->getPlayerActiveArmy().size())
 		{
 			playerThatWillAttack = 0;
 		}
-		else 
+		else
 		{
 			playerThatWillAttack = 1;
 		}
 	}
-	else if (firstPlayer->getPlayerActiveArmy().size() != secondPlayer->getPlayerActiveArmy().size()) 
+	
+	else if (firstPlayer->getPlayerEra() != secondPlayer->getPlayerEra())
 	{
-		if (firstPlayer->getPlayerActiveArmy().size() > secondPlayer->getPlayerActiveArmy().size()) 
+		if ((int)firstPlayer->getPlayerEra() > (int)secondPlayer->getPlayerEra())
 		{
 			playerThatWillAttack = 0;
 		}
@@ -2228,21 +2229,33 @@ void gameProcess(std::vector <std::vector <Army*>>& pullGame)
 	bool isPlayerDead = false;
 	playersVector.push_back(firstPlayer);
 	playersVector.push_back(secondPlayer);
+
 	while (!isPlayerDead)
 	{
 		for (int i = 0; i < (int)playersVector.size(); i++)
 		{
 			if (playersVector.at(i)->getPlayerHealth() > 0)
 			{
-				shop(pullGame, playersVector.at(i));
+				if (i < (int)playersVector.size() - 1)
+				{
+					continue;
+				}
+				else 
+				{
+					shop(pullGame, playersVector.at(i));
+				}				  
 			}
 			else
 			{
 				isPlayerDead = true;
-				break;
+				break; break;
 			}
 		}
-		battle(pullGame, playersVector.at(0), playersVector.at(1));
+		
+		if (!isPlayerDead)
+		{
+			battle(pullGame, playersVector.at(0), playersVector.at(1));
+		}
 	}
 }
 
