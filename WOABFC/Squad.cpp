@@ -99,7 +99,7 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_ARCHER:
             this->armyTexture.loadFromFile("images/squads/archer.png");
-            this->armyAttackBasic = 1;
+            this->armyAttackBasic = 2;
             this->armyHealthBasic = 1;
             this->armyName = "Archer";
             this->eraName = enumEraName::ERA_ANCIENT;
@@ -109,8 +109,8 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_LONGBOWARCHER:
             this->armyTexture.loadFromFile("images/squads/longbowarcher.png");
-            this->armyAttackBasic = 2;
-            this->armyHealthBasic = 1;
+            this->armyAttackBasic = 3;
+            this->armyHealthBasic = 2;
             this->armyName = "Composite Bowman";
             this->eraName = enumEraName::ERA_CLASSIC;
             this->armyUpgrade = enumSquad::SQUAD_CROSSBOWMAN;
@@ -119,8 +119,8 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_CROSSBOWMAN:
             this->armyTexture.loadFromFile("images/squads/crossbowman.png");
-            this->armyAttackBasic = 2;
-            this->armyHealthBasic = 3;
+            this->armyAttackBasic = 3;
+            this->armyHealthBasic = 4;
             this->armyName = "Crossbowman";
             this->eraName = enumEraName::ERA_MEDIVAL;
             this->armyUpgrade = enumSquad::SQUAD_CANNON;
@@ -129,7 +129,7 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_CANNON:
             this->armyTexture.loadFromFile("images/squads/cannon.png");
-            this->armyAttackBasic = 3;
+            this->armyAttackBasic = 5;
             this->armyHealthBasic = 4;
             this->armyName = "Cannon"; 
             this->eraName = enumEraName::ERA_RENAISSANCEE;
@@ -139,8 +139,8 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_GATLING:
             this->armyTexture.loadFromFile("images/squads/gatling.png");
-            this->armyAttackBasic = 4;
-            this->armyHealthBasic = 4;
+            this->armyAttackBasic = 6;
+            this->armyHealthBasic = 5;
             this->armyName = "Gatling Gun";
             this->eraName = enumEraName::ERA_INDUSTRIAL;
             this->armyUpgrade = enumSquad::SQUAD_MACHINGGUN;
@@ -149,7 +149,7 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_MACHINGGUN:
             this->armyTexture.loadFromFile("images/squads/machinggun.png");
-            this->armyAttackBasic = 6;
+            this->armyAttackBasic = 8;
             this->armyHealthBasic = 5;
             this->armyName = "Machine Gun";
             this->eraName = enumEraName::ERA_MODERN;
@@ -159,20 +159,20 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_BAZOOKA:
             this->armyTexture.loadFromFile("images/squads/bazooka.png");
-            this->armyAttackBasic = 8;
+            this->armyAttackBasic = 9;
             this->armyHealthBasic = 6;
             this->armyName = "Bazooka";
-            this->eraName = enumEraName::ERA_INFORMATION;
+            this->eraName = enumEraName::ERA_ATOMIC;
             this->armyUpgrade = enumSquad::SQUAD_ROCKET;
             this->armyType = enumTypeSquad::TYPE_RANGE;
             break;
 
         case enumSquad::SQUAD_ROCKET:
             this->armyTexture.loadFromFile("images/squads/rocket.png");
-            this->armyAttackBasic = 11;
+            this->armyAttackBasic = 12;
             this->armyHealthBasic = 8;
             this->armyName = "Guided Missile";
-            this->eraName = enumEraName::ERA_ATOMIC;
+            this->eraName = enumEraName::ERA_INFORMATION;
             this->armyUpgrade = enumSquad::NONE;
             this->armyType = enumTypeSquad::TYPE_RANGE;
             break;
@@ -189,7 +189,7 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_HORSEMAN:
             this->armyTexture.loadFromFile("images/squads/horseman.png");
-            this->armyAttackBasic = 1;
+            this->armyAttackBasic = 2;
             this->armyHealthBasic = 5;
             this->armyName = "Horseman";
             this->eraName = enumEraName::ERA_CLASSIC;
@@ -200,7 +200,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_KNIGHT:
             this->armyTexture.loadFromFile("images/squads/knight.png");
             this->armyAttackBasic = 2;
-            this->armyHealthBasic = 6;
+            this->armyHealthBasic = 7;
             this->armyName = "Knight";
             this->eraName = enumEraName::ERA_MEDIVAL;
             this->armyUpgrade = enumSquad::SQUAD_LANCER;
@@ -210,7 +210,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_LANCER:
             this->armyTexture.loadFromFile("images/squads/lancer.png");
             this->armyAttackBasic = 3;
-            this->armyHealthBasic = 9;
+            this->armyHealthBasic = 10;
             this->armyName = "Lancer"; 
             this->eraName = enumEraName::ERA_RENAISSANCEE;
             this->armyUpgrade = enumSquad::NONE;
@@ -220,7 +220,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_CAVALRY:
             this->armyTexture.loadFromFile("images/squads/cavalry.png");
             this->armyAttackBasic = 4;
-            this->armyHealthBasic = 9;
+            this->armyHealthBasic = 10;
             this->armyName = "Cavalry";
             this->eraName = enumEraName::ERA_INDUSTRIAL;
             this->armyUpgrade = enumSquad::SQUAD_TANKETTE;
@@ -230,7 +230,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_TANKETTE:
             this->armyTexture.loadFromFile("images/squads/tankette.png");
             this->armyAttackBasic = 4;
-            this->armyHealthBasic = 14;
+            this->armyHealthBasic = 15;
             this->armyName = "Tankette";
             this->eraName = enumEraName::ERA_MODERN;
             this->armyUpgrade = enumSquad::SQUAD_TANK;
@@ -239,7 +239,7 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_TANK:
             this->armyTexture.loadFromFile("images/squads/tank.png");
-            this->armyAttackBasic = 4;
+            this->armyAttackBasic = 5;
             this->armyHealthBasic = 17;
             this->armyName = "Tank";
             this->eraName = enumEraName::ERA_ATOMIC;
@@ -250,7 +250,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_MODERNTANK:
             this->armyTexture.loadFromFile("images/squads/moderntank.png");
             this->armyAttackBasic = 6;
-            this->armyHealthBasic = 23;
+            this->armyHealthBasic = 25;
             this->armyName = "Modern Tank";
             this->eraName = enumEraName::ERA_INFORMATION;
             this->armyUpgrade = enumSquad::NONE;
@@ -280,7 +280,7 @@ Squad::Squad(enumSquad armyID)
         case enumSquad::SQUAD_PIKEMAN:
             this->armyTexture.loadFromFile("images/squads/pikeman.png");
             this->armyAttackBasic = 2;
-            this->armyHealthBasic = 5;
+            this->armyHealthBasic = 6;
             this->armyName = "Pikeman";
             this->eraName = enumEraName::ERA_MEDIVAL;
             this->armyUpgrade = enumSquad::SQUAD_LANCER;
@@ -289,8 +289,8 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_ARTBATTERY:
             this->armyTexture.loadFromFile("images/squads/artbattery.png");
-            this->armyAttackBasic = 6;
-            this->armyHealthBasic = 10;
+            this->armyAttackBasic = 5;
+            this->armyHealthBasic = 11;
             this->armyName = "Artillery";
             this->eraName = enumEraName::ERA_MODERN;
             this->armyUpgrade = enumSquad::SQUAD_ANTITANKCANNON;
@@ -309,7 +309,7 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_ROCKETARTILLERY:
             this->armyTexture.loadFromFile("images/squads/rocketartillery.png");
-            this->armyAttackBasic = 12;
+            this->armyAttackBasic = 9;
             this->armyHealthBasic = 17;
             this->armyName = "Rocket Artillery";
             this->eraName = enumEraName::ERA_INFORMATION;
@@ -319,8 +319,8 @@ Squad::Squad(enumSquad armyID)
 
         case enumSquad::SQUAD_ROBOT:
             this->armyTexture.loadFromFile("images/squads/robot.png");
-            this->armyAttackBasic = 9;
-            this->armyHealthBasic = 32;
+            this->armyAttackBasic = 10;
+            this->armyHealthBasic = 35;
             this->armyName = "Giant Robot";
             this->eraName = enumEraName::ERA_FUTURE;
             this->armyUpgrade = enumSquad::NONE;
