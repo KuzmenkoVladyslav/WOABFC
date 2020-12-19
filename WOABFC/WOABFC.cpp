@@ -2236,14 +2236,7 @@ void gameProcess(std::vector <std::vector <Army*>>& pullGame)
 		{
 			if (playersVector.at(i)->getPlayerHealth() > 0)
 			{
-				if (i < (int)playersVector.size() - 1)
-				{
-					continue;
-				}
-				else 
-				{
-					shop(pullGame, playersVector.at(i));
-				}				  
+				shop(pullGame, playersVector.at(i));
 			}
 			else
 			{

@@ -129,7 +129,7 @@ std::vector <std::vector <Army*>> initializePullSquads()
 	std::vector <std::vector <Army*>> pullGame;
 	std::vector <Army*> pullAncient, pullClassic, pullMedival, pullRenaissancee, pullIndustrial, pullModern, pullAtomic, pullInfromation, pullFuture;
 
-	std::thread threadAncient([&pullAncient]()
+	std::thread threadAncientClassicMedival([&pullAncient, &pullClassic, &pullMedival]()
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
@@ -137,24 +137,10 @@ std::vector <std::vector <Army*>> initializePullSquads()
 			pullAncient.push_back(new Squad(enumSquad::SQUAD_ARCHER));
 			pullAncient.push_back(new Squad(enumSquad::SQUAD_HOURSEARCHER));
 			pullAncient.push_back(new Squad(enumSquad::SQUAD_SPEARMAN));
-		}
-	});
-
-	std::thread threadClassic([&pullClassic]()
-	{
-		for (size_t i = 0; i < 16; i++)
-		{
 			pullClassic.push_back(new Squad(enumSquad::SQUAD_SWORDSMAN));
 			pullClassic.push_back(new Squad(enumSquad::SQUAD_LONGBOWARCHER));
 			pullClassic.push_back(new Squad(enumSquad::SQUAD_HORSEMAN));
 			pullClassic.push_back(new Squad(enumSquad::SQUAD_HOPLITE));
-		}
-	});
-
-	std::thread threadMedival([&pullMedival]()
-	{
-		for (size_t i = 0; i < 16; i++)
-		{
 			pullMedival.push_back(new Squad(enumSquad::SQUAD_LONGSWORDSMAN));
 			pullMedival.push_back(new Squad(enumSquad::SQUAD_CROSSBOWMAN));
 			pullMedival.push_back(new Squad(enumSquad::SQUAD_KNIGHT));
@@ -162,20 +148,13 @@ std::vector <std::vector <Army*>> initializePullSquads()
 		}
 	});
 
-	std::thread threadRenaissancee([&pullRenaissancee]()
+	std::thread threadRenaissanceeIndustrial([&pullRenaissancee, &pullIndustrial]()
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
 			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_HARQUEBUSIER));
 			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_CANNON));
 			pullRenaissancee.push_back(new Squad(enumSquad::SQUAD_LANCER));
-		}
-	});
-
-	std::thread threadIndustrial([&pullIndustrial]()
-	{
-		for (size_t i = 0; i < 16; i++)
-		{
 			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_MUSKETEER));
 			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_GATLING));
 			pullIndustrial.push_back(new Squad(enumSquad::SQUAD_CAVALRY));
@@ -193,7 +172,7 @@ std::vector <std::vector <Army*>> initializePullSquads()
 		}
 	});
 
-	std::thread threadAtomic([&pullAtomic]()
+	std::thread threadAtomicInformation([&pullAtomic, &pullInfromation]()
 	{
 		for (size_t i = 0; i < 8; i++)
 		{
@@ -201,13 +180,6 @@ std::vector <std::vector <Army*>> initializePullSquads()
 			pullAtomic.push_back(new Squad(enumSquad::SQUAD_BAZOOKA));
 			pullAtomic.push_back(new Squad(enumSquad::SQUAD_TANK));
 			pullAtomic.push_back(new Squad(enumSquad::SQUAD_ANTITANKCANNON));
-		}
-	});
-
-	std::thread threadInformation([&pullInfromation]()
-	{
-		for (size_t i = 0; i < 8; i++)
-		{
 			pullInfromation.push_back(new Squad(enumSquad::SQUAD_MOTORIZEDINFANTRY));
 			pullInfromation.push_back(new Squad(enumSquad::SQUAD_ROCKET));
 			pullInfromation.push_back(new Squad(enumSquad::SQUAD_MODERNTANK));
@@ -224,14 +196,10 @@ std::vector <std::vector <Army*>> initializePullSquads()
 		}
 	});
 
-	threadAncient.join();
-	threadClassic.join();
-	threadMedival.join();
-	threadRenaissancee.join();
-	threadIndustrial.join();
+	threadAncientClassicMedival.join();
+	threadRenaissanceeIndustrial.join();
 	threadModern.join();
-	threadAtomic.join();
-	threadInformation.join();
+	threadAtomicInformation.join();
 	threadFuture.join();
 	threadLoading.detach();
 
