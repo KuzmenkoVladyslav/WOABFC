@@ -341,6 +341,12 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 							}
 							tempActiveArmy.erase(tempActiveArmy.begin() + spriteMoveParameter);
 							tempActiveArmy = player->setPlayerTempActiveArmy(tempActiveArmy);
+
+							if (player->getPlayerActionPointsNow() < player->getPlayerActionPointsMax())
+							{
+								player->setPlayerActionPointsNow(player->getPlayerActionPointsNow() + 1);
+							}
+
 							spriteMoveParameter = -1;
 						}
 						else 
@@ -415,6 +421,12 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 							}
 							tempReserveArmy.erase(tempReserveArmy.begin() + spriteMoveParameter);
 							tempReserveArmy = player->setPlayerTempReserveArmy(tempReserveArmy);
+
+							if (player->getPlayerActionPointsNow() < player->getPlayerActionPointsMax())
+							{
+								player->setPlayerActionPointsNow(player->getPlayerActionPointsNow() + 1);
+							}
+
 							spriteMoveParameter = -1;
 						}
 						else
