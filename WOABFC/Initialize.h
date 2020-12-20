@@ -12,7 +12,7 @@ std::vector <std::vector <Army*>> initializePullSquads()
 
 	std::thread threadLoading([&windowClose]()
 	{
-		sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (LOADING)", sf::Style::None);
+		sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle", sf::Style::None);
 		window.setVerticalSyncEnabled(true);
 		int randomNumberBackground;
 		srand((unsigned)time(NULL));
