@@ -44,7 +44,7 @@ void checkForKilled(std::vector <Army* > & tempFirstArmy, std::vector <Army* >& 
 
 void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SHOP)", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SHOP)", sf::Style::None);
 	window.setVerticalSyncEnabled(true);
 
 	sf::Texture mapTexture;
@@ -1269,7 +1269,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 
 void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, Player*& secondPlayer)
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (BATTLE)", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (BATTLE)", sf::Style::None);
 	window.setVerticalSyncEnabled(true);
 
 	srand((unsigned)time(NULL));

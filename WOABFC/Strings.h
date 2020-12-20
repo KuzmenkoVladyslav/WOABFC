@@ -1,16 +1,16 @@
 ﻿#pragma once
 #include <SFML\Graphics.hpp>
 
-static int state;
+static int languageState;
 
-static int getState()
+static int getLanguageState()
 {
-	return state;
+	return languageState;
 }
 
-static void setState(int newState)
+static void setLanguageState(int newLanguageState)
 {
-	state = newState;
+	languageState = newLanguageState;
 }
 
 static sf::String languageEnglish[26] = {
@@ -102,7 +102,7 @@ static sf::String languageUkrainian[26] = {
 
 static sf::String languageString(int indexOfString)
 {
-	switch (state)
+	switch (languageState)
 	{
 	case 0:
 		return languageEnglish[indexOfString];

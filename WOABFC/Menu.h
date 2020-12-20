@@ -8,7 +8,7 @@ void settings();
 
 void menu() 
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (MENU)", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (MENU)", sf::Style::None);
 	window.setVerticalSyncEnabled(true);
 	setlocale(LC_ALL, "");
 	int randomNumberBackground;
@@ -44,7 +44,7 @@ void menu()
 	textMenuHelp.setString(languageString(3));
 	textMenuExit.setString(languageString(4));
 
-	if (getState() == 0)
+	if (getLanguageState() == 0)
 	{
 		textMenuSingle.setPosition(835, 190);
 		textMenuMulti.setPosition(780, 340);
@@ -52,7 +52,7 @@ void menu()
 		textMenuHelp.setPosition(770, 640);
 		textMenuExit.setPosition(900, 790);
 	}
-	else if (getState() == 1)
+	else if (getLanguageState() == 1)
 	{
 		textMenuSingle.setPosition(835, 190);
 		textMenuMulti.setPosition(470, 340);
@@ -151,7 +151,7 @@ void menu()
 
 void settings()
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SETTINGS)", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SETTINGS)", sf::Style::None);
 	window.setVerticalSyncEnabled(true);
 	int randomNumberBackground;
 	srand((unsigned)time(NULL));
@@ -229,9 +229,9 @@ void settings()
 		{
 			switch (settingsNum)
 			{
-			case 1: window.close(); setState(0); menu(); break;
-			case 2: window.close(); setState(1); menu(); break;
-			case 3: window.close(); setState(2); menu(); break;
+			case 1: window.close(); setLanguageState(0); menu(); break;
+			case 2: window.close(); setLanguageState(1); menu(); break;
+			case 3: window.close(); setLanguageState(2); menu(); break;
 			default:
 				break;
 			}
