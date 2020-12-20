@@ -113,31 +113,31 @@ void Player::setPlayerEra(enumEraName playerEra)
 
     case enumEraName::ERA_MEDIVAL:
         this->playerReserveCount = 4;
-        this->playerNextEraCost = 5;
+        this->playerNextEraCost = 6;
         this->playerActionPointsMax = 4;
         break;
 
     case enumEraName::ERA_RENAISSANCEE:
         this->playerReserveCount = 5;
-        this->playerNextEraCost = 5;
+        this->playerNextEraCost = 6;
         this->playerActionPointsMax = 4;
         break;
 
     case enumEraName::ERA_INDUSTRIAL:
         this->playerReserveCount = 5;
-        this->playerNextEraCost = 6;
+        this->playerNextEraCost = 7;
         this->playerActionPointsMax = 5;
         break;
 
     case enumEraName::ERA_MODERN:
         this->playerReserveCount = 6;
-        this->playerNextEraCost = 6;
+        this->playerNextEraCost = 7;
         this->playerActionPointsMax = 5;
         break;
 
     case enumEraName::ERA_ATOMIC:
         this->playerReserveCount = 6;
-        this->playerNextEraCost = 7;
+        this->playerNextEraCost = 8;
         this->playerActionPointsMax = 6;
         break;
 
