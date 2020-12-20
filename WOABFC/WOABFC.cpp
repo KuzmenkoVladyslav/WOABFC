@@ -45,6 +45,7 @@ void checkForKilled(std::vector <Army* > & tempFirstArmy, std::vector <Army* >& 
 void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SHOP)", sf::Style::Fullscreen);
+	window.setVerticalSyncEnabled(true);
 
 	sf::Texture mapTexture;
 	mapTexture.loadFromFile("images/map.png");
@@ -1269,6 +1270,7 @@ void shop(std::vector <std::vector <Army*>>& pullGame, Player*& player)
 void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, Player*& secondPlayer)
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (BATTLE)", sf::Style::Fullscreen);
+	window.setVerticalSyncEnabled(true);
 
 	srand((unsigned)time(NULL));
 
@@ -1712,7 +1714,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 						distance = sqrt((860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
 							(440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
 
-						if (distance > 2)
+						if (distance > 10)
 						{
 							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (860.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
 							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (440.0f - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
@@ -1731,7 +1733,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 						distance = sqrt((tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
 							(tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
 
-						if (distance > 2)
+						if (distance > 10)
 						{
 							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.5f * time * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
 							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.5f * time * (tempSecondArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
@@ -1888,7 +1890,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 						distance = sqrt((beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) * (beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) +
 							(beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) * (beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()));
 
-						if (distance > 2)
+						if (distance > 10)
 						{
 							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateX(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (beforeMovingCoordinateX - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateX()) / distance);
 							tempFirstArmy.at(firstAttackingIndex)->setArmySpawnCoordinateY(tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (beforeMovingCoordinateY - tempFirstArmy.at(firstAttackingIndex)->getArmySpawnCoordinateY()) / distance);
@@ -1938,7 +1940,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 						distance = sqrt((860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
 							(440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
 
-						if (distance > 2)
+						if (distance > 10)
 						{
 							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (860.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
 							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (440.0f - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);
@@ -1957,7 +1959,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 						distance = sqrt((tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
 							(tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
 
-						if (distance > 2)
+						if (distance > 10)
 						{
 							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.5f * time * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateX() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
 							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.5f * time * (tempFirstArmy.at(randomAttackedArmy)->getArmySpawnCoordinateY() - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);
@@ -2114,7 +2116,7 @@ void battle(std::vector <std::vector <Army*>>& pullGame, Player*& firstPlayer, P
 						distance = sqrt((beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) * (beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) +
 							(beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) * (beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()));
 
-						if (distance > 2)
+						if (distance > 10)
 						{
 							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateX(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX() + 0.3f * time * (beforeMovingCoordinateX - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateX()) / distance);
 							tempSecondArmy.at(secondAttackingIndex)->setArmySpawnCoordinateY(tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY() + 0.3f * time * (beforeMovingCoordinateY - tempSecondArmy.at(secondAttackingIndex)->getArmySpawnCoordinateY()) / distance);

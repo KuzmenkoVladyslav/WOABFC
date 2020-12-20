@@ -9,6 +9,7 @@ void settings();
 void menu() 
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (MENU)", sf::Style::Fullscreen);
+	window.setVerticalSyncEnabled(true);
 	setlocale(LC_ALL, "");
 	int randomNumberBackground;
 	srand((unsigned)time(NULL));
@@ -151,6 +152,7 @@ void menu()
 void settings()
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "War of Ages: Battle for Castle (SETTINGS)", sf::Style::Fullscreen);
+	window.setVerticalSyncEnabled(true);
 	int randomNumberBackground;
 	srand((unsigned)time(NULL));
 	randomNumberBackground = rand() % 10;
